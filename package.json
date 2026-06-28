@@ -6,22 +6,24 @@
   "description": "Web oficial de TUK TUK CARTAGENA — Tours en tuk tuk por Cartagena",
   "author": "Ruipérez Studio <hola@ruiperezstudio.es>",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.2",
     "lucide-react": "^0.400.0",
+    "next": "^14.2.35",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "resend": "^6.16.0",
+    "stripe": "^22.3.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.6",
-    "vite": "^5.3.4"
+    "tailwindcss": "^3.4.6"
   }
 }

@@ -30,8 +30,9 @@ node_modules
 .env.production
 .env.development
 
-# Vite cache
-.vite
+# Next.js
+.next
+out
 
 # Misc
 *.tsbuildinfo

@@ -90,6 +90,8 @@ export const I18N = {
       total: "Total a pagar",
       submit: "Confirmar reserva y pagar",
       paymentMethods: "Tarjeta · Bizum · PayPal",
+      capacityError: "Máximo 4 personas en tour compartido. Selecciona tuk tuk privado para más.",
+      dateUnavailable: "Esta fecha no está disponible",
       success: "¡Reserva confirmada!",
       successDesc: "Te hemos enviado un email con todos los detalles. Nos vemos en Cartagena.",
       reset: "Nueva reserva"
@@ -202,6 +204,8 @@ export const I18N = {
       total: "Total to pay",
       submit: "Confirm and pay",
       paymentMethods: "Card · Bizum · PayPal",
+      capacityError: "Maximum 4 people on shared tour. Select private tuk tuk for more.",
+      dateUnavailable: "This date is not available",
       success: "Booking confirmed!",
       successDesc: "We've sent you an email with all the details. See you in Cartagena.",
       reset: "New booking"
@@ -314,6 +318,8 @@ export const I18N = {
       total: "Gesamtbetrag",
       submit: "Bestätigen und zahlen",
       paymentMethods: "Karte · Bizum · PayPal",
+      capacityError: "Maximal 4 Personen bei gemeinsamer Tour. Wählen Sie ein privates Tuk-Tuk für mehr.",
+      dateUnavailable: "Dieses Datum ist nicht verfügbar",
       success: "Buchung bestätigt!",
       successDesc: "Wir haben Ihnen eine E-Mail mit allen Details geschickt. Bis bald in Cartagena.",
       reset: "Neue Buchung"
@@ -426,6 +432,8 @@ export const I18N = {
       total: "Total à payer",
       submit: "Confirmer et payer",
       paymentMethods: "Carte · Bizum · PayPal",
+      capacityError: "Maximum 4 personnes en tour partagé. Sélectionnez un tuk tuk privé pour plus.",
+      dateUnavailable: "Cette date n'est pas disponible",
       success: "Réservation confirmée !",
       successDesc: "Nous vous avons envoyé un email avec tous les détails. À bientôt à Cartagène.",
       reset: "Nouvelle réservation"
