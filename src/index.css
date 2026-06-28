@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────── Reset y base ─────────── */
+html, body {
+  background: #0F1419;
+  color: #F8F6F1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #C9A961;
+  color: #0F1419;
+}
+
+/* ─────────── Utilidades ─────────── */
+.serif {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.label-eyebrow {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #C9A961;
+  font-weight: 500;
+}
+
+.hover-gold:hover { color: #C9A961; }
+
+/* ─────────── Inputs estilo editorial (línea inferior) ─────────── */
+.input-base {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(248, 246, 241, 0.18);
+  color: #F8F6F1;
+  padding: 14px 0 10px 0;
+  width: 100%;
+  font-size: 15px;
+  transition: border-color 280ms;
+  font-family: inherit;
+}
+.input-base:focus {
+  outline: none;
+  border-bottom-color: #C9A961;
+}
+.input-base::placeholder {
+  color: rgba(248, 246, 241, 0.35);
+}
+select.input-base { background-color: #0F1419; }
+select.input-base option { background: #0F1419; color: #F8F6F1; }
+
+/* ─────────── Animaciones ─────────── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%      { transform: translateY(8px); opacity: 1; }
+}
+.scroll-bounce { animation: scrollBounce 1.8s infinite; }
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+.menu-slide { animation: slideInLeft 480ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+
+/* ─────────── Grain overlay (textura sutil) ─────────── */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─────────── Accesibilidad: reduce-motion ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
