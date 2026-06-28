@@ -19,6 +19,9 @@
     "resend": "^6.16.0",
     "stripe": "^22.3.0"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
