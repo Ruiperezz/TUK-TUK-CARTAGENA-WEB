@@ -17,13 +17,21 @@ export default function BookingForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const totalPax = bookingForm.adults + bookingForm.kids;
+  const forcedPrivate = totalPax >= 4;
+
   const calcTotal = () => {
     if (bookingForm.isPrivate) return 120;
     return bookingForm.adults * 30 + bookingForm.kids * 15;
   };
 
-  const capacityError =
-    !bookingForm.isPrivate && bookingForm.adults + bookingForm.kids > 4;
+  const capacityError = totalPax > 4;
+
+  useEffect(() => {
+    if (forcedPrivate && !bookingForm.isPrivate) {
+      setBookingForm((f) => ({ ...f, isPrivate: true }));
+    }
+  }, [forcedPrivate, bookingForm.isPrivate, setBookingForm]);
 
   const fetchAvailability = useCallback(async (dateStr) => {
     if (!dateStr) return;
@@ -254,7 +262,9 @@ export default function BookingForm({
             )}
 
             <label
-              className="flex items-start gap-5 p-6 border cursor-pointer transition-colors"
+              className={`flex items-start gap-5 p-6 border transition-colors ${
+                forcedPrivate ? "cursor-default" : "cursor-pointer"
+              }`}
               style={{
                 borderColor: bookingForm.isPrivate
                   ? "#C9A961"
@@ -264,6 +274,7 @@ export default function BookingForm({
               <input
                 type="checkbox"
                 checked={bookingForm.isPrivate}
+                disabled={forcedPrivate}
                 onChange={(e) =>
                   setBookingForm((f) => ({
                     ...f,

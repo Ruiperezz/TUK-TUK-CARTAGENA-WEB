@@ -2,6 +2,7 @@
 
 import { Menu } from "lucide-react";
 import { LANGS } from "../i18n/translations";
+import Logo from "./Logo";
 
 export default function Header({ lang, setLang, onMenuOpen, t }) {
   return (
@@ -27,8 +28,8 @@ export default function Header({ lang, setLang, onMenuOpen, t }) {
         </span>
       </button>
 
-      <div className="serif text-base md:text-lg tracking-[0.18em] font-medium">
-        TUK·TUK <span style={{ color: "#C9A961" }}>CARTAGENA</span>
+      <div style={{ marginLeft: "clamp(16px, 6vw, 64px)" }}>
+        <Logo size="sm" />
       </div>
 
       <div className="flex items-center gap-1">

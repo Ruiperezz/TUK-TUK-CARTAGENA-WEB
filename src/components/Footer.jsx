@@ -1,15 +1,14 @@
 "use client";
 
 import { LANGS } from "../i18n/translations";
+import Logo from "./Logo";
 
 export default function Footer({ lang, setLang, t }) {
   return (
     <footer className="px-6 md:px-16 py-12 border-t border-cream/10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div>
-          <div className="serif text-lg tracking-[0.18em] font-medium mb-1">
-            TUK·TUK <span style={{ color: "#C9A961" }}>CARTAGENA</span>
-          </div>
+          <Logo size="sm" className="mb-2" />
           <div className="text-xs opacity-50">{t.footer.tag}</div>
         </div>
         <div className="flex flex-wrap gap-x-8 gap-y-2 text-xs">

@@ -31,6 +31,8 @@ export const I18N = {
       title: "Nuestros tours",
       book: "Reservar este tour",
       duration: "min",
+      mapCaption: "Recorrido orientativo, sujeto a confirmación",
+      routeDisclaimer: "Las rutas podrán verse modificadas debido a cortes de tráfico, celebraciones u otros eventos que tengan lugar en la ciudad.",
       list: [
         {
           id: "city",
@@ -90,7 +92,7 @@ export const I18N = {
       total: "Total a pagar",
       submit: "Confirmar reserva y pagar",
       paymentMethods: "Tarjeta · Bizum · PayPal",
-      capacityError: "Máximo 4 personas en tour compartido. Selecciona tuk tuk privado para más.",
+      capacityError: "Más de 4 pasajeros requieren dos tuk tuks. Contáctanos para coordinarlo.",
       dateUnavailable: "Esta fecha no está disponible",
       success: "¡Reserva confirmada!",
       successDesc: "Te hemos enviado un email con todos los detalles. Nos vemos en Cartagena.",
@@ -145,6 +147,8 @@ export const I18N = {
       title: "Our tours",
       book: "Book this tour",
       duration: "min",
+      mapCaption: "Indicative route, subject to confirmation",
+      routeDisclaimer: "Routes may be modified due to road closures, celebrations or other events taking place in the city.",
       list: [
         {
           id: "city",
@@ -204,7 +208,7 @@ export const I18N = {
       total: "Total to pay",
       submit: "Confirm and pay",
       paymentMethods: "Card · Bizum · PayPal",
-      capacityError: "Maximum 4 people on shared tour. Select private tuk tuk for more.",
+      capacityError: "More than 4 passengers require two tuk tuks. Contact us to arrange it.",
       dateUnavailable: "This date is not available",
       success: "Booking confirmed!",
       successDesc: "We've sent you an email with all the details. See you in Cartagena.",
@@ -259,6 +263,8 @@ export const I18N = {
       title: "Unsere Touren",
       book: "Diese Tour buchen",
       duration: "Min",
+      mapCaption: "Voraussichtliche Route, vorbehaltlich Bestätigung",
+      routeDisclaimer: "Die Routen können aufgrund von Straßensperrungen, Feierlichkeiten oder anderen Veranstaltungen in der Stadt geändert werden.",
       list: [
         {
           id: "city",
@@ -318,7 +324,7 @@ export const I18N = {
       total: "Gesamtbetrag",
       submit: "Bestätigen und zahlen",
       paymentMethods: "Karte · Bizum · PayPal",
-      capacityError: "Maximal 4 Personen bei gemeinsamer Tour. Wählen Sie ein privates Tuk-Tuk für mehr.",
+      capacityError: "Mehr als 4 Personen benötigen zwei Tuk-Tuks. Kontaktieren Sie uns, um dies zu koordinieren.",
       dateUnavailable: "Dieses Datum ist nicht verfügbar",
       success: "Buchung bestätigt!",
       successDesc: "Wir haben Ihnen eine E-Mail mit allen Details geschickt. Bis bald in Cartagena.",
@@ -373,6 +379,8 @@ export const I18N = {
       title: "Nos tours",
       book: "Réserver ce tour",
       duration: "min",
+      mapCaption: "Itinéraire indicatif, sous réserve de confirmation",
+      routeDisclaimer: "Les itinéraires peuvent être modifiés en raison de coupures de circulation, de célébrations ou d'autres événements ayant lieu dans la ville.",
       list: [
         {
           id: "city",
@@ -432,7 +440,7 @@ export const I18N = {
       total: "Total à payer",
       submit: "Confirmer et payer",
       paymentMethods: "Carte · Bizum · PayPal",
-      capacityError: "Maximum 4 personnes en tour partagé. Sélectionnez un tuk tuk privé pour plus.",
+      capacityError: "Plus de 4 passagers nécessitent deux tuk tuks. Contactez-nous pour l'organiser.",
       dateUnavailable: "Cette date n'est pas disponible",
       success: "Réservation confirmée !",
       successDesc: "Nous vous avons envoyé un email avec tous les détails. À bientôt à Cartagène.",

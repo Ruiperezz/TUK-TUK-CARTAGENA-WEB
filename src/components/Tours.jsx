@@ -2,6 +2,13 @@
 
 import { ChevronRight } from "lucide-react";
 import Reveal from "./Reveal";
+import RouteMap from "./RouteMap";
+
+const MAP_QUERIES = {
+  city: "Casco antiguo de Cartagena, España",
+  bay: "Bahía de Cartagena, España",
+  myway: "Cartagena, España",
+};
 
 export default function Tours({ t, onSelectTour }) {
   return (
@@ -50,6 +57,11 @@ export default function Tours({ t, onSelectTour }) {
               <p className="text-sm leading-relaxed text-cream/70 mb-8 flex-1">
                 {tour.desc}
               </p>
+              <RouteMap
+                query={MAP_QUERIES[tour.id]}
+                label={tour.name}
+                caption={t.tours.mapCaption}
+              />
               <div className="flex flex-wrap gap-2 mb-8">
                 {tour.highlights.map((h) => (
                   <span
@@ -73,6 +85,10 @@ export default function Tours({ t, onSelectTour }) {
           </Reveal>
         ))}
       </div>
+
+      <p className="text-xs italic opacity-50 mt-8 max-w-2xl">
+        {t.tours.routeDisclaimer}
+      </p>
     </section>
   );
 }
