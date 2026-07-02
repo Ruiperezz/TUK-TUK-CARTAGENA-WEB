@@ -13,6 +13,15 @@ const TOUR_NAMES = {
 };
 
 function calculatePrice(adults, kids, isPrivate) {
+  const total = adults + kids;
+  if (total > 4) {
+    // Split: private tuk tuk (4 pax, 120€) + shared pricing for remainder
+    const adultsInPrivate = Math.min(adults, 4);
+    const kidsInPrivate = Math.min(kids, 4 - adultsInPrivate);
+    const extraAdults = adults - adultsInPrivate;
+    const extraKids = kids - kidsInPrivate;
+    return 120 + extraAdults * 30 + extraKids * 15;
+  }
   if (isPrivate) return 120;
   return adults * 30 + kids * 15;
 }
@@ -34,9 +43,9 @@ export async function POST(request) {
     if (!adults || adults < 1) {
       return NextResponse.json({ error: "Mínimo 1 adulto" }, { status: 400 });
     }
-    if (!isPrivate && adults + (kids || 0) > 4) {
+    if (adults + (kids || 0) > 8) {
       return NextResponse.json(
-        { error: "Máximo 4 personas en tour compartido" },
+        { error: "Máximo 8 pasajeros por reserva (2 tuk tuks)" },
         { status: 400 }
       );
     }
@@ -101,7 +110,9 @@ export async function POST(request) {
             currency: "eur",
             product_data: {
               name: TOUR_NAMES[tour],
-              description: isPrivate
+              description: adults + (kids || 0) > 4
+                ? `Tuk tuk privado (4 pax) + ${adults + (kids || 0) - 4} en compartido · ${date}`
+                : isPrivate
                 ? `Tuk tuk privado · ${date}`
                 : `${adults} adulto(s)${kids ? ` + ${kids} niño(s)` : ""} · ${date}`,
             },

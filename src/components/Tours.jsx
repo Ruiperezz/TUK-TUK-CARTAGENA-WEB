@@ -62,6 +62,9 @@ export default function Tours({ t, onSelectTour }) {
                 label={tour.name}
                 caption={t.tours.mapCaption}
               />
+              <p className="text-[11px] italic opacity-40 mb-6 leading-relaxed">
+                {t.tours.routeDisclaimer}
+              </p>
               <div className="flex flex-wrap gap-2 mb-8">
                 {tour.highlights.map((h) => (
                   <span
@@ -86,9 +89,6 @@ export default function Tours({ t, onSelectTour }) {
         ))}
       </div>
 
-      <p className="text-xs italic opacity-50 mt-8 max-w-2xl">
-        {t.tours.routeDisclaimer}
-      </p>
     </section>
   );
 }

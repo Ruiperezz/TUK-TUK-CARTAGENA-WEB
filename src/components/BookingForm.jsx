@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Check, ArrowRight, AlertCircle } from "lucide-react";
+import { Check, ArrowRight, AlertCircle, Info } from "lucide-react";
 import Reveal from "./Reveal";
 
 export default function BookingForm({
@@ -17,21 +17,46 @@ export default function BookingForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Tracks whether the user explicitly toggled private (independent of forced logic)
+  const [manualPrivate, setManualPrivate] = useState(false);
+
   const totalPax = bookingForm.adults + bookingForm.kids;
-  const forcedPrivate = totalPax >= 4;
+  const MAX_PAX = 8;
+
+  // Exactly 4 → forced private (fills one tuk tuk)
+  const forcedPrivate = totalPax === 4;
+  // 5–8 → split mode: private(4) + shared(remainder)
+  const splitMode = totalPax > 4 && totalPax <= MAX_PAX;
+  // >8 → too large
+  const tooManyPax = totalPax > MAX_PAX;
+
+  // Sync bookingForm.isPrivate based on mode
+  useEffect(() => {
+    if (forcedPrivate || splitMode) {
+      if (!bookingForm.isPrivate) setBookingForm((f) => ({ ...f, isPrivate: true }));
+    } else if (!manualPrivate) {
+      if (bookingForm.isPrivate) setBookingForm((f) => ({ ...f, isPrivate: false }));
+    }
+  }, [forcedPrivate, splitMode, manualPrivate, bookingForm.isPrivate, setBookingForm]);
+
+  // Split pricing breakdown: private takes first 4 seats (adults first, then kids)
+  const getSplitBreakdown = () => {
+    const adultsInPrivate = Math.min(bookingForm.adults, 4);
+    const kidsInPrivate = Math.min(bookingForm.kids, 4 - adultsInPrivate);
+    const extraAdults = bookingForm.adults - adultsInPrivate;
+    const extraKids = bookingForm.kids - kidsInPrivate;
+    const sharedPrice = extraAdults * 30 + extraKids * 15;
+    return { privatePrice: 120, sharedPrice, extraAdults, extraKids };
+  };
 
   const calcTotal = () => {
+    if (splitMode) {
+      const { privatePrice, sharedPrice } = getSplitBreakdown();
+      return privatePrice + sharedPrice;
+    }
     if (bookingForm.isPrivate) return 120;
     return bookingForm.adults * 30 + bookingForm.kids * 15;
   };
-
-  const capacityError = totalPax > 4;
-
-  useEffect(() => {
-    if (forcedPrivate && !bookingForm.isPrivate) {
-      setBookingForm((f) => ({ ...f, isPrivate: true }));
-    }
-  }, [forcedPrivate, bookingForm.isPrivate, setBookingForm]);
 
   const fetchAvailability = useCallback(async (dateStr) => {
     if (!dateStr) return;
@@ -59,7 +84,7 @@ export default function BookingForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (bookingForm.adults < 1 || capacityError) return;
+    if (bookingForm.adults < 1 || tooManyPax) return;
 
     setLoading(true);
     setError("");
@@ -102,6 +127,9 @@ export default function BookingForm({
     !bookingForm.date ||
     availableDates.length === 0 ||
     availableDates.includes(bookingForm.date);
+
+  const canAddAdult = bookingForm.adults < MAX_PAX && totalPax < MAX_PAX;
+  const canAddKid = bookingForm.kids < MAX_PAX && totalPax < MAX_PAX;
 
   return (
     <section id="booking" className="px-6 md:px-16 py-24 md:py-32 max-w-5xl mx-auto">
@@ -156,7 +184,7 @@ export default function BookingForm({
                 {bookingForm.date && !dateIsAvailable && (
                   <div className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
                     <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
-                    <span>{t.booking.dateUnavailable || "Fecha no disponible"}</span>
+                    <span>{t.booking.dateUnavailable}</span>
                   </div>
                 )}
               </div>
@@ -179,6 +207,7 @@ export default function BookingForm({
               </div>
             </div>
 
+            {/* Passenger counters */}
             <div className="grid md:grid-cols-2 gap-10">
               <div>
                 <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
@@ -204,13 +233,11 @@ export default function BookingForm({
                   <button
                     type="button"
                     aria-label="Añadir adulto"
+                    disabled={!canAddAdult}
                     onClick={() =>
-                      setBookingForm((f) => ({
-                        ...f,
-                        adults: Math.min(8, f.adults + 1),
-                      }))
+                      setBookingForm((f) => ({ ...f, adults: f.adults + 1 }))
                     }
-                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors"
+                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
                   >
                     +
                   </button>
@@ -240,13 +267,11 @@ export default function BookingForm({
                   <button
                     type="button"
                     aria-label="Añadir niño"
+                    disabled={!canAddKid}
                     onClick={() =>
-                      setBookingForm((f) => ({
-                        ...f,
-                        kids: Math.min(8, f.kids + 1),
-                      }))
+                      setBookingForm((f) => ({ ...f, kids: f.kids + 1 }))
                     }
-                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors"
+                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
                   >
                     +
                   </button>
@@ -254,61 +279,81 @@ export default function BookingForm({
               </div>
             </div>
 
-            {capacityError && (
+            {/* >8 error */}
+            {tooManyPax && (
               <div className="flex items-center gap-3 p-4 border border-cream/15" style={{ color: "#C9A961" }}>
                 <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={1.5} />
-                <span className="text-sm">{t.booking.capacityError || "Máximo 4 personas en tour compartido"}</span>
+                <span className="text-sm">{t.booking.tooManyPax}</span>
               </div>
             )}
 
-            <label
-              className={`flex items-start gap-5 p-6 border transition-colors ${
-                forcedPrivate ? "cursor-default" : "cursor-pointer"
-              }`}
-              style={{
-                borderColor: bookingForm.isPrivate
-                  ? "#C9A961"
-                  : "rgba(248,246,241,0.15)",
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={bookingForm.isPrivate}
-                disabled={forcedPrivate}
-                onChange={(e) =>
-                  setBookingForm((f) => ({
-                    ...f,
-                    isPrivate: e.target.checked,
-                  }))
-                }
-                className="sr-only"
-              />
-              <div
-                className="w-5 h-5 border flex-shrink-0 mt-0.5 flex items-center justify-center transition-colors"
+            {/* Split mode info panel (5–8 pax) */}
+            {splitMode && (() => {
+              const { privatePrice, sharedPrice, extraAdults, extraKids } = getSplitBreakdown();
+              return (
+                <div className="p-5 border border-cream/15 space-y-3">
+                  <div className="flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase mb-3" style={{ color: "#C9A961" }}>
+                    <Info className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
+                    <span>{t.booking.splitInfo}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="opacity-70">{t.booking.splitPrivate}</span>
+                    <span className="font-medium">{privatePrice} €</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="opacity-70">
+                      {t.booking.splitShared} ({extraAdults > 0 ? `${extraAdults} ${t.booking.adults.toLowerCase()}` : ""}{extraAdults > 0 && extraKids > 0 ? " + " : ""}{extraKids > 0 ? `${extraKids} ${t.booking.kids.toLowerCase()}` : ""})
+                    </span>
+                    <span className="font-medium">{sharedPrice} €</span>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Private checkbox — hidden in split mode */}
+            {!splitMode && (
+              <label
+                className={`flex items-start gap-5 p-6 border transition-colors ${
+                  forcedPrivate ? "cursor-default" : "cursor-pointer"
+                }`}
                 style={{
                   borderColor: bookingForm.isPrivate
                     ? "#C9A961"
-                    : "rgba(248,246,241,0.4)",
-                  background: bookingForm.isPrivate
-                    ? "#C9A961"
-                    : "transparent",
+                    : "rgba(248,246,241,0.15)",
                 }}
               >
-                {bookingForm.isPrivate && (
-                  <Check
-                    className="w-3.5 h-3.5"
-                    strokeWidth={3}
-                    style={{ color: "#0F1419" }}
-                  />
-                )}
-              </div>
-              <div>
-                <div className="font-medium mb-1">{t.booking.private}</div>
-                <div className="text-xs opacity-60">
-                  {t.booking.privateDesc}
+                <input
+                  type="checkbox"
+                  checked={bookingForm.isPrivate}
+                  disabled={forcedPrivate}
+                  onChange={(e) => {
+                    setManualPrivate(e.target.checked);
+                  }}
+                  className="sr-only"
+                />
+                <div
+                  className="w-5 h-5 border flex-shrink-0 mt-0.5 flex items-center justify-center transition-colors"
+                  style={{
+                    borderColor: bookingForm.isPrivate
+                      ? "#C9A961"
+                      : "rgba(248,246,241,0.4)",
+                    background: bookingForm.isPrivate ? "#C9A961" : "transparent",
+                  }}
+                >
+                  {bookingForm.isPrivate && (
+                    <Check
+                      className="w-3.5 h-3.5"
+                      strokeWidth={3}
+                      style={{ color: "#0F1419" }}
+                    />
+                  )}
                 </div>
-              </div>
-            </label>
+                <div>
+                  <div className="font-medium mb-1">{t.booking.private}</div>
+                  <div className="text-xs opacity-60">{t.booking.privateDesc}</div>
+                </div>
+              </label>
+            )}
 
             <div className="grid md:grid-cols-2 gap-10">
               <div>
@@ -362,7 +407,7 @@ export default function BookingForm({
               </div>
               <button
                 type="submit"
-                disabled={loading || capacityError}
+                disabled={loading || tooManyPax}
                 className="w-full py-5 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                 style={{ background: "#C9A961", color: "#0F1419" }}
                 onMouseEnter={(e) => {
