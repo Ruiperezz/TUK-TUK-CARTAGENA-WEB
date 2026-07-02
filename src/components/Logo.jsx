@@ -9,7 +9,7 @@ const HEIGHTS = {
 export default function Logo({ size = "md", className = "" }) {
   return (
     <Image
-      src="/logo/tuktuk-logo-granate.png"
+      src="/logo/tuktuk-logo-cartagena.png"
       alt="Tuk Tuk Cartagena"
       width={520}
       height={228}
