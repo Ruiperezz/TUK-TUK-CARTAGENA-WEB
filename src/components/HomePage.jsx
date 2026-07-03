@@ -19,9 +19,15 @@ export default function HomePage() {
 
   const [lang, setLang] = useState("es");
   useEffect(() => {
+    const SUPPORTED = ["es", "en", "de", "fr"];
+    const urlLang = searchParams.get("lang");
+    if (urlLang && SUPPORTED.includes(urlLang)) {
+      setLang(urlLang);
+      return;
+    }
     const browser = (navigator.language || "es").slice(0, 2);
-    if (["es", "en", "de", "fr"].includes(browser)) setLang(browser);
-  }, []);
+    if (SUPPORTED.includes(browser)) setLang(browser);
+  }, [searchParams]);
   const t = I18N[lang];
 
   const [menuOpen, setMenuOpen] = useState(false);

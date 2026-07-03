@@ -1,5 +1,12 @@
 import Stripe from "stripe";
 
+let _stripe = null;
+
 export function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY);
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2024-06-20",
+    });
+  }
+  return _stripe;
 }

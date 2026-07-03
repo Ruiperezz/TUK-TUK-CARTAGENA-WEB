@@ -217,13 +217,14 @@ export default function BookingForm({
                   <button
                     type="button"
                     aria-label="Quitar adulto"
+                    disabled={bookingForm.adults <= 1}
                     onClick={() =>
                       setBookingForm((f) => ({
                         ...f,
                         adults: Math.max(1, f.adults - 1),
                       }))
                     }
-                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors"
+                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
                   >
                     −
                   </button>
@@ -251,13 +252,14 @@ export default function BookingForm({
                   <button
                     type="button"
                     aria-label="Quitar niño"
+                    disabled={bookingForm.kids <= 0}
                     onClick={() =>
                       setBookingForm((f) => ({
                         ...f,
                         kids: Math.max(0, f.kids - 1),
                       }))
                     }
-                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors"
+                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
                   >
                     −
                   </button>
@@ -328,6 +330,7 @@ export default function BookingForm({
                   disabled={forcedPrivate}
                   onChange={(e) => {
                     setManualPrivate(e.target.checked);
+                    setBookingForm((f) => ({ ...f, isPrivate: e.target.checked }));
                   }}
                   className="sr-only"
                 />

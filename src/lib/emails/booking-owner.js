@@ -9,14 +9,23 @@ const TIME_LABELS = {
   afternoon: "Primera hora de la tarde",
 };
 
+function esc(str) {
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 export function getOwnerEmailSubject(booking) {
-  return `Nueva reserva — ${TOUR_NAMES[booking.tour]} — ${booking.date}`;
+  return `Nueva reserva — ${TOUR_NAMES[booking.tour] || booking.tour} — ${booking.date}`;
 }
 
 export function getOwnerEmailHtml(booking) {
   const peopleText = booking.is_private
     ? "Tuk tuk privado"
-    : `${booking.adults} adulto(s)${booking.kids > 0 ? ` + ${booking.kids} niño(s)` : ""}`;
+    : `${esc(booking.adults)} adulto(s)${booking.kids > 0 ? ` + ${esc(booking.kids)} niño(s)` : ""}`;
 
   return `<!DOCTYPE html>
 <html lang="es">
@@ -27,7 +36,7 @@ export function getOwnerEmailHtml(booking) {
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
 <tr><td style="padding:0 0 32px 0;text-align:center;">
-  <span style="font-size:18px;letter-spacing:0.18em;font-weight:500;">TUK·TUK <span style="color:#C9A961;">CARTAGENA</span></span>
+  <span style="font-size:18px;letter-spacing:0.18em;font-weight:500;">TUK·TUK <span style="color:#D42E54;">CARTAGENA</span></span>
 </td></tr>
 
 <tr><td style="border-top:1px solid rgba(248,246,241,0.15);padding:32px 0 24px 0;">
@@ -39,15 +48,15 @@ export function getOwnerEmailHtml(booking) {
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);width:140px;">Tour</td>
-      <td style="padding:8px 0;font-size:16px;">${TOUR_NAMES[booking.tour]}</td>
+      <td style="padding:8px 0;font-size:16px;">${esc(TOUR_NAMES[booking.tour] || booking.tour)}</td>
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Fecha</td>
-      <td style="padding:8px 0;font-size:16px;">${booking.date}</td>
+      <td style="padding:8px 0;font-size:16px;">${esc(booking.date)}</td>
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Horario</td>
-      <td style="padding:8px 0;font-size:16px;">${TIME_LABELS[booking.time_slot]}</td>
+      <td style="padding:8px 0;font-size:16px;">${esc(TIME_LABELS[booking.time_slot] || booking.time_slot)}</td>
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Personas</td>
@@ -55,7 +64,7 @@ export function getOwnerEmailHtml(booking) {
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Total</td>
-      <td style="padding:8px 0;font-size:24px;color:#C9A961;font-weight:500;">${booking.total_price} €</td>
+      <td style="padding:8px 0;font-size:24px;color:#C9A961;font-weight:500;">${esc(booking.total_price)} €</td>
     </tr>
   </table>
 </td></tr>
@@ -65,21 +74,21 @@ export function getOwnerEmailHtml(booking) {
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
       <td style="padding:6px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);width:140px;">Nombre</td>
-      <td style="padding:6px 0;font-size:16px;">${booking.customer_name}</td>
+      <td style="padding:6px 0;font-size:16px;">${esc(booking.customer_name)}</td>
     </tr>
     <tr>
       <td style="padding:6px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Email</td>
-      <td style="padding:6px 0;font-size:16px;"><a href="mailto:${booking.customer_email}" style="color:#C9A961;">${booking.customer_email}</a></td>
+      <td style="padding:6px 0;font-size:16px;"><a href="mailto:${esc(booking.customer_email)}" style="color:#C9A961;">${esc(booking.customer_email)}</a></td>
     </tr>
     <tr>
       <td style="padding:6px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Idioma</td>
-      <td style="padding:6px 0;font-size:16px;">${(booking.customer_lang || "es").toUpperCase()}</td>
+      <td style="padding:6px 0;font-size:16px;">${esc((booking.customer_lang || "es").toUpperCase())}</td>
     </tr>
   </table>
 </td></tr>
 
 <tr><td style="padding:24px 0;border-top:1px solid rgba(248,246,241,0.1);text-align:center;">
-  <div style="font-size:12px;color:rgba(248,246,241,0.4);">ID de reserva: ${booking.id}</div>
+  <div style="font-size:12px;color:rgba(248,246,241,0.4);">ID de reserva: ${esc(booking.id)}</div>
 </td></tr>
 
 </table>

@@ -56,7 +56,6 @@ const jsonLd = {
       description:
         "Tours turísticos en tuk tuk por Cartagena, Murcia. Descubre el casco antiguo, la bahía y mucho más.",
       url: SITE_URL,
-      telephone: "",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Cartagena",

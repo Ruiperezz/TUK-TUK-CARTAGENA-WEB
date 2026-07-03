@@ -48,7 +48,7 @@ export default function Footer({ lang, setLang, t }) {
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-cream/5 text-[10px] tracking-[0.22em] uppercase opacity-40">
-        © 2025 TUK TUK Cartagena · {t.footer.rights}
+        © {new Date().getFullYear()} TUK TUK Cartagena · {t.footer.rights}
       </div>
     </footer>
   );
