@@ -11,12 +11,6 @@ const TOUR_NAMES = {
   myway: "Cartagena My Way (60 min)",
 };
 
-const TIME_LABELS = {
-  es: { morning: "Mañana", afternoon: "Primera hora de la tarde" },
-  en: { morning: "Morning", afternoon: "Early afternoon" },
-  de: { morning: "Vormittag", afternoon: "Früher Nachmittag" },
-  fr: { morning: "Matin", afternoon: "Début d'après-midi" },
-};
 
 const LABELS = {
   es: {
@@ -86,11 +80,9 @@ export function getCustomerEmailSubject(lang) {
 export function getCustomerEmailHtml(booking) {
   const lang = booking.customer_lang || "es";
   const l = LABELS[lang] || LABELS.es;
-  const timeLabel = (TIME_LABELS[lang] || TIME_LABELS.es)[booking.time_slot];
+  const timeLabel = esc(booking.time_slot);
 
-  const peopleText = booking.is_private
-    ? l.private
-    : `${esc(booking.adults)} ${l.adults}${booking.kids > 0 ? ` + ${esc(booking.kids)} ${l.kids}` : ""}`;
+  const peopleText = `${esc(booking.adults)} ${l.adults}`;
 
   const businessEmail = process.env.BUSINESS_EMAIL || "info@tuktukcartagena.com";
 

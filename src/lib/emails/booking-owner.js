@@ -4,11 +4,6 @@ const TOUR_NAMES = {
   myway: "Cartagena My Way (60 min)",
 };
 
-const TIME_LABELS = {
-  morning: "Mañana",
-  afternoon: "Primera hora de la tarde",
-};
-
 function esc(str) {
   return String(str ?? "")
     .replace(/&/g, "&amp;")
@@ -23,9 +18,7 @@ export function getOwnerEmailSubject(booking) {
 }
 
 export function getOwnerEmailHtml(booking) {
-  const peopleText = booking.is_private
-    ? "Tuk tuk privado"
-    : `${esc(booking.adults)} adulto(s)${booking.kids > 0 ? ` + ${esc(booking.kids)} niño(s)` : ""}`;
+  const peopleText = `${esc(booking.adults)} persona(s)`;
 
   return `<!DOCTYPE html>
 <html lang="es">
@@ -56,7 +49,7 @@ export function getOwnerEmailHtml(booking) {
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Horario</td>
-      <td style="padding:8px 0;font-size:16px;">${esc(TIME_LABELS[booking.time_slot] || booking.time_slot)}</td>
+      <td style="padding:8px 0;font-size:16px;">${esc(booking.time_slot)}</td>
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Personas</td>
