@@ -8,35 +8,36 @@ export default function Hero({ scrollTo, t }) {
       id="hero"
       className="relative h-screen min-h-[640px] flex flex-col justify-end overflow-hidden"
     >
+      {/* Video background */}
       <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/video/hero.mp4"
+        />
+        {/* Gradient overlay — ensures text legibility at any light level in the video */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at 30% 40%, #1a2f3f 0%, #0F1419 60%), linear-gradient(135deg, #0F1419 0%, #1a2530 100%)",
+              "linear-gradient(180deg, rgba(15,20,25,0.35) 0%, rgba(15,20,25,0.25) 40%, rgba(15,20,25,0.75) 75%, rgba(15,20,25,0.97) 100%)",
           }}
         />
+        {/* Subtle lateral vignette */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(15,20,25,0) 0%, rgba(15,20,25,0.4) 60%, rgba(15,20,25,1) 100%)",
+              "radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(15,20,25,0.55) 100%)",
           }}
         />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-25 select-none">
-          <div className="border border-cream/30 px-6 py-3 inline-flex items-center gap-3">
-            <div
-              className="w-2 h-2 rounded-full animate-pulse"
-              style={{ background: "#C9A961" }}
-            />
-            <span className="text-[10px] tracking-[0.28em] uppercase">
-              Hero video placeholder
-            </span>
-          </div>
-        </div>
         <div className="grain" />
       </div>
 
+      {/* Content */}
       <div className="relative z-10 px-6 md:px-16 pb-20 md:pb-28 max-w-7xl">
         <div className="label-eyebrow mb-5">{t.hero.eyebrow}</div>
         <h1 className="serif text-6xl md:text-8xl lg:text-9xl font-medium leading-[0.95] mb-8 max-w-5xl">
@@ -53,7 +54,7 @@ export default function Hero({ scrollTo, t }) {
             </span>
           ))}
         </h1>
-        <p className="text-base md:text-xl text-cream/70 max-w-2xl mb-10 font-light leading-relaxed">
+        <p className="text-base md:text-xl text-cream/80 max-w-2xl mb-10 font-light leading-relaxed">
           {t.hero.subtitle}
         </p>
         <button
@@ -79,6 +80,7 @@ export default function Hero({ scrollTo, t }) {
         </button>
       </div>
 
+      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center scroll-bounce">
         <div className="text-[10px] tracking-[0.28em] uppercase opacity-50">
           {t.hero.scroll}

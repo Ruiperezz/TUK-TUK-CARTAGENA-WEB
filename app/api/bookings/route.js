@@ -3,10 +3,15 @@ import { getSupabaseAdmin } from "../../../src/lib/supabase";
 import { getStripe } from "../../../src/lib/stripe";
 
 const VALID_TOURS = ["city", "bay", "myway"];
-const VALID_TIMES = ["morning", "afternoon"];
+const VALID_SLOTS = [
+  "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
+  "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
+];
 const VALID_LANGS = ["es", "en", "de", "fr"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_PER_SLOT = 2;
+const PRICE = 120;
 
 const TOUR_NAMES = {
   city: "Cartagena City (90 min)",
@@ -14,23 +19,10 @@ const TOUR_NAMES = {
   myway: "Cartagena My Way (60 min)",
 };
 
-function calculatePrice(adults, kids, isPrivate) {
-  const total = adults + kids;
-  if (total > 4) {
-    const adultsInPrivate = Math.min(adults, 4);
-    const kidsInPrivate = Math.min(kids, 4 - adultsInPrivate);
-    const extraAdults = adults - adultsInPrivate;
-    const extraKids = kids - kidsInPrivate;
-    return 120 + extraAdults * 30 + extraKids * 15;
-  }
-  if (isPrivate) return 120;
-  return adults * 30 + kids * 15;
-}
-
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { tour, date, time, adults, kids, isPrivate, name, email, lang } = body;
+    const { tour, date, time, people, name, email, lang } = body;
 
     // --- Input validation ---
     if (!tour || !VALID_TOURS.includes(tour)) {
@@ -45,22 +37,12 @@ export async function POST(request) {
     if (isNaN(dateObj.getTime()) || dateObj < today) {
       return NextResponse.json({ error: "La fecha debe ser hoy o posterior" }, { status: 400 });
     }
-    if (!time || !VALID_TIMES.includes(time)) {
+    if (!time || !VALID_SLOTS.includes(time)) {
       return NextResponse.json({ error: "Horario no válido" }, { status: 400 });
     }
-    const adultsInt = parseInt(adults, 10);
-    const kidsInt = parseInt(kids ?? 0, 10);
-    if (!Number.isInteger(adultsInt) || adultsInt < 1 || adultsInt !== Number(adults)) {
-      return NextResponse.json({ error: "Número de adultos no válido" }, { status: 400 });
-    }
-    if (!Number.isInteger(kidsInt) || kidsInt < 0 || kidsInt !== Number(kids ?? 0)) {
-      return NextResponse.json({ error: "Número de niños no válido" }, { status: 400 });
-    }
-    if (adultsInt + kidsInt > 8) {
-      return NextResponse.json(
-        { error: "Máximo 8 pasajeros por reserva (2 tuk tuks)" },
-        { status: 400 }
-      );
+    const peopleInt = parseInt(people, 10);
+    if (!Number.isInteger(peopleInt) || peopleInt < 1 || peopleInt > 4) {
+      return NextResponse.json({ error: "Número de personas no válido (1-4)" }, { status: 400 });
     }
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return NextResponse.json({ error: "Nombre requerido" }, { status: 400 });
@@ -71,6 +53,7 @@ export async function POST(request) {
 
     const supabase = getSupabaseAdmin();
 
+    // --- Check date is admin-enabled ---
     const { data: avail } = await supabase
       .from("availability")
       .select("is_available")
@@ -81,19 +64,34 @@ export async function POST(request) {
       return NextResponse.json({ error: "Fecha no disponible" }, { status: 400 });
     }
 
-    const totalPrice = calculatePrice(adultsInt, kidsInt, isPrivate);
+    // --- Check slot capacity (max 2 per hour) ---
+    const { data: slotBookings, error: slotErr } = await supabase
+      .from("bookings")
+      .select("id")
+      .eq("date", date)
+      .eq("time_slot", time)
+      .in("status", ["pending", "confirmed"]);
+
+    if (slotErr) {
+      return NextResponse.json({ error: "Error al verificar disponibilidad" }, { status: 500 });
+    }
+    if ((slotBookings || []).length >= MAX_PER_SLOT) {
+      return NextResponse.json({ error: "Este horario está completo. Por favor elige otro." }, { status: 400 });
+    }
+
     const customerLang = VALID_LANGS.includes(lang) ? lang : "es";
 
+    // --- Create booking ---
     const { data: booking, error: dbError } = await supabase
       .from("bookings")
       .insert({
         tour,
         date,
         time_slot: time,
-        adults: adultsInt,
-        kids: kidsInt,
-        is_private: isPrivate || false,
-        total_price: totalPrice,
+        adults: peopleInt,
+        kids: 0,
+        is_private: true,
+        total_price: PRICE,
         customer_name: name.trim(),
         customer_email: email.toLowerCase().trim(),
         customer_lang: customerLang,
@@ -119,14 +117,9 @@ export async function POST(request) {
               currency: "eur",
               product_data: {
                 name: TOUR_NAMES[tour],
-                description:
-                  adultsInt + kidsInt > 4
-                    ? `Tuk tuk privado (4 pax) + ${adultsInt + kidsInt - 4} en compartido · ${date}`
-                    : isPrivate
-                    ? `Tuk tuk privado · ${date}`
-                    : `${adultsInt} adulto(s)${kidsInt ? ` + ${kidsInt} niño(s)` : ""} · ${date}`,
+                description: `${peopleInt} persona${peopleInt > 1 ? "s" : ""} · ${date} · ${time}`,
               },
-              unit_amount: Math.round(totalPrice * 100),
+              unit_amount: PRICE * 100,
             },
             quantity: 1,
           },

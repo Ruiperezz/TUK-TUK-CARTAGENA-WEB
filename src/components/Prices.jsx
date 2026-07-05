@@ -1,6 +1,5 @@
 "use client";
 
-import { AlertCircle } from "lucide-react";
 import Reveal from "./Reveal";
 
 export default function Prices({ t }) {
@@ -19,63 +18,46 @@ export default function Prices({ t }) {
         </Reveal>
 
         <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+          {/* Tarifa principal */}
           <Reveal>
             <div>
               <div className="text-[11px] tracking-[0.28em] uppercase mb-8 opacity-60">
-                {t.prices.perPersonTitle}
+                {t.prices.perTuktukTitle}
               </div>
               <div className="space-y-6">
-                <div className="flex items-baseline justify-between border-b border-cream/10 pb-5">
-                  <span className="text-base md:text-lg">
-                    {t.prices.adult}
-                  </span>
+                <div className="flex items-center justify-between border-b border-cream/10 pb-8">
+                  <div>
+                    <div className="text-base md:text-lg mb-1">
+                      {t.prices.perTuktuk}
+                    </div>
+                    <div className="text-xs opacity-50 max-w-xs leading-relaxed">
+                      {t.prices.perTuktukNote}
+                    </div>
+                  </div>
                   <span
-                    className="serif text-3xl md:text-4xl font-medium"
+                    className="serif text-5xl md:text-6xl font-medium flex-shrink-0 ml-6"
                     style={{ color: "#C9A961" }}
                   >
-                    {t.prices.adultPrice}
+                    {t.prices.perTuktukPrice}
                   </span>
                 </div>
-                <div className="flex items-baseline justify-between border-b border-cream/10 pb-5">
-                  <span className="text-base md:text-lg">{t.prices.kid}</span>
-                  <span
-                    className="serif text-3xl md:text-4xl font-medium"
-                    style={{ color: "#C9A961" }}
-                  >
-                    {t.prices.kidPrice}
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 text-xs opacity-60 pt-2">
-                  <AlertCircle
-                    className="w-4 h-4 flex-shrink-0 mt-px"
-                    strokeWidth={1.5}
-                  />
-                  <span>{t.prices.under2}</span>
+                <div className="text-xs opacity-60 pt-2">
+                  {t.prices.payment}
                 </div>
               </div>
             </div>
           </Reveal>
 
+          {/* Próximamente */}
           <Reveal delay={120}>
             <div>
               <div className="text-[11px] tracking-[0.28em] uppercase mb-8 opacity-60">
-                {t.prices.privateTitle}
+                {t.prices.comingSoon}
               </div>
               <div className="space-y-6">
-                <div className="flex items-baseline justify-between border-b border-cream/10 pb-5">
-                  <span className="text-base md:text-lg">
-                    {t.prices.private4}
-                  </span>
-                  <span
-                    className="serif text-3xl md:text-4xl font-medium"
-                    style={{ color: "#C9A961" }}
-                  >
-                    {t.prices.private4Price}
-                  </span>
-                </div>
                 <div className="flex items-baseline justify-between border-b border-cream/10 pb-5 relative">
                   <div>
-                    <span className="text-base md:text-lg opacity-50">
+                    <span className="text-base md:text-lg opacity-40">
                       {t.prices.private6}
                     </span>
                     <div
@@ -85,12 +67,9 @@ export default function Prices({ t }) {
                       {t.prices.comingSoon}
                     </div>
                   </div>
-                  <span className="serif text-3xl md:text-4xl font-medium opacity-30">
+                  <span className="serif text-3xl md:text-4xl font-medium opacity-25">
                     {t.prices.private6Price}
                   </span>
-                </div>
-                <div className="text-xs opacity-60 pt-2">
-                  {t.prices.payment}
                 </div>
               </div>
             </div>

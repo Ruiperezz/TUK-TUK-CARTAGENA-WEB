@@ -60,16 +60,19 @@ export const I18N = {
         }
       ]
     },
+    gallery: {
+      eyebrow: "La experiencia en imágenes",
+      title: "Así es viajar en tuk tuk"
+    },
     prices: {
       eyebrow: "Tarifas claras, sin sorpresas",
       title: "Precios",
-      perPersonTitle: "Por persona",
-      privateTitle: "Tuk tuk privado",
-      adult: "Adultos (13+ años)", adultPrice: "30 €",
-      kid: "Niños (2 a 12 años)", kidPrice: "15 €",
-      under2: "Menores de 2 años no admitidos · peso mínimo 9 kg",
-      private4: "Tuk tuk privado · 4 plazas", private4Price: "120 €",
-      private6: "Tuk tuk privado · 6 plazas (próximamente)", private6Price: "180 €",
+      perTuktukTitle: "Precio por tuk tuk",
+      perTuktuk: "1 a 4 personas · tuk tuk exclusivo",
+      perTuktukPrice: "120 €",
+      perTuktukNote: "El precio es por tuk tuk completo, no por persona. Máximo 4 personas.",
+      private6: "Tuk tuk · 6 plazas (próximamente)",
+      private6Price: "180 €",
       payment: "Efectivo y tarjeta en el momento · pago online al reservar",
       comingSoon: "PRÓXIMAMENTE"
     },
@@ -80,23 +83,18 @@ export const I18N = {
       tour: "Tour",
       tourPlaceholder: "Selecciona un tour",
       date: "Fecha",
-      time: "Hora",
-      timeMorning: "Mañana",
-      timeAfternoon: "Primera hora de la tarde",
-      adults: "Adultos",
-      kids: "Niños (2-12)",
-      private: "Reservar tuk tuk privado",
-      privateDesc: "Toda la experiencia para ti y los tuyos",
+      time: "Hora de salida",
+      timePlaceholder: "Selecciona una hora",
+      timeSlotFull: "Completo",
+      people: "Personas",
+      peopleMax: "Máximo 4 personas por tuk tuk",
       name: "Tu nombre",
       email: "Tu email",
       total: "Total a pagar",
       submit: "Confirmar reserva y pagar",
       paymentMethods: "Pago seguro con tarjeta",
-      splitInfo: "Distribución para tu grupo",
-      splitPrivate: "Tuk tuk privado (4 pax)",
-      splitShared: "Plazas en tour compartido",
-      tooManyPax: "Máximo 8 pasajeros por reserva. Contáctanos para grupos más grandes.",
       dateUnavailable: "Esta fecha no está disponible",
+      noSlots: "No hay horarios disponibles para esta fecha",
       success: "¡Reserva confirmada!",
       successDesc: "Te hemos enviado un email con todos los detalles. Nos vemos en Cartagena.",
       reset: "Nueva reserva"
@@ -111,7 +109,7 @@ export const I18N = {
       title: "Todo lo que necesitas saber",
       items: [
         { label: "Punto de encuentro", value: "Por confirmar — te lo indicaremos al reservar" },
-        { label: "Horario", value: "Principalmente días de crucero · mañana y primera hora de la tarde" },
+        { label: "Horario", value: "Tours disponibles de 8:00 a 19:00 · principalmente días de crucero" },
         { label: "Idiomas del tour", value: "Español e inglés" },
         { label: "Qué llevar", value: "Ropa cómoda, protección solar y cámara" }
       ]
@@ -179,16 +177,19 @@ export const I18N = {
         }
       ]
     },
+    gallery: {
+      eyebrow: "The experience in pictures",
+      title: "This is what it's like to ride a tuk tuk"
+    },
     prices: {
       eyebrow: "Clear pricing, no surprises",
       title: "Prices",
-      perPersonTitle: "Per person",
-      privateTitle: "Private tuk tuk",
-      adult: "Adults (13+)", adultPrice: "€30",
-      kid: "Children (2 to 12)", kidPrice: "€15",
-      under2: "Children under 2 not admitted · minimum weight 9 kg",
-      private4: "Private tuk tuk · 4 seats", private4Price: "€120",
-      private6: "Private tuk tuk · 6 seats (coming soon)", private6Price: "€180",
+      perTuktukTitle: "Price per tuk tuk",
+      perTuktuk: "1 to 4 people · exclusive tuk tuk",
+      perTuktukPrice: "€120",
+      perTuktukNote: "The price is per complete tuk tuk, not per person. Maximum 4 people.",
+      private6: "Tuk tuk · 6 seats (coming soon)",
+      private6Price: "€180",
       payment: "Cash and card on the day · online payment when booking",
       comingSoon: "COMING SOON"
     },
@@ -199,23 +200,18 @@ export const I18N = {
       tour: "Tour",
       tourPlaceholder: "Choose a tour",
       date: "Date",
-      time: "Time",
-      timeMorning: "Morning",
-      timeAfternoon: "Early afternoon",
-      adults: "Adults",
-      kids: "Children (2-12)",
-      private: "Book private tuk tuk",
-      privateDesc: "The whole experience for you and yours",
+      time: "Departure time",
+      timePlaceholder: "Choose a time",
+      timeSlotFull: "Full",
+      people: "People",
+      peopleMax: "Maximum 4 people per tuk tuk",
       name: "Your name",
       email: "Your email",
       total: "Total to pay",
       submit: "Confirm and pay",
       paymentMethods: "Secure card payment",
-      splitInfo: "Distribution for your group",
-      splitPrivate: "Private tuk tuk (4 pax)",
-      splitShared: "Shared tour seats",
-      tooManyPax: "Maximum 8 passengers per booking. Contact us for larger groups.",
       dateUnavailable: "This date is not available",
+      noSlots: "No time slots available for this date",
       success: "Booking confirmed!",
       successDesc: "We've sent you an email with all the details. See you in Cartagena.",
       reset: "New booking"
@@ -230,7 +226,7 @@ export const I18N = {
       title: "Everything you need to know",
       items: [
         { label: "Meeting point", value: "To be confirmed — we'll let you know when you book" },
-        { label: "Schedule", value: "Mainly on cruise ship days · morning and early afternoon" },
+        { label: "Schedule", value: "Tours available from 8:00 to 19:00 · mainly on cruise ship days" },
         { label: "Tour languages", value: "Spanish and English" },
         { label: "What to bring", value: "Comfortable clothing, sunscreen and a camera" }
       ]
@@ -298,16 +294,19 @@ export const I18N = {
         }
       ]
     },
+    gallery: {
+      eyebrow: "Das Erlebnis in Bildern",
+      title: "So fühlt sich eine Tuk-Tuk-Fahrt an"
+    },
     prices: {
       eyebrow: "Klare Preise, keine Überraschungen",
       title: "Preise",
-      perPersonTitle: "Pro Person",
-      privateTitle: "Privates Tuk-Tuk",
-      adult: "Erwachsene (13+)", adultPrice: "30 €",
-      kid: "Kinder (2 bis 12)", kidPrice: "15 €",
-      under2: "Kinder unter 2 Jahren nicht zugelassen · Mindestgewicht 9 kg",
-      private4: "Privates Tuk-Tuk · 4 Plätze", private4Price: "120 €",
-      private6: "Privates Tuk-Tuk · 6 Plätze (bald)", private6Price: "180 €",
+      perTuktukTitle: "Preis pro Tuk-Tuk",
+      perTuktuk: "1 bis 4 Personen · exklusives Tuk-Tuk",
+      perTuktukPrice: "120 €",
+      perTuktukNote: "Der Preis gilt für das gesamte Tuk-Tuk, nicht pro Person. Maximal 4 Personen.",
+      private6: "Tuk-Tuk · 6 Plätze (bald)",
+      private6Price: "180 €",
       payment: "Bar und Karte vor Ort · Online-Zahlung bei Buchung",
       comingSoon: "BALD"
     },
@@ -318,23 +317,18 @@ export const I18N = {
       tour: "Tour",
       tourPlaceholder: "Tour wählen",
       date: "Datum",
-      time: "Uhrzeit",
-      timeMorning: "Vormittag",
-      timeAfternoon: "Früher Nachmittag",
-      adults: "Erwachsene",
-      kids: "Kinder (2-12)",
-      private: "Privates Tuk-Tuk buchen",
-      privateDesc: "Die gesamte Erfahrung für Sie und Ihre Begleitung",
+      time: "Abfahrtszeit",
+      timePlaceholder: "Uhrzeit wählen",
+      timeSlotFull: "Ausgebucht",
+      people: "Personen",
+      peopleMax: "Maximal 4 Personen pro Tuk-Tuk",
       name: "Ihr Name",
       email: "Ihre E-Mail",
       total: "Gesamtbetrag",
       submit: "Bestätigen und zahlen",
       paymentMethods: "Sichere Kartenzahlung",
-      splitInfo: "Aufteilung für Ihre Gruppe",
-      splitPrivate: "Privates Tuk-Tuk (4 Plätze)",
-      splitShared: "Plätze in gemeinsamer Tour",
-      tooManyPax: "Maximal 8 Personen pro Buchung. Kontaktieren Sie uns für größere Gruppen.",
       dateUnavailable: "Dieses Datum ist nicht verfügbar",
+      noSlots: "Für dieses Datum sind keine Abfahrtszeiten verfügbar",
       success: "Buchung bestätigt!",
       successDesc: "Wir haben Ihnen eine E-Mail mit allen Details geschickt. Bis bald in Cartagena.",
       reset: "Neue Buchung"
@@ -349,7 +343,7 @@ export const I18N = {
       title: "Alles, was Sie wissen müssen",
       items: [
         { label: "Treffpunkt", value: "Wird bestätigt — Sie erfahren ihn bei der Buchung" },
-        { label: "Zeitplan", value: "Hauptsächlich an Kreuzfahrttagen · Vormittag und früher Nachmittag" },
+        { label: "Zeitplan", value: "Touren von 8:00 bis 19:00 Uhr · hauptsächlich an Kreuzfahrttagen" },
         { label: "Tour-Sprachen", value: "Spanisch und Englisch" },
         { label: "Was mitbringen", value: "Bequeme Kleidung, Sonnenschutz und Kamera" }
       ]
@@ -417,16 +411,19 @@ export const I18N = {
         }
       ]
     },
+    gallery: {
+      eyebrow: "L'expérience en images",
+      title: "Voilà ce que c'est de voyager en tuk tuk"
+    },
     prices: {
       eyebrow: "Tarifs clairs, sans surprises",
       title: "Tarifs",
-      perPersonTitle: "Par personne",
-      privateTitle: "Tuk tuk privé",
-      adult: "Adultes (13+)", adultPrice: "30 €",
-      kid: "Enfants (2 à 12 ans)", kidPrice: "15 €",
-      under2: "Enfants de moins de 2 ans non admis · poids minimum 9 kg",
-      private4: "Tuk tuk privé · 4 places", private4Price: "120 €",
-      private6: "Tuk tuk privé · 6 places (bientôt)", private6Price: "180 €",
+      perTuktukTitle: "Prix par tuk tuk",
+      perTuktuk: "1 à 4 personnes · tuk tuk exclusif",
+      perTuktukPrice: "120 €",
+      perTuktukNote: "Le prix est pour le tuk tuk complet, pas par personne. Maximum 4 personnes.",
+      private6: "Tuk tuk · 6 places (bientôt)",
+      private6Price: "180 €",
       payment: "Espèces et carte sur place · paiement en ligne lors de la réservation",
       comingSoon: "BIENTÔT"
     },
@@ -437,23 +434,18 @@ export const I18N = {
       tour: "Tour",
       tourPlaceholder: "Choisir un tour",
       date: "Date",
-      time: "Heure",
-      timeMorning: "Matin",
-      timeAfternoon: "Début d'après-midi",
-      adults: "Adultes",
-      kids: "Enfants (2-12)",
-      private: "Réserver tuk tuk privé",
-      privateDesc: "Toute l'expérience pour vous et vos proches",
+      time: "Heure de départ",
+      timePlaceholder: "Choisir une heure",
+      timeSlotFull: "Complet",
+      people: "Personnes",
+      peopleMax: "Maximum 4 personnes par tuk tuk",
       name: "Votre nom",
       email: "Votre email",
       total: "Total à payer",
       submit: "Confirmer et payer",
       paymentMethods: "Paiement sécurisé par carte",
-      splitInfo: "Répartition pour votre groupe",
-      splitPrivate: "Tuk tuk privé (4 places)",
-      splitShared: "Places en tour partagé",
-      tooManyPax: "Maximum 8 passagers par réservation. Contactez-nous pour les grands groupes.",
       dateUnavailable: "Cette date n'est pas disponible",
+      noSlots: "Aucun horaire disponible pour cette date",
       success: "Réservation confirmée !",
       successDesc: "Nous vous avons envoyé un email avec tous les détails. À bientôt à Cartagène.",
       reset: "Nouvelle réservation"
@@ -468,7 +460,7 @@ export const I18N = {
       title: "Tout ce que vous devez savoir",
       items: [
         { label: "Point de rencontre", value: "À confirmer — nous vous le communiquerons à la réservation" },
-        { label: "Horaires", value: "Principalement les jours de croisière · matin et début d'après-midi" },
+        { label: "Horaires", value: "Tours disponibles de 8h00 à 19h00 · principalement les jours de croisière" },
         { label: "Langues du tour", value: "Espagnol et anglais" },
         { label: "Quoi apporter", value: "Vêtements confortables, protection solaire et appareil photo" }
       ]

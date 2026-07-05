@@ -7,6 +7,7 @@ import Header from "./Header";
 import SideMenu from "./SideMenu";
 import Hero from "./Hero";
 import Tours from "./Tours";
+import Gallery from "./Gallery";
 import Prices from "./Prices";
 import BookingForm from "./BookingForm";
 import About from "./About";
@@ -36,9 +37,7 @@ export default function HomePage() {
     tour: "",
     date: "",
     time: "",
-    adults: 1,
-    kids: 0,
-    isPrivate: false,
+    people: 1,
     name: "",
     email: "",
   });
@@ -65,9 +64,7 @@ export default function HomePage() {
       tour: "",
       date: "",
       time: "",
-      adults: 1,
-      kids: 0,
-      isPrivate: false,
+      people: 1,
       name: "",
       email: "",
     });
@@ -102,6 +99,7 @@ export default function HomePage() {
       )}
       <Hero scrollTo={scrollTo} t={t} />
       <Tours t={t} onSelectTour={handleSelectTour} />
+      <Gallery t={t} />
       <Prices t={t} />
       <BookingForm
         t={t}
