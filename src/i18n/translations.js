@@ -79,7 +79,7 @@ export const I18N = {
     booking: {
       eyebrow: "Reserva en menos de 60 segundos",
       title: "Reserva tu tour",
-      subtitle: "Disponibilidad principalmente los días en que hay cruceros en el puerto",
+      subtitle: "Disponible todos los días de lunes a domingo, de 08:00 a 19:00",
       tour: "Tour",
       tourPlaceholder: "Selecciona un tour",
       date: "Fecha",
@@ -109,7 +109,7 @@ export const I18N = {
       title: "Todo lo que necesitas saber",
       items: [
         { label: "Punto de encuentro", value: "Por confirmar — te lo indicaremos al reservar" },
-        { label: "Horario", value: "Tours disponibles de 8:00 a 19:00 · principalmente días de crucero" },
+        { label: "Horario", value: "Lunes a domingo · de 08:00 a 19:00" },
         { label: "Idiomas del tour", value: "Español e inglés" },
         { label: "Qué llevar", value: "Ropa cómoda, protección solar y cámara" }
       ]
@@ -196,7 +196,7 @@ export const I18N = {
     booking: {
       eyebrow: "Book in under 60 seconds",
       title: "Book your tour",
-      subtitle: "Availability mainly on cruise ship port days",
+      subtitle: "Available every day, Monday to Sunday, 08:00 to 19:00",
       tour: "Tour",
       tourPlaceholder: "Choose a tour",
       date: "Date",
@@ -226,7 +226,7 @@ export const I18N = {
       title: "Everything you need to know",
       items: [
         { label: "Meeting point", value: "To be confirmed — we'll let you know when you book" },
-        { label: "Schedule", value: "Tours available from 8:00 to 19:00 · mainly on cruise ship days" },
+        { label: "Schedule", value: "Monday to Sunday · 08:00 to 19:00" },
         { label: "Tour languages", value: "Spanish and English" },
         { label: "What to bring", value: "Comfortable clothing, sunscreen and a camera" }
       ]
@@ -313,7 +313,7 @@ export const I18N = {
     booking: {
       eyebrow: "In unter 60 Sekunden buchen",
       title: "Buchen Sie Ihre Tour",
-      subtitle: "Verfügbarkeit hauptsächlich an Tagen mit Kreuzfahrtschiffen im Hafen",
+      subtitle: "Täglich von Montag bis Sonntag, 08:00 bis 19:00 Uhr verfügbar",
       tour: "Tour",
       tourPlaceholder: "Tour wählen",
       date: "Datum",
@@ -343,7 +343,7 @@ export const I18N = {
       title: "Alles, was Sie wissen müssen",
       items: [
         { label: "Treffpunkt", value: "Wird bestätigt — Sie erfahren ihn bei der Buchung" },
-        { label: "Zeitplan", value: "Touren von 8:00 bis 19:00 Uhr · hauptsächlich an Kreuzfahrttagen" },
+        { label: "Zeitplan", value: "Montag bis Sonntag · 08:00 bis 19:00 Uhr" },
         { label: "Tour-Sprachen", value: "Spanisch und Englisch" },
         { label: "Was mitbringen", value: "Bequeme Kleidung, Sonnenschutz und Kamera" }
       ]
@@ -430,7 +430,7 @@ export const I18N = {
     booking: {
       eyebrow: "Réservez en moins de 60 secondes",
       title: "Réservez votre tour",
-      subtitle: "Disponibilité principalement les jours de croisière au port",
+      subtitle: "Disponible tous les jours du lundi au dimanche, de 08h00 à 19h00",
       tour: "Tour",
       tourPlaceholder: "Choisir un tour",
       date: "Date",
@@ -460,7 +460,7 @@ export const I18N = {
       title: "Tout ce que vous devez savoir",
       items: [
         { label: "Point de rencontre", value: "À confirmer — nous vous le communiquerons à la réservation" },
-        { label: "Horaires", value: "Tours disponibles de 8h00 à 19h00 · principalement les jours de croisière" },
+        { label: "Horaires", value: "Lundi au dimanche · 08h00 à 19h00" },
         { label: "Langues du tour", value: "Espagnol et anglais" },
         { label: "Quoi apporter", value: "Vêtements confortables, protection solaire et appareil photo" }
       ]

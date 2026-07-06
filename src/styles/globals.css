@@ -76,6 +76,22 @@ select.input-base option { background: #0F1419; color: #F8F6F1; }
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ─────────── Scroll margin para header fijo (~64px) ─────────── */
+section[id], footer[id] {
+  scroll-margin-top: 72px;
+}
+
+/* ─────────── Tipografía ─────────── */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+/* ─────────── Focus visible ─────────── */
+:focus-visible {
+  outline: 2px solid #C9A961;
+  outline-offset: 3px;
+}
+
 /* ─────────── Accesibilidad: reduce-motion ─────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

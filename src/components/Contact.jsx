@@ -1,11 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, AlertCircle } from "lucide-react";
 import Reveal from "./Reveal";
 
 export default function Contact({ t }) {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
   const [contactDone, setContactDone] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Error al enviar el mensaje");
+        setLoading(false);
+        return;
+      }
+      setContactDone(true);
+    } catch {
+      setError("Error de conexión. Por favor inténtalo de nuevo.");
+      setLoading(false);
+    }
+  };
 
   return (
     <section
@@ -23,44 +49,88 @@ export default function Contact({ t }) {
             {t.contact.subtitle}
           </p>
         </Reveal>
+
         {!contactDone ? (
           <Reveal delay={100}>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setContactDone(true);
-              }}
-              className="space-y-10"
-            >
+            <form onSubmit={handleSubmit} className="space-y-10" noValidate>
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label
+                  htmlFor="contact-name"
+                  className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2"
+                >
                   {t.contact.name}
                 </label>
-                <input type="text" required className="input-base" />
+                <input
+                  id="contact-name"
+                  type="text"
+                  name="name"
+                  required
+                  autoComplete="name"
+                  value={form.name}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  className="input-base"
+                />
               </div>
+
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label
+                  htmlFor="contact-email"
+                  className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2"
+                >
                   {t.contact.email}
                 </label>
-                <input type="email" required className="input-base" />
+                <input
+                  id="contact-email"
+                  type="email"
+                  name="email"
+                  required
+                  autoComplete="email"
+                  spellCheck={false}
+                  value={form.email}
+                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                  className="input-base"
+                />
               </div>
+
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label
+                  htmlFor="contact-message"
+                  className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2"
+                >
                   {t.contact.message}
                 </label>
                 <textarea
+                  id="contact-message"
+                  name="message"
                   required
                   rows="4"
+                  value={form.message}
+                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                   className="input-base resize-none"
                 />
               </div>
+
+              {error && (
+                <div
+                  className="flex items-center gap-3 p-4 border border-cream/15"
+                  style={{ color: "#C9A961" }}
+                  role="alert"
+                >
+                  <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                  <span className="text-sm">{error}</span>
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="group inline-flex items-center gap-4 px-8 py-4 border transition-all"
+                disabled={loading}
+                className="group inline-flex items-center gap-4 px-8 py-4 border transition-all disabled:opacity-50"
                 style={{ borderColor: "#C9A961", color: "#C9A961" }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#C9A961";
-                  e.currentTarget.style.color = "#0F1419";
+                  if (!loading) {
+                    e.currentTarget.style.background = "#C9A961";
+                    e.currentTarget.style.color = "#0F1419";
+                  }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
@@ -68,19 +138,22 @@ export default function Contact({ t }) {
                 }}
               >
                 <span className="text-sm tracking-[0.22em] uppercase">
-                  {t.contact.submit}
+                  {loading ? "…" : t.contact.submit}
                 </span>
-                <ArrowRight
-                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  strokeWidth={1.5}
-                />
+                {!loading && (
+                  <ArrowRight
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                    strokeWidth={1.5}
+                    aria-hidden="true"
+                  />
+                )}
               </button>
             </form>
           </Reveal>
         ) : (
           <Reveal>
             <div className="py-10 text-center" style={{ color: "#C9A961" }}>
-              <Check className="w-8 h-8 mx-auto mb-4" strokeWidth={1.5} />
+              <Check className="w-8 h-8 mx-auto mb-4" strokeWidth={1.5} aria-hidden="true" />
               <p className="text-lg">{t.contact.sent}</p>
             </div>
           </Reveal>

@@ -131,10 +131,12 @@ export default function BookingForm({
           <form onSubmit={handleSubmit} className="space-y-10">
             {/* Tour selector */}
             <div>
-              <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+              <label htmlFor="booking-tour" className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
                 {t.booking.tour}
               </label>
               <select
+                id="booking-tour"
+                name="tour"
                 required
                 value={bookingForm.tour}
                 onChange={(e) =>
@@ -154,12 +156,15 @@ export default function BookingForm({
             {/* Date + Time */}
             <div className="grid md:grid-cols-2 gap-10">
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label htmlFor="booking-date" className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
                   {t.booking.date}
                 </label>
                 <input
+                  id="booking-date"
                   type="date"
+                  name="date"
                   required
+                  autoComplete="off"
                   value={bookingForm.date}
                   onChange={handleDateChange}
                   min={new Date().toISOString().split("T")[0]}
@@ -175,10 +180,12 @@ export default function BookingForm({
               </div>
 
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label htmlFor="booking-time" className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
                   {t.booking.time}
                 </label>
                 <select
+                  id="booking-time"
+                  name="time"
                   required
                   value={bookingForm.time}
                   onChange={(e) =>
@@ -249,12 +256,15 @@ export default function BookingForm({
             {/* Name + Email */}
             <div className="grid md:grid-cols-2 gap-10">
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label htmlFor="booking-name" className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
                   {t.booking.name}
                 </label>
                 <input
+                  id="booking-name"
                   type="text"
+                  name="name"
                   required
+                  autoComplete="name"
                   value={bookingForm.name}
                   onChange={(e) =>
                     setBookingForm((f) => ({ ...f, name: e.target.value }))
@@ -263,12 +273,16 @@ export default function BookingForm({
                 />
               </div>
               <div>
-                <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                <label htmlFor="booking-email" className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
                   {t.booking.email}
                 </label>
                 <input
+                  id="booking-email"
                   type="email"
+                  name="email"
                   required
+                  autoComplete="email"
+                  spellCheck={false}
                   value={bookingForm.email}
                   onChange={(e) =>
                     setBookingForm((f) => ({ ...f, email: e.target.value }))

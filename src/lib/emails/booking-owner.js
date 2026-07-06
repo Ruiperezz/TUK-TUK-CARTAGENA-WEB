@@ -29,7 +29,7 @@ export function getOwnerEmailHtml(booking) {
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
 <tr><td style="padding:0 0 32px 0;text-align:center;">
-  <span style="font-size:18px;letter-spacing:0.18em;font-weight:500;">TUK·TUK <span style="color:#D42E54;">CARTAGENA</span></span>
+  <span style="font-size:18px;letter-spacing:0.18em;font-weight:500;">TUK·TUK <span style="color:#C9A961;">CARTAGENA</span></span>
 </td></tr>
 
 <tr><td style="border-top:1px solid rgba(248,246,241,0.15);padding:32px 0 24px 0;">
