@@ -53,14 +53,15 @@ export async function POST(request) {
 
     const supabase = getSupabaseAdmin();
 
-    // --- Check date is admin-enabled ---
+    // --- Check date is not blocked by admin ---
     const { data: avail } = await supabase
       .from("availability")
       .select("is_available")
       .eq("date", date)
       .single();
 
-    if (!avail || !avail.is_available) {
+    // No record = open by default. Only blocked if is_available === false.
+    if (avail !== null && avail.is_available === false) {
       return NextResponse.json({ error: "Fecha no disponible" }, { status: 400 });
     }
 

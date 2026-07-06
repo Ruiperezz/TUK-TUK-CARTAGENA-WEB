@@ -86,8 +86,10 @@ export default function AdminPage() {
   };
 
   const toggleDay = async (dateStr) => {
+    // Open by default: click to block (is_available=false) or unblock (is_available=true)
     const existing = availability.find((a) => a.date === dateStr);
-    const newValue = existing ? !existing.is_available : true;
+    const currentlyBlocked = existing?.is_available === false;
+    const newValue = currentlyBlocked; // if blocked → set true (unblock), if open → set false (block)
     await fetch("/api/admin/availability", {
       method: "POST",
       headers: authHeaders(),
@@ -108,7 +110,9 @@ export default function AdminPage() {
     for (let d = 1; d <= lastDay; d++) {
       const dateStr = `${calMonth}-${String(d).padStart(2, "0")}`;
       const avail = availability.find((a) => a.date === dateStr);
-      days.push({ day: d, date: dateStr, available: avail?.is_available || false });
+      // Available unless explicitly blocked (is_available === false)
+      const available = !(avail?.is_available === false);
+      days.push({ day: d, date: dateStr, available });
     }
     return days;
   };
@@ -312,7 +316,7 @@ export default function AdminPage() {
             </div>
 
             <div style={{ fontSize: "12px", opacity: 0.5, marginBottom: "16px" }}>
-              Haz clic en un día para activar/desactivar la disponibilidad. Verde = disponible.
+              Todos los días están abiertos por defecto. Haz clic para bloquear un día (rojo = bloqueado, sin reservas).
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px", maxWidth: "500px" }}>
@@ -332,9 +336,9 @@ export default function AdminPage() {
                       padding: "12px 8px",
                       textAlign: "center",
                       fontSize: "14px",
-                      background: cell.available ? "rgba(107,203,119,0.15)" : "rgba(248,246,241,0.03)",
-                      border: cell.available ? "1px solid rgba(107,203,119,0.4)" : "1px solid rgba(248,246,241,0.08)",
-                      color: cell.available ? "#6BCB77" : "rgba(248,246,241,0.4)",
+                      background: cell.available ? "rgba(107,203,119,0.12)" : "rgba(231,76,60,0.15)",
+                      border: cell.available ? "1px solid rgba(107,203,119,0.3)" : "1px solid rgba(231,76,60,0.4)",
+                      color: cell.available ? "#6BCB77" : "#E74C3C",
                       cursor: "pointer",
                     }}
                   >
