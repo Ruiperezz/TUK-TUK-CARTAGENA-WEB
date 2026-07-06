@@ -10,7 +10,8 @@ const VALID_SLOTS = [
 const VALID_LANGS = ["es", "en", "de", "fr"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX_PER_SLOT = 2;
+const FLEET_SIZE = 3;
+const TOUR_DURATION_SLOTS = { city: 2, bay: 2, myway: 1 };
 const PRICE = 120;
 
 const TOUR_NAMES = {
@@ -65,19 +66,36 @@ export async function POST(request) {
       return NextResponse.json({ error: "Fecha no disponible" }, { status: 400 });
     }
 
-    // --- Check slot capacity (max 2 per hour) ---
-    const { data: slotBookings, error: slotErr } = await supabase
+    // --- Fleet capacity check (duration-aware) ---
+    // A tuk-tuk booked at slot B for D slots occupies B, B+1, ..., B+D-1.
+    // The new booking must not exceed FLEET_SIZE at any of its occupied slots.
+    const { data: dayBookings, error: slotErr } = await supabase
       .from("bookings")
-      .select("id")
+      .select("time_slot, tour")
       .eq("date", date)
-      .eq("time_slot", time)
       .in("status", ["pending", "confirmed"]);
 
     if (slotErr) {
       return NextResponse.json({ error: "Error al verificar disponibilidad" }, { status: 500 });
     }
-    if ((slotBookings || []).length >= MAX_PER_SLOT) {
-      return NextResponse.json({ error: "Este horario está completo. Por favor elige otro." }, { status: 400 });
+
+    const newStartIndex = VALID_SLOTS.indexOf(time);
+    const newDuration = TOUR_DURATION_SLOTS[tour] ?? 1;
+
+    for (let i = newStartIndex; i < newStartIndex + newDuration; i++) {
+      let busy = 0;
+      for (const b of dayBookings || []) {
+        const bIndex = VALID_SLOTS.indexOf(b.time_slot);
+        if (bIndex === -1) continue;
+        const dur = TOUR_DURATION_SLOTS[b.tour] ?? 1;
+        if (i >= bIndex && i < bIndex + dur) busy++;
+      }
+      if (busy >= FLEET_SIZE) {
+        return NextResponse.json(
+          { error: "No hay tuk tuks disponibles para este horario. Por favor elige otro." },
+          { status: 400 }
+        );
+      }
     }
 
     const customerLang = VALID_LANGS.includes(lang) ? lang : "es";

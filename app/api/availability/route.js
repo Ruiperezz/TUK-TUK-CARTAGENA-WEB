@@ -5,18 +5,35 @@ const ALL_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
   "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 ];
-const MAX_PER_SLOT = 2;
+
+// Fleet size and tour durations in hours (each slot = 1 hour)
+const FLEET_SIZE = 3;
+const TOUR_DURATION_SLOTS = { city: 2, bay: 2, myway: 1 };
+
+// How many tuk-tuks are physically out at a given slot index
+// A booking at slot B for a tour of D slots occupies slots B, B+1, ..., B+D-1
+function countBusyAtIndex(bookings, slotIndex) {
+  let count = 0;
+  for (const b of bookings) {
+    const bIndex = ALL_SLOTS.indexOf(b.time_slot);
+    if (bIndex === -1) continue;
+    const duration = TOUR_DURATION_SLOTS[b.tour] ?? 1;
+    if (slotIndex >= bIndex && slotIndex < bIndex + duration) {
+      count++;
+    }
+  }
+  return count;
+}
+
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const MONTH_RE = /^\d{4}-\d{2}$/;
 
-// Dates are open by default. Admin can block specific dates (is_available = false).
 async function isDateBlocked(supabase, date) {
   const { data } = await supabase
     .from("availability")
     .select("is_available")
     .eq("date", date)
     .single();
-  // No record = open. Record with is_available=false = blocked.
   return data !== null && data.is_available === false;
 }
 
@@ -35,22 +52,16 @@ export async function GET(request) {
       }
 
       const blocked = await isDateBlocked(supabase, date);
-      if (blocked) {
-        return NextResponse.json({ slots: [] });
-      }
+      if (blocked) return NextResponse.json({ slots: [] });
 
       const { data: bookings } = await supabase
         .from("bookings")
-        .select("time_slot")
+        .select("time_slot, tour")
         .eq("date", date)
         .in("status", ["pending", "confirmed"]);
 
-      const counts = {};
-      (bookings || []).forEach((row) => {
-        counts[row.time_slot] = (counts[row.time_slot] || 0) + 1;
-      });
-
-      const slots = ALL_SLOTS.filter((s) => (counts[s] || 0) < MAX_PER_SLOT);
+      // A slot is available if at least one tuk-tuk is free at that start time
+      const slots = ALL_SLOTS.filter((s, i) => countBusyAtIndex(bookings || [], i) < FLEET_SIZE);
       return NextResponse.json({ slots });
     }
 
@@ -63,7 +74,6 @@ export async function GET(request) {
       const [year, m] = month.split("-").map(Number);
       const lastDay = new Date(year, m, 0).getDate();
 
-      // Build all dates in the month
       const allDates = [];
       for (let d = 1; d <= lastDay; d++) {
         allDates.push(`${month}-${String(d).padStart(2, "0")}`);
@@ -72,10 +82,10 @@ export async function GET(request) {
       const startDate = `${month}-01`;
       const endDate = `${month}-${String(lastDay).padStart(2, "0")}`;
 
-      // Fetch blocked dates for this month
+      // Fetch blocked dates
       const { data: blockedRows } = await supabase
         .from("availability")
-        .select("date, is_available")
+        .select("date")
         .gte("date", startDate)
         .lte("date", endDate)
         .eq("is_available", false);
@@ -83,26 +93,26 @@ export async function GET(request) {
       const blockedSet = new Set((blockedRows || []).map((r) => r.date));
       const enabledDates = allDates.filter((d) => !blockedSet.has(d));
 
-      if (enabledDates.length === 0) {
-        return NextResponse.json({ dates: [] });
-      }
+      if (enabledDates.length === 0) return NextResponse.json({ dates: [] });
 
-      // For each enabled date, check if there's still capacity in at least one slot
+      // Fetch all bookings for enabled dates in bulk
       const { data: bookings } = await supabase
         .from("bookings")
-        .select("date, time_slot")
+        .select("date, time_slot, tour")
         .in("date", enabledDates)
         .in("status", ["pending", "confirmed"]);
 
-      const slotCounts = {};
-      (bookings || []).forEach((row) => {
-        const key = `${row.date}::${row.time_slot}`;
-        slotCounts[key] = (slotCounts[key] || 0) + 1;
-      });
+      // Group bookings by date
+      const byDate = {};
+      for (const b of bookings || []) {
+        if (!byDate[b.date]) byDate[b.date] = [];
+        byDate[b.date].push(b);
+      }
 
-      // A date is available if at least one slot still has capacity
+      // A date is available if at least one slot has a free tuk-tuk
       const availableDates = enabledDates.filter((d) => {
-        return ALL_SLOTS.some((s) => (slotCounts[`${d}::${s}`] || 0) < MAX_PER_SLOT);
+        const dayBookings = byDate[d] || [];
+        return ALL_SLOTS.some((_, i) => countBusyAtIndex(dayBookings, i) < FLEET_SIZE);
       });
 
       return NextResponse.json({ dates: availableDates });

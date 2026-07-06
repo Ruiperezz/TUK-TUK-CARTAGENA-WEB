@@ -270,10 +270,8 @@ export default function AdminPage() {
                       </td>
                       <td style={{ padding: "10px 8px" }}>{TOUR_NAMES[b.tour]}</td>
                       <td style={{ padding: "10px 8px" }}>{b.date}</td>
-                      <td style={{ padding: "10px 8px" }}>{b.time_slot === "morning" ? "Mañana" : "Tarde"}</td>
-                      <td style={{ padding: "10px 8px" }}>
-                        {b.is_private ? "Privado" : `${b.adults}A${b.kids > 0 ? `+${b.kids}N` : ""}`}
-                      </td>
+                      <td style={{ padding: "10px 8px" }}>{b.time_slot}</td>
+                      <td style={{ padding: "10px 8px" }}>{b.adults} pax</td>
                       <td style={{ padding: "10px 8px", color: "#C9A961" }}>{b.total_price} €</td>
                       <td style={{ padding: "10px 8px" }}>{b.customer_name}</td>
                       <td style={{ padding: "10px 8px", opacity: 0.6 }}>{b.customer_email}</td>
