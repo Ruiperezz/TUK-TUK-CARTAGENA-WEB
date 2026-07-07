@@ -124,7 +124,8 @@ export async function POST(request) {
       .single();
 
     if (dbError) {
-      return NextResponse.json({ error: "Error al crear reserva" }, { status: 500 });
+      console.error("DB insert error:", JSON.stringify(dbError));
+      return NextResponse.json({ error: "Error al crear reserva", _dbg: dbError?.message }, { status: 500 });
     }
 
     const stripe = getStripe();
