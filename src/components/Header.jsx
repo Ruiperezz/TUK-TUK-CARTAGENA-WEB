@@ -17,7 +17,7 @@ export default function Header({ lang, setLang, onMenuOpen, t }) {
       <button
         onClick={onMenuOpen}
         className="flex items-center gap-3 group"
-        aria-label="Abrir menú"
+        aria-label={t.menu.open}
       >
         <Menu
           className="w-5 h-5 group-hover:text-amber-200 transition-colors"

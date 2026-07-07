@@ -45,7 +45,7 @@ export default function PracticalInfo({ t }) {
                   >
                     {item.value}
                     <span className="block mt-1 text-[10px] tracking-[0.18em] uppercase opacity-60">
-                      ↗ Ver en Maps
+                      ↗ {t.practical.openMapsShort}
                     </span>
                   </a>
                 ) : (

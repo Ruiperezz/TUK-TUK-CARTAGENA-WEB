@@ -49,7 +49,10 @@ export async function POST(request) {
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return NextResponse.json({ error: "Nombre requerido" }, { status: 400 });
     }
-    if (!email || !EMAIL_RE.test(email)) {
+    if (name.trim().length > 150) {
+      return NextResponse.json({ error: "Nombre demasiado largo" }, { status: 400 });
+    }
+    if (!email || !EMAIL_RE.test(email) || email.length > 320) {
       return NextResponse.json({ error: "Email no válido" }, { status: 400 });
     }
 
@@ -72,7 +75,7 @@ export async function POST(request) {
     // The new booking must not exceed FLEET_SIZE at any of its occupied slots.
     const { data: dayBookings, error: slotErr } = await supabase
       .from("bookings")
-      .select("time_slot, tour")
+      .select("time_slot, tour, adults")
       .eq("date", date)
       .in("status", ["pending", "confirmed"]);
 

@@ -7,7 +7,10 @@ export function checkAdminAuth(request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
   const token = authHeader.slice(7);
-  const expected = process.env.ADMIN_PASSWORD || "";
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected) {
+    return NextResponse.json({ error: "Servicio no disponible" }, { status: 503 });
+  }
 
   // Use hash to normalize lengths before constant-time comparison
   const tokenHash = createHash("sha256").update(token).digest();

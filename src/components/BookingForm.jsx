@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Check, ArrowRight, AlertCircle } from "lucide-react";
 import Reveal from "./Reveal";
 
@@ -26,8 +26,10 @@ export default function BookingForm({
   const [availableSlots, setAvailableSlots] = useState([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [slotsLoaded, setSlotsLoaded] = useState(false);
+  const [slotsApiError, setSlotsApiError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const abortRef = useRef(null);
 
   const fetchMonthAvailability = useCallback(async (dateStr) => {
     if (!dateStr) return;
@@ -43,21 +45,30 @@ export default function BookingForm({
 
   const fetchDaySlots = useCallback(async (date) => {
     if (!date) return;
+    if (abortRef.current) abortRef.current.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
     setSlotsLoading(true);
     setSlotsLoaded(false);
+    setSlotsApiError(false);
     setAvailableSlots([]);
     setBookingForm((f) => ({ ...f, time: "" }));
     try {
-      const res = await fetch(`/api/availability?date=${date}`);
+      const res = await fetch(`/api/availability?date=${date}`, { signal: controller.signal });
       if (res.ok) {
         const data = await res.json();
         setAvailableSlots(data.slots || []);
+      } else {
+        setSlotsApiError(true);
       }
-      // On API error: availableSlots stays [] — treated as "not loaded", all slots enabled (fail open)
-    } catch {}
-    finally {
-      setSlotsLoading(false);
-      setSlotsLoaded(true);
+    } catch (err) {
+      if (err.name === "AbortError") return;
+      setSlotsApiError(true);
+    } finally {
+      if (!controller.signal.aborted) {
+        setSlotsLoading(false);
+        setSlotsLoaded(true);
+      }
     }
   }, [setBookingForm]);
 
@@ -75,6 +86,7 @@ export default function BookingForm({
       fetchDaySlots(val);
     } else {
       setSlotsLoaded(false);
+      setSlotsApiError(false);
       setAvailableSlots([]);
     }
   };
@@ -108,16 +120,19 @@ export default function BookingForm({
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Error al crear reserva");
+        setError(data.error || t.booking.errorGeneric);
         setLoading(false);
         return;
       }
 
       if (data.url) {
         window.location.href = data.url;
+      } else {
+        setError(t.booking.errorGeneric);
+        setLoading(false);
       }
     } catch {
-      setError("Error de conexión");
+      setError(t.booking.errorConnection);
       setLoading(false);
     }
   };
@@ -127,9 +142,11 @@ export default function BookingForm({
     availableDates.length === 0 ||
     availableDates.includes(bookingForm.date);
 
-  // Slot available if: not yet loaded (show all), API returned empty (fail open, show all), or slot is in returned list
+  // Fail-open only on API error; if API responded with 0 slots, the day is fully booked
   const isSlotAvailable = (slot) =>
-    !slotsLoaded || availableSlots.length === 0 || availableSlots.includes(slot);
+    !slotsLoaded || slotsApiError || availableSlots.includes(slot);
+
+  const noSlots = slotsLoaded && !slotsApiError && availableSlots.length === 0;
 
   return (
     <section id="booking" className="px-6 md:px-16 py-24 md:py-32 max-w-5xl mx-auto">
@@ -223,8 +240,7 @@ export default function BookingForm({
                     );
                   })}
                 </select>
-                {bookingForm.date && slotsLoaded && availableSlots.length > 0 &&
-                  ALL_SLOTS.every((s) => !availableSlots.includes(s)) && (
+                {noSlots && (
                   <div className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
                     <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
                     <span>{t.booking.noSlots}</span>
@@ -235,40 +251,42 @@ export default function BookingForm({
 
             {/* People counter */}
             <div>
-              <label className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
-                {t.booking.people}
-              </label>
-              <div className="flex items-center gap-6 pt-3">
-                <button
-                  type="button"
-                  aria-label="Quitar persona"
-                  disabled={bookingForm.people <= 1}
-                  onClick={() =>
-                    setBookingForm((f) => ({
-                      ...f,
-                      people: Math.max(1, f.people - 1),
-                    }))
-                  }
-                  className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
-                >
-                  −
-                </button>
-                <span className="serif text-3xl w-10 text-center">
-                  {bookingForm.people}
-                </span>
-                <button
-                  type="button"
-                  aria-label="Añadir persona"
-                  disabled={bookingForm.people >= 12}
-                  onClick={() =>
-                    setBookingForm((f) => ({ ...f, people: Math.min(12, f.people + 1) }))
-                  }
-                  className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
-                >
-                  +
-                </button>
-                <span className="text-xs opacity-50 ml-2">{t.booking.peopleMax}</span>
-              </div>
+              <fieldset>
+                <legend className="text-[11px] tracking-[0.22em] uppercase opacity-60 block mb-2">
+                  {t.booking.people}
+                </legend>
+                <div className="flex items-center gap-6 pt-3">
+                  <button
+                    type="button"
+                    aria-label={t.booking.decreasePeople}
+                    disabled={bookingForm.people <= 1}
+                    onClick={() =>
+                      setBookingForm((f) => ({
+                        ...f,
+                        people: Math.max(1, f.people - 1),
+                      }))
+                    }
+                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
+                  >
+                    −
+                  </button>
+                  <span className="serif text-3xl w-10 text-center" aria-live="polite">
+                    {bookingForm.people}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label={t.booking.increasePeople}
+                    disabled={bookingForm.people >= 12}
+                    onClick={() =>
+                      setBookingForm((f) => ({ ...f, people: Math.min(12, f.people + 1) }))
+                    }
+                    className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
+                  >
+                    +
+                  </button>
+                  <span className="text-xs opacity-50 ml-2">{t.booking.peopleMax}</span>
+                </div>
+              </fieldset>
               {tuktuks > 1 && (
                 <div
                   className="mt-3 text-[11px] tracking-[0.18em] uppercase"
@@ -360,7 +378,7 @@ export default function BookingForm({
                 <span className="text-sm tracking-[0.22em] uppercase font-semibold">
                   {loading ? "..." : t.booking.submit}
                 </span>
-                {!loading && <ArrowRight className="w-4 h-4" strokeWidth={2} />}
+                {!loading && <ArrowRight className="w-4 h-4" aria-hidden="true" strokeWidth={2} />}
               </button>
               <div className="text-center mt-4 text-[10px] tracking-[0.28em] uppercase opacity-50">
                 {t.booking.paymentMethods}

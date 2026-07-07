@@ -1,12 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
 import { X } from "lucide-react";
 import { LANGS } from "../i18n/translations";
 
 export default function SideMenu({ lang, setLang, onClose, scrollTo, t }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
     <div className="fixed inset-0 z-50 flex">
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={t.nav.home}
         className="w-full md:w-[420px] h-full menu-slide flex flex-col px-8 md:px-12 py-10"
         style={{ background: "#0B0E12" }}
       >
@@ -17,7 +27,7 @@ export default function SideMenu({ lang, setLang, onClose, scrollTo, t }) {
           >
             {t.menu.close}
           </span>
-          <button onClick={onClose} aria-label="Cerrar menú">
+          <button onClick={onClose} aria-label={t.menu.close}>
             <X
               className="w-5 h-5 hover:text-amber-200 transition-colors"
               strokeWidth={1.5}
@@ -58,6 +68,7 @@ export default function SideMenu({ lang, setLang, onClose, scrollTo, t }) {
               <button
                 key={l.code}
                 onClick={() => setLang(l.code)}
+                aria-pressed={lang === l.code}
                 className="text-sm tracking-[0.18em] transition-colors"
                 style={{
                   color:
@@ -70,8 +81,10 @@ export default function SideMenu({ lang, setLang, onClose, scrollTo, t }) {
           </div>
         </div>
       </div>
-      <div
+      <button
+        type="button"
         onClick={onClose}
+        aria-label={t.menu.close}
         className="hidden md:block flex-1 bg-black/60"
       />
     </div>

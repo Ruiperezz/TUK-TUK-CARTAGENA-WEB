@@ -89,6 +89,8 @@ export const I18N = {
       timeSlotFull: "Completo",
       people: "Personas",
       peopleMax: "Máximo 12 personas (hasta 3 tuk tuks)",
+      decreasePeople: "Quitar persona",
+      increasePeople: "Añadir persona",
       tuktukLabel: "tuk tuk privado",
       tuktuksLabel: "tuk tuks privados",
       name: "Tu nombre",
@@ -98,6 +100,8 @@ export const I18N = {
       paymentMethods: "Pago seguro con tarjeta",
       dateUnavailable: "Esta fecha no está disponible",
       noSlots: "No hay horarios disponibles para esta fecha",
+      errorGeneric: "Error al crear la reserva",
+      errorConnection: "Error de conexión. Por favor, inténtalo de nuevo.",
       success: "¡Reserva confirmada!",
       successDesc: "Te hemos enviado un email con todos los detalles. Nos vemos en Cartagena.",
       reset: "Nueva reserva"
@@ -111,6 +115,7 @@ export const I18N = {
       eyebrow: "Información práctica",
       title: "Todo lo que necesitas saber",
       openMaps: "Abrir en Google Maps",
+      openMapsShort: "Ver en Maps",
       items: [
         { label: "Punto de encuentro", value: "Paseo Alfonso XII 8, entrada Terminal Juan Sebastián El Cano (Muelle de Cruceros), 30201, Cartagena, Murcia", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Horario", value: "Lunes a domingo · de 08:00 a 19:00" },
@@ -125,7 +130,9 @@ export const I18N = {
       email: "Email",
       message: "Mensaje",
       submit: "Enviar mensaje",
-      sent: "Mensaje enviado. Te respondemos en menos de 24h."
+      sent: "Mensaje enviado. Te respondemos en menos de 24h.",
+      errorGeneric: "Error al enviar el mensaje",
+      errorConnection: "Error de conexión. Por favor, inténtalo de nuevo."
     },
     footer: {
       tag: "Cartagena, Murcia · España",
@@ -134,7 +141,7 @@ export const I18N = {
       cookies: "Cookies",
       rights: "Todos los derechos reservados"
     },
-    menu: { lang: "Idioma", close: "Cerrar" }
+    menu: { lang: "Idioma", close: "Cerrar", open: "Abrir menú" }
   },
 
   en: {
@@ -209,6 +216,8 @@ export const I18N = {
       timeSlotFull: "Full",
       people: "People",
       peopleMax: "Maximum 12 people (up to 3 tuk tuks)",
+      decreasePeople: "Remove person",
+      increasePeople: "Add person",
       tuktukLabel: "private tuk tuk",
       tuktuksLabel: "private tuk tuks",
       name: "Your name",
@@ -218,6 +227,8 @@ export const I18N = {
       paymentMethods: "Secure card payment",
       dateUnavailable: "This date is not available",
       noSlots: "No time slots available for this date",
+      errorGeneric: "Error creating booking",
+      errorConnection: "Connection error. Please try again.",
       success: "Booking confirmed!",
       successDesc: "We've sent you an email with all the details. See you in Cartagena.",
       reset: "New booking"
@@ -231,6 +242,7 @@ export const I18N = {
       eyebrow: "Practical info",
       title: "Everything you need to know",
       openMaps: "Open in Google Maps",
+      openMapsShort: "View on Maps",
       items: [
         { label: "Meeting point", value: "Paseo Alfonso XII 8, Terminal Juan Sebastián El Cano entrance (Cruise Terminal), 30201, Cartagena, Murcia, Spain", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Schedule", value: "Monday to Sunday · 08:00 to 19:00" },
@@ -245,7 +257,9 @@ export const I18N = {
       email: "Email",
       message: "Message",
       submit: "Send message",
-      sent: "Message sent. We'll reply within 24 hours."
+      sent: "Message sent. We'll reply within 24 hours.",
+      errorGeneric: "Error sending message",
+      errorConnection: "Connection error. Please try again."
     },
     footer: {
       tag: "Cartagena, Murcia · Spain",
@@ -254,7 +268,7 @@ export const I18N = {
       cookies: "Cookies",
       rights: "All rights reserved"
     },
-    menu: { lang: "Language", close: "Close" }
+    menu: { lang: "Language", close: "Close", open: "Open menu" }
   },
 
   de: {
@@ -329,6 +343,8 @@ export const I18N = {
       timeSlotFull: "Ausgebucht",
       people: "Personen",
       peopleMax: "Maximal 12 Personen (bis zu 3 Tuk-Tuks)",
+      decreasePeople: "Person entfernen",
+      increasePeople: "Person hinzufügen",
       tuktukLabel: "privates Tuk-Tuk",
       tuktuksLabel: "private Tuk-Tuks",
       name: "Ihr Name",
@@ -338,6 +354,8 @@ export const I18N = {
       paymentMethods: "Sichere Kartenzahlung",
       dateUnavailable: "Dieses Datum ist nicht verfügbar",
       noSlots: "Für dieses Datum sind keine Abfahrtszeiten verfügbar",
+      errorGeneric: "Fehler beim Erstellen der Buchung",
+      errorConnection: "Verbindungsfehler. Bitte versuchen Sie es erneut.",
       success: "Buchung bestätigt!",
       successDesc: "Wir haben Ihnen eine E-Mail mit allen Details geschickt. Bis bald in Cartagena.",
       reset: "Neue Buchung"
@@ -351,6 +369,7 @@ export const I18N = {
       eyebrow: "Praktische Infos",
       title: "Alles, was Sie wissen müssen",
       openMaps: "In Google Maps öffnen",
+      openMapsShort: "Auf Maps öffnen",
       items: [
         { label: "Treffpunkt", value: "Paseo Alfonso XII 8, Eingang Terminal Juan Sebastián El Cano (Kreuzfahrtterminal), 30201, Cartagena, Murcia, Spanien", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Zeitplan", value: "Montag bis Sonntag · 08:00 bis 19:00 Uhr" },
@@ -365,7 +384,9 @@ export const I18N = {
       email: "E-Mail",
       message: "Nachricht",
       submit: "Nachricht senden",
-      sent: "Nachricht gesendet. Wir antworten innerhalb von 24 Stunden."
+      sent: "Nachricht gesendet. Wir antworten innerhalb von 24 Stunden.",
+      errorGeneric: "Fehler beim Senden der Nachricht",
+      errorConnection: "Verbindungsfehler. Bitte versuchen Sie es erneut."
     },
     footer: {
       tag: "Cartagena, Murcia · Spanien",
@@ -374,7 +395,7 @@ export const I18N = {
       cookies: "Cookies",
       rights: "Alle Rechte vorbehalten"
     },
-    menu: { lang: "Sprache", close: "Schließen" }
+    menu: { lang: "Sprache", close: "Schließen", open: "Menü öffnen" }
   },
 
   fr: {
@@ -449,6 +470,8 @@ export const I18N = {
       timeSlotFull: "Complet",
       people: "Personnes",
       peopleMax: "Maximum 12 personnes (jusqu'à 3 tuk tuks)",
+      decreasePeople: "Retirer une personne",
+      increasePeople: "Ajouter une personne",
       tuktukLabel: "tuk tuk privé",
       tuktuksLabel: "tuk tuks privés",
       name: "Votre nom",
@@ -458,6 +481,8 @@ export const I18N = {
       paymentMethods: "Paiement sécurisé par carte",
       dateUnavailable: "Cette date n'est pas disponible",
       noSlots: "Aucun horaire disponible pour cette date",
+      errorGeneric: "Erreur lors de la création de la réservation",
+      errorConnection: "Erreur de connexion. Veuillez réessayer.",
       success: "Réservation confirmée !",
       successDesc: "Nous vous avons envoyé un email avec tous les détails. À bientôt à Cartagène.",
       reset: "Nouvelle réservation"
@@ -471,6 +496,7 @@ export const I18N = {
       eyebrow: "Infos pratiques",
       title: "Tout ce que vous devez savoir",
       openMaps: "Ouvrir dans Google Maps",
+      openMapsShort: "Voir sur Maps",
       items: [
         { label: "Point de rencontre", value: "Paseo Alfonso XII 8, entrée Terminal Juan Sebastián El Cano (Terminal des Croisières), 30201, Cartagena, Murcia, Espagne", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Horaires", value: "Lundi au dimanche · 08h00 à 19h00" },
@@ -485,7 +511,9 @@ export const I18N = {
       email: "Email",
       message: "Message",
       submit: "Envoyer le message",
-      sent: "Message envoyé. Nous répondons sous 24 heures."
+      sent: "Message envoyé. Nous répondons sous 24 heures.",
+      errorGeneric: "Erreur lors de l'envoi du message",
+      errorConnection: "Erreur de connexion. Veuillez réessayer."
     },
     footer: {
       tag: "Cartagène, Murcie · Espagne",
@@ -494,6 +522,6 @@ export const I18N = {
       cookies: "Cookies",
       rights: "Tous droits réservés"
     },
-    menu: { lang: "Langue", close: "Fermer" }
+    menu: { lang: "Langue", close: "Fermer", open: "Ouvrir le menu" }
   }
 };

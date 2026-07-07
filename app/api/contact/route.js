@@ -19,21 +19,28 @@ export async function POST(request) {
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return NextResponse.json({ error: "Nombre requerido" }, { status: 400 });
     }
-    if (!email || !EMAIL_RE.test(email)) {
+    if (name.trim().length > 150) {
+      return NextResponse.json({ error: "Nombre demasiado largo" }, { status: 400 });
+    }
+    if (!email || !EMAIL_RE.test(email) || email.length > 320) {
       return NextResponse.json({ error: "Email no válido" }, { status: 400 });
     }
     if (!message || typeof message !== "string" || message.trim().length < 5) {
       return NextResponse.json({ error: "Mensaje requerido" }, { status: 400 });
     }
+    if (message.trim().length > 3000) {
+      return NextResponse.json({ error: "Mensaje demasiado largo (máx. 3000 caracteres)" }, { status: 400 });
+    }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const businessEmail = process.env.BUSINESS_EMAIL || "reservas@tuktukcartagena.com";
+    const safeName = name.trim().replace(/[\r\n\t]+/g, " ");
 
     await resend.emails.send({
       from: "TUK TUK Cartagena <noreply@tuktukcartagena.com>",
       to: businessEmail,
       replyTo: email.trim(),
-      subject: `Nuevo mensaje de contacto — ${name.trim()}`,
+      subject: `Nuevo mensaje de contacto — ${safeName}`,
       html: `<!DOCTYPE html>
 <html lang="es">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -55,7 +62,7 @@ export async function POST(request) {
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);width:120px;">Nombre</td>
-      <td style="padding:8px 0;font-size:16px;">${esc(name)}</td>
+      <td style="padding:8px 0;font-size:16px;">${esc(safeName)}</td>
     </tr>
     <tr>
       <td style="padding:8px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.5);">Email</td>

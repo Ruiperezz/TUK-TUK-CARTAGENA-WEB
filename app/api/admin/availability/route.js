@@ -40,8 +40,12 @@ export async function POST(request) {
 
   const { date, is_available } = await request.json();
 
-  if (!date) {
-    return NextResponse.json({ error: "Fecha requerida" }, { status: 400 });
+  const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  if (!date || !DATE_RE.test(date) || isNaN(new Date(date).getTime())) {
+    return NextResponse.json({ error: "Fecha inválida (YYYY-MM-DD)" }, { status: 400 });
+  }
+  if (is_available !== undefined && typeof is_available !== "boolean") {
+    return NextResponse.json({ error: "is_available debe ser boolean" }, { status: 400 });
   }
 
   const supabase = getSupabaseAdmin();

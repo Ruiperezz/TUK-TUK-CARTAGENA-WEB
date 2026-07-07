@@ -21,8 +21,8 @@ const SECURITY_HEADERS = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // Scripts: propio + inline necesario para Next.js
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      // Scripts: propio + inline necesario para Next.js (sin unsafe-eval)
+      "script-src 'self' 'unsafe-inline'",
       // Estilos: propio + inline + Google Fonts
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Fuentes: propio + Google Fonts CDN
@@ -30,9 +30,9 @@ const SECURITY_HEADERS = [
       // Imágenes: propio + data URIs + Google Maps
       "img-src 'self' data: blob: https://maps.gstatic.com https://maps.googleapis.com",
       // Iframes: solo Google Maps (para el mapa de punto de encuentro)
-      "frame-src 'self' https://www.google.com",
+      "frame-src 'self' https://www.google.com/maps/",
       // Conexiones de red: propio + Supabase + Stripe
-      "connect-src 'self' https://*.supabase.co https://api.stripe.com https://*.vercel.app",
+      "connect-src 'self' https://*.supabase.co https://api.stripe.com",
       // Multimedia
       "media-src 'self'",
       // Sin plugins
