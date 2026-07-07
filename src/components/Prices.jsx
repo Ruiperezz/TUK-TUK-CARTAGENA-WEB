@@ -44,6 +44,9 @@ export default function Prices({ t }) {
                 <div className="text-xs opacity-60 pt-2">
                   {t.prices.payment}
                 </div>
+                <div className="text-xs opacity-50 pt-2 italic">
+                  {t.prices.childNote}
+                </div>
               </div>
             </div>
           </Reveal>

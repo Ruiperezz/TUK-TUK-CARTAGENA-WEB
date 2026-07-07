@@ -12,7 +12,7 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FLEET_SIZE = 3;
 const TOUR_DURATION_SLOTS = { city: 2, bay: 2, myway: 1 };
-const PRICE = 120;
+const PRICE_PER_TUKTUK = 120;
 
 const TOUR_NAMES = {
   city: "Cartagena City (90 min)",
@@ -23,7 +23,7 @@ const TOUR_NAMES = {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { tour, date, time, people, name, email, lang } = body;
+    const { tour, date, time, people, tuktuks: tuktuksInput, name, email, lang } = body;
 
     // --- Input validation ---
     if (!tour || !VALID_TOURS.includes(tour)) {
@@ -42,9 +42,10 @@ export async function POST(request) {
       return NextResponse.json({ error: "Horario no válido" }, { status: 400 });
     }
     const peopleInt = parseInt(people, 10);
-    if (!Number.isInteger(peopleInt) || peopleInt < 1 || peopleInt > 4) {
-      return NextResponse.json({ error: "Número de personas no válido (1-4)" }, { status: 400 });
+    if (!Number.isInteger(peopleInt) || peopleInt < 1 || peopleInt > 12) {
+      return NextResponse.json({ error: "Número de personas no válido (1-12)" }, { status: 400 });
     }
+    const tuktuks = Math.ceil(peopleInt / 4);
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return NextResponse.json({ error: "Nombre requerido" }, { status: 400 });
     }
@@ -88,11 +89,14 @@ export async function POST(request) {
         const bIndex = VALID_SLOTS.indexOf(b.time_slot);
         if (bIndex === -1) continue;
         const dur = TOUR_DURATION_SLOTS[b.tour] ?? 1;
-        if (i >= bIndex && i < bIndex + dur) busy++;
+        if (i >= bIndex && i < bIndex + dur) {
+          // Each existing booking occupies ceil(adults/4) tuk-tuks
+          busy += Math.ceil((b.adults || 1) / 4);
+        }
       }
-      if (busy >= FLEET_SIZE) {
+      if (busy + tuktuks > FLEET_SIZE) {
         return NextResponse.json(
-          { error: "No hay tuk tuks disponibles para este horario. Por favor elige otro." },
+          { error: "No hay tuk tuks suficientes para este horario. Por favor elige otro." },
           { status: 400 }
         );
       }
@@ -110,7 +114,7 @@ export async function POST(request) {
         adults: peopleInt,
         kids: 0,
         is_private: true,
-        total_price: PRICE,
+        total_price: PRICE_PER_TUKTUK * tuktuks,
         customer_name: name.trim(),
         customer_email: email.toLowerCase().trim(),
         customer_lang: customerLang,
@@ -138,7 +142,7 @@ export async function POST(request) {
                 name: TOUR_NAMES[tour],
                 description: `${peopleInt} persona${peopleInt > 1 ? "s" : ""} · ${date} · ${time}`,
               },
-              unit_amount: PRICE * 100,
+              unit_amount: PRICE_PER_TUKTUK * tuktuks * 100,
             },
             quantity: 1,
           },

@@ -24,7 +24,24 @@ export default function PracticalInfo({ t }) {
               >
                 {item.label}
               </div>
-              <div className="text-lg leading-relaxed">{item.value}</div>
+              <div className="text-lg leading-relaxed">
+                {item.mapUrl ? (
+                  <a
+                    href={item.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors leading-snug block"
+                    style={{ color: "#C9A961" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#D9B971")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#C9A961")}
+                  >
+                    {item.value}
+                    <span className="inline-block ml-2 text-[11px] tracking-[0.18em] uppercase opacity-70">↗ Maps</span>
+                  </a>
+                ) : (
+                  item.value
+                )}
+              </div>
             </div>
           </Reveal>
         ))}

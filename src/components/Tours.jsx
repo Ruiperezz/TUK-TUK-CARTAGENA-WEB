@@ -57,14 +57,18 @@ export default function Tours({ t, onSelectTour }) {
               <p className="text-sm leading-relaxed text-cream/70 mb-8 flex-1">
                 {tour.desc}
               </p>
-              <RouteMap
-                query={MAP_QUERIES[tour.id]}
-                label={tour.name}
-                caption={t.tours.mapCaption}
-              />
-              <p className="text-[11px] italic opacity-40 mb-6 leading-relaxed">
-                {t.tours.routeDisclaimer}
-              </p>
+              {tour.id !== "myway" && (
+                <>
+                  <RouteMap
+                    query={MAP_QUERIES[tour.id]}
+                    label={tour.name}
+                    caption={t.tours.mapCaption}
+                  />
+                  <p className="text-[11px] italic opacity-40 mb-6 leading-relaxed">
+                    {t.tours.routeDisclaimer}
+                  </p>
+                </>
+              )}
               <div className="flex flex-wrap gap-2 mb-8">
                 {tour.highlights.map((h) => (
                   <span

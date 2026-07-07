@@ -9,6 +9,10 @@ const ALL_SLOTS = [
   "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 ];
 
+function calcTuktuks(people) {
+  return Math.ceil(people / 4);
+}
+
 export default function BookingForm({
   t,
   lang,
@@ -21,10 +25,10 @@ export default function BookingForm({
   const [availableDates, setAvailableDates] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
+  const [slotsLoaded, setSlotsLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch available dates for the month (date picker hint)
   const fetchMonthAvailability = useCallback(async (dateStr) => {
     if (!dateStr) return;
     const month = dateStr.slice(0, 7);
@@ -37,10 +41,10 @@ export default function BookingForm({
     } catch {}
   }, []);
 
-  // Fetch available slots for a specific date
   const fetchDaySlots = useCallback(async (date) => {
     if (!date) return;
     setSlotsLoading(true);
+    setSlotsLoaded(false);
     setAvailableSlots([]);
     setBookingForm((f) => ({ ...f, time: "" }));
     try {
@@ -49,9 +53,11 @@ export default function BookingForm({
         const data = await res.json();
         setAvailableSlots(data.slots || []);
       }
+      // On API error: availableSlots stays [] — treated as "not loaded", all slots enabled (fail open)
     } catch {}
     finally {
       setSlotsLoading(false);
+      setSlotsLoaded(true);
     }
   }, [setBookingForm]);
 
@@ -67,12 +73,18 @@ export default function BookingForm({
     if (val) {
       fetchMonthAvailability(val);
       fetchDaySlots(val);
+    } else {
+      setSlotsLoaded(false);
+      setAvailableSlots([]);
     }
   };
 
+  const tuktuks = calcTuktuks(bookingForm.people);
+  const totalPrice = tuktuks * 120;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (bookingForm.people < 1 || bookingForm.people > 4) return;
+    if (bookingForm.people < 1 || bookingForm.people > 12) return;
 
     setLoading(true);
     setError("");
@@ -86,6 +98,7 @@ export default function BookingForm({
           date: bookingForm.date,
           time: bookingForm.time,
           people: bookingForm.people,
+          tuktuks,
           name: bookingForm.name,
           email: bookingForm.email,
           lang,
@@ -113,6 +126,10 @@ export default function BookingForm({
     !bookingForm.date ||
     availableDates.length === 0 ||
     availableDates.includes(bookingForm.date);
+
+  // Slot available if: not yet loaded (show all), API returned empty (fail open, show all), or slot is in returned list
+  const isSlotAvailable = (slot) =>
+    !slotsLoaded || availableSlots.length === 0 || availableSlots.includes(slot);
 
   return (
     <section id="booking" className="px-6 md:px-16 py-24 md:py-32 max-w-5xl mx-auto">
@@ -198,7 +215,7 @@ export default function BookingForm({
                     {slotsLoading ? "..." : t.booking.timePlaceholder}
                   </option>
                   {bookingForm.date && !slotsLoading && ALL_SLOTS.map((slot) => {
-                    const available = availableSlots.length === 0 || availableSlots.includes(slot);
+                    const available = isSlotAvailable(slot);
                     return (
                       <option key={slot} value={slot} disabled={!available}>
                         {slot}{!available ? ` — ${t.booking.timeSlotFull}` : ""}
@@ -206,7 +223,8 @@ export default function BookingForm({
                     );
                   })}
                 </select>
-                {bookingForm.date && !slotsLoading && availableSlots.length === 0 && (
+                {bookingForm.date && slotsLoaded && availableSlots.length > 0 &&
+                  ALL_SLOTS.every((s) => !availableSlots.includes(s)) && (
                   <div className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
                     <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
                     <span>{t.booking.noSlots}</span>
@@ -241,9 +259,9 @@ export default function BookingForm({
                 <button
                   type="button"
                   aria-label="Añadir persona"
-                  disabled={bookingForm.people >= 4}
+                  disabled={bookingForm.people >= 12}
                   onClick={() =>
-                    setBookingForm((f) => ({ ...f, people: Math.min(4, f.people + 1) }))
+                    setBookingForm((f) => ({ ...f, people: Math.min(12, f.people + 1) }))
                   }
                   className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
                 >
@@ -251,6 +269,14 @@ export default function BookingForm({
                 </button>
                 <span className="text-xs opacity-50 ml-2">{t.booking.peopleMax}</span>
               </div>
+              {tuktuks > 1 && (
+                <div
+                  className="mt-3 text-[11px] tracking-[0.18em] uppercase"
+                  style={{ color: "#C9A961" }}
+                >
+                  {tuktuks} {t.booking.tuktuksLabel}
+                </div>
+              )}
             </div>
 
             {/* Name + Email */}
@@ -293,7 +319,7 @@ export default function BookingForm({
             </div>
 
             {error && (
-              <div className="flex items-center gap-3 p-4 border border-cream/15" style={{ color: "#C9A961" }}>
+              <div role="alert" className="flex items-center gap-3 p-4 border border-cream/15" style={{ color: "#C9A961" }}>
                 <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={1.5} />
                 <span className="text-sm">{error}</span>
               </div>
@@ -302,14 +328,21 @@ export default function BookingForm({
             {/* Total + Submit */}
             <div className="pt-10 border-t border-cream/15">
               <div className="flex items-end justify-between mb-8">
-                <span className="text-[11px] tracking-[0.28em] uppercase opacity-60">
-                  {t.booking.total}
-                </span>
+                <div>
+                  <span className="text-[11px] tracking-[0.28em] uppercase opacity-60">
+                    {t.booking.total}
+                  </span>
+                  {tuktuks > 1 && (
+                    <div className="text-xs opacity-50 mt-1">
+                      {tuktuks} × 120 €
+                    </div>
+                  )}
+                </div>
                 <span
                   className="serif text-6xl md:text-7xl font-medium"
                   style={{ color: "#C9A961" }}
                 >
-                  120 €
+                  {totalPrice} €
                 </span>
               </div>
               <button

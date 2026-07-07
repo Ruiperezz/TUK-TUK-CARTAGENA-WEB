@@ -19,7 +19,7 @@ function countBusyAtIndex(bookings, slotIndex) {
     if (bIndex === -1) continue;
     const duration = TOUR_DURATION_SLOTS[b.tour] ?? 1;
     if (slotIndex >= bIndex && slotIndex < bIndex + duration) {
-      count++;
+      count += Math.ceil((b.adults || 1) / 4);
     }
   }
   return count;
@@ -56,7 +56,7 @@ export async function GET(request) {
 
       const { data: bookings } = await supabase
         .from("bookings")
-        .select("time_slot, tour")
+        .select("time_slot, tour, adults")
         .eq("date", date)
         .in("status", ["pending", "confirmed"]);
 
@@ -98,7 +98,7 @@ export async function GET(request) {
       // Fetch all bookings for enabled dates in bulk
       const { data: bookings } = await supabase
         .from("bookings")
-        .select("date, time_slot, tour")
+        .select("date, time_slot, tour, adults")
         .in("date", enabledDates)
         .in("status", ["pending", "confirmed"]);
 

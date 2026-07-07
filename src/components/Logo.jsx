@@ -9,12 +9,13 @@ const HEIGHTS = {
 export default function Logo({ size = "md", className = "" }) {
   return (
     <Image
-      src="/logo/tuktuk-logo-fccartagena.png"
+      src="/logo/tuktuk-logo-cartagena.png"
       alt="Tuk Tuk Cartagena"
       width={520}
       height={228}
       priority
       className={`w-auto ${HEIGHTS[size] || HEIGHTS.md} ${className}`}
+      style={{ filter: "brightness(0) invert(1)" }}
     />
   );
 }

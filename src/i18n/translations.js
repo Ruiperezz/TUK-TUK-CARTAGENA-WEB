@@ -68,12 +68,13 @@ export const I18N = {
       eyebrow: "Tarifas claras, sin sorpresas",
       title: "Precios",
       perTuktukTitle: "Precio por tuk tuk",
-      perTuktuk: "1 a 4 personas · tuk tuk exclusivo",
+      perTuktuk: "1 a 4 personas · tuk tuk privado",
       perTuktukPrice: "120 €",
       perTuktukNote: "El precio es por tuk tuk completo, no por persona. Máximo 4 personas.",
       private6: "Tuk tuk · 6 plazas (próximamente)",
       private6Price: "180 €",
       payment: "Efectivo y tarjeta en el momento · pago online al reservar",
+      childNote: "No se permiten niños menores de 2 años o con menos de 9 kg de peso",
       comingSoon: "PRÓXIMAMENTE"
     },
     booking: {
@@ -87,7 +88,9 @@ export const I18N = {
       timePlaceholder: "Selecciona una hora",
       timeSlotFull: "Completo",
       people: "Personas",
-      peopleMax: "Máximo 4 personas por tuk tuk",
+      peopleMax: "Máximo 12 personas (hasta 3 tuk tuks)",
+      tuktukLabel: "tuk tuk privado",
+      tuktuksLabel: "tuk tuks privados",
       name: "Tu nombre",
       email: "Tu email",
       total: "Total a pagar",
@@ -108,9 +111,8 @@ export const I18N = {
       eyebrow: "Información práctica",
       title: "Todo lo que necesitas saber",
       items: [
-        { label: "Punto de encuentro", value: "Por confirmar — te lo indicaremos al reservar" },
+        { label: "Punto de encuentro", value: "Paseo Alfonso XII 8, entrada Terminal Juan Sebastián El Cano (Muelle de Cruceros), 30201, Cartagena, Murcia", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Horario", value: "Lunes a domingo · de 08:00 a 19:00" },
-        { label: "Idiomas del tour", value: "Español e inglés" },
         { label: "Qué llevar", value: "Ropa cómoda, protección solar y cámara" }
       ]
     },
@@ -185,12 +187,13 @@ export const I18N = {
       eyebrow: "Clear pricing, no surprises",
       title: "Prices",
       perTuktukTitle: "Price per tuk tuk",
-      perTuktuk: "1 to 4 people · exclusive tuk tuk",
+      perTuktuk: "1 to 4 people · private tuk tuk",
       perTuktukPrice: "€120",
       perTuktukNote: "The price is per complete tuk tuk, not per person. Maximum 4 people.",
       private6: "Tuk tuk · 6 seats (coming soon)",
       private6Price: "€180",
       payment: "Cash and card on the day · online payment when booking",
+      childNote: "Children under 2 years or weighing less than 9 kg are not permitted",
       comingSoon: "COMING SOON"
     },
     booking: {
@@ -204,7 +207,9 @@ export const I18N = {
       timePlaceholder: "Choose a time",
       timeSlotFull: "Full",
       people: "People",
-      peopleMax: "Maximum 4 people per tuk tuk",
+      peopleMax: "Maximum 12 people (up to 3 tuk tuks)",
+      tuktukLabel: "private tuk tuk",
+      tuktuksLabel: "private tuk tuks",
       name: "Your name",
       email: "Your email",
       total: "Total to pay",
@@ -225,9 +230,8 @@ export const I18N = {
       eyebrow: "Practical info",
       title: "Everything you need to know",
       items: [
-        { label: "Meeting point", value: "To be confirmed — we'll let you know when you book" },
+        { label: "Meeting point", value: "Paseo Alfonso XII 8, Terminal Juan Sebastián El Cano entrance (Cruise Terminal), 30201, Cartagena, Murcia, Spain", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Schedule", value: "Monday to Sunday · 08:00 to 19:00" },
-        { label: "Tour languages", value: "Spanish and English" },
         { label: "What to bring", value: "Comfortable clothing, sunscreen and a camera" }
       ]
     },
@@ -302,12 +306,13 @@ export const I18N = {
       eyebrow: "Klare Preise, keine Überraschungen",
       title: "Preise",
       perTuktukTitle: "Preis pro Tuk-Tuk",
-      perTuktuk: "1 bis 4 Personen · exklusives Tuk-Tuk",
+      perTuktuk: "1 bis 4 Personen · privates Tuk-Tuk",
       perTuktukPrice: "120 €",
       perTuktukNote: "Der Preis gilt für das gesamte Tuk-Tuk, nicht pro Person. Maximal 4 Personen.",
       private6: "Tuk-Tuk · 6 Plätze (bald)",
       private6Price: "180 €",
       payment: "Bar und Karte vor Ort · Online-Zahlung bei Buchung",
+      childNote: "Kinder unter 2 Jahren oder mit einem Gewicht unter 9 kg sind nicht erlaubt",
       comingSoon: "BALD"
     },
     booking: {
@@ -321,7 +326,9 @@ export const I18N = {
       timePlaceholder: "Uhrzeit wählen",
       timeSlotFull: "Ausgebucht",
       people: "Personen",
-      peopleMax: "Maximal 4 Personen pro Tuk-Tuk",
+      peopleMax: "Maximal 12 Personen (bis zu 3 Tuk-Tuks)",
+      tuktukLabel: "privates Tuk-Tuk",
+      tuktuksLabel: "private Tuk-Tuks",
       name: "Ihr Name",
       email: "Ihre E-Mail",
       total: "Gesamtbetrag",
@@ -342,9 +349,8 @@ export const I18N = {
       eyebrow: "Praktische Infos",
       title: "Alles, was Sie wissen müssen",
       items: [
-        { label: "Treffpunkt", value: "Wird bestätigt — Sie erfahren ihn bei der Buchung" },
+        { label: "Treffpunkt", value: "Paseo Alfonso XII 8, Eingang Terminal Juan Sebastián El Cano (Kreuzfahrtterminal), 30201, Cartagena, Murcia, Spanien", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Zeitplan", value: "Montag bis Sonntag · 08:00 bis 19:00 Uhr" },
-        { label: "Tour-Sprachen", value: "Spanisch und Englisch" },
         { label: "Was mitbringen", value: "Bequeme Kleidung, Sonnenschutz und Kamera" }
       ]
     },
@@ -419,12 +425,13 @@ export const I18N = {
       eyebrow: "Tarifs clairs, sans surprises",
       title: "Tarifs",
       perTuktukTitle: "Prix par tuk tuk",
-      perTuktuk: "1 à 4 personnes · tuk tuk exclusif",
+      perTuktuk: "1 à 4 personnes · tuk tuk privé",
       perTuktukPrice: "120 €",
       perTuktukNote: "Le prix est pour le tuk tuk complet, pas par personne. Maximum 4 personnes.",
       private6: "Tuk tuk · 6 places (bientôt)",
       private6Price: "180 €",
       payment: "Espèces et carte sur place · paiement en ligne lors de la réservation",
+      childNote: "Les enfants de moins de 2 ans ou pesant moins de 9 kg ne sont pas admis",
       comingSoon: "BIENTÔT"
     },
     booking: {
@@ -438,7 +445,9 @@ export const I18N = {
       timePlaceholder: "Choisir une heure",
       timeSlotFull: "Complet",
       people: "Personnes",
-      peopleMax: "Maximum 4 personnes par tuk tuk",
+      peopleMax: "Maximum 12 personnes (jusqu'à 3 tuk tuks)",
+      tuktukLabel: "tuk tuk privé",
+      tuktuksLabel: "tuk tuks privés",
       name: "Votre nom",
       email: "Votre email",
       total: "Total à payer",
@@ -459,9 +468,8 @@ export const I18N = {
       eyebrow: "Infos pratiques",
       title: "Tout ce que vous devez savoir",
       items: [
-        { label: "Point de rencontre", value: "À confirmer — nous vous le communiquerons à la réservation" },
+        { label: "Point de rencontre", value: "Paseo Alfonso XII 8, entrée Terminal Juan Sebastián El Cano (Terminal des Croisières), 30201, Cartagena, Murcia, Espagne", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Horaires", value: "Lundi au dimanche · 08h00 à 19h00" },
-        { label: "Langues du tour", value: "Espagnol et anglais" },
         { label: "Quoi apporter", value: "Vêtements confortables, protection solaire et appareil photo" }
       ]
     },
