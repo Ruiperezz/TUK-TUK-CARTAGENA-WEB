@@ -1,5 +1,5 @@
 export default function RouteMap({ query, label, caption }) {
-  const src = `https://www.google.com/maps/embed?q=${encodeURIComponent(query)}`;
+  const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 
   return (
     <div className="mb-8">

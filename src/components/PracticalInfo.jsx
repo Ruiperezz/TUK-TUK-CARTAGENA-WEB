@@ -80,7 +80,7 @@ export default function PracticalInfo({ t }) {
             <div className="relative overflow-hidden" style={{ height: "340px" }}>
               <iframe
                 title="Punto de encuentro Tuk Tuk Cartagena"
-                src="https://www.google.com/maps/embed?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII+8,+Cartagena,+Murcia,+España"
+                src="https://www.google.com/maps?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII+8,+Cartagena,+Murcia,+España&output=embed"
                 width="100%"
                 height="100%"
                 loading="lazy"
