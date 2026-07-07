@@ -110,6 +110,7 @@ export const I18N = {
     practical: {
       eyebrow: "Información práctica",
       title: "Todo lo que necesitas saber",
+      openMaps: "Abrir en Google Maps",
       items: [
         { label: "Punto de encuentro", value: "Paseo Alfonso XII 8, entrada Terminal Juan Sebastián El Cano (Muelle de Cruceros), 30201, Cartagena, Murcia", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Horario", value: "Lunes a domingo · de 08:00 a 19:00" },
@@ -229,6 +230,7 @@ export const I18N = {
     practical: {
       eyebrow: "Practical info",
       title: "Everything you need to know",
+      openMaps: "Open in Google Maps",
       items: [
         { label: "Meeting point", value: "Paseo Alfonso XII 8, Terminal Juan Sebastián El Cano entrance (Cruise Terminal), 30201, Cartagena, Murcia, Spain", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Schedule", value: "Monday to Sunday · 08:00 to 19:00" },
@@ -348,6 +350,7 @@ export const I18N = {
     practical: {
       eyebrow: "Praktische Infos",
       title: "Alles, was Sie wissen müssen",
+      openMaps: "In Google Maps öffnen",
       items: [
         { label: "Treffpunkt", value: "Paseo Alfonso XII 8, Eingang Terminal Juan Sebastián El Cano (Kreuzfahrtterminal), 30201, Cartagena, Murcia, Spanien", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Zeitplan", value: "Montag bis Sonntag · 08:00 bis 19:00 Uhr" },
@@ -467,6 +470,7 @@ export const I18N = {
     practical: {
       eyebrow: "Infos pratiques",
       title: "Tout ce que vous devez savoir",
+      openMaps: "Ouvrir dans Google Maps",
       items: [
         { label: "Point de rencontre", value: "Paseo Alfonso XII 8, entrée Terminal Juan Sebastián El Cano (Terminal des Croisières), 30201, Cartagena, Murcia, Espagne", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
         { label: "Horaires", value: "Lundi au dimanche · 08h00 à 19h00" },
