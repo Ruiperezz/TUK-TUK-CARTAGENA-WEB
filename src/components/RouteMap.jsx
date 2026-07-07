@@ -1,5 +1,5 @@
 export default function RouteMap({ query, label, caption }) {
-  const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+  const src = `https://www.google.com/maps/embed?q=${encodeURIComponent(query)}`;
 
   return (
     <div className="mb-8">
@@ -8,6 +8,7 @@ export default function RouteMap({ query, label, caption }) {
         title={label}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
+        allowFullScreen
         className="w-full h-40 border border-cream/15"
         style={{ filter: "grayscale(1) invert(92%) contrast(83%)" }}
       />

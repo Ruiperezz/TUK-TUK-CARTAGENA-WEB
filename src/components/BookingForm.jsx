@@ -142,10 +142,12 @@ export default function BookingForm({
     availableDates.length === 0 ||
     availableDates.includes(bookingForm.date);
 
-  // Fail-open only on API error; if API responded with 0 slots, the day is fully booked
+  // Show all slots when: not yet loaded, API error, or API returned empty (fail-open)
+  // Only restrict slots when the API returned a non-empty list (partial availability)
   const isSlotAvailable = (slot) =>
-    !slotsLoaded || slotsApiError || availableSlots.includes(slot);
+    !slotsLoaded || slotsApiError || availableSlots.length === 0 || availableSlots.includes(slot);
 
+  // Warning shown when API confirmed 0 slots (fully booked or admin-blocked)
   const noSlots = slotsLoaded && !slotsApiError && availableSlots.length === 0;
 
   return (
