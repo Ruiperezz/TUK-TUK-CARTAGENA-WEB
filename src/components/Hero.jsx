@@ -31,10 +31,8 @@ export default function Hero({ scrollTo, t }) {
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: videoReady ? 1 : 0,
-            transition: "opacity 800ms ease-in",
-            transform: "scale(1.04)",
-            filter: "blur(2.5px) brightness(0.95)",
-            willChange: "transform",
+            transition: "opacity 600ms ease-in",
+            willChange: "transform, opacity",
           }}
         >
           <source src="/video/hero.mp4" type="video/mp4" />
