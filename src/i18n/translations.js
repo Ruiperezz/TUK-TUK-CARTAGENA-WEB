@@ -103,6 +103,7 @@ export const I18N = {
       errorGeneric: "Error al crear la reserva",
       errorConnection: "Error de conexión. Por favor, inténtalo de nuevo.",
       success: "¡Reserva confirmada!",
+      successEyebrow: "Pago completado",
       successDesc: "Te hemos enviado un email con todos los detalles. Nos vemos en Cartagena.",
       reset: "Nueva reserva"
     },
@@ -230,6 +231,7 @@ export const I18N = {
       errorGeneric: "Error creating booking",
       errorConnection: "Connection error. Please try again.",
       success: "Booking confirmed!",
+      successEyebrow: "Payment complete",
       successDesc: "We've sent you an email with all the details. See you in Cartagena.",
       reset: "New booking"
     },
@@ -357,6 +359,7 @@ export const I18N = {
       errorGeneric: "Fehler beim Erstellen der Buchung",
       errorConnection: "Verbindungsfehler. Bitte versuchen Sie es erneut.",
       success: "Buchung bestätigt!",
+      successEyebrow: "Zahlung abgeschlossen",
       successDesc: "Wir haben Ihnen eine E-Mail mit allen Details geschickt. Bis bald in Cartagena.",
       reset: "Neue Buchung"
     },
@@ -484,6 +487,7 @@ export const I18N = {
       errorGeneric: "Erreur lors de la création de la réservation",
       errorConnection: "Erreur de connexion. Veuillez réessayer.",
       success: "Réservation confirmée !",
+      successEyebrow: "Paiement effectué",
       successDesc: "Nous vous avons envoyé un email avec tous les détails. À bientôt à Cartagène.",
       reset: "Nouvelle réservation"
     },

@@ -42,10 +42,18 @@ export default function HomePage() {
     email: "",
   });
   const [bookingDone, setBookingDone] = useState(false);
+  const [successBooking, setSuccessBooking] = useState(null);
 
   useEffect(() => {
     if (searchParams.get("booking") === "success") {
       setBookingDone(true);
+      const sessionId = searchParams.get("session_id");
+      if (sessionId) {
+        fetch(`/api/bookings/by-session?session_id=${encodeURIComponent(sessionId)}`)
+          .then((r) => r.json())
+          .then((data) => { if (data.booking) setSuccessBooking(data.booking); })
+          .catch(() => {});
+      }
       setTimeout(() => {
         document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
       }, 300);
@@ -109,6 +117,7 @@ export default function HomePage() {
         bookingDone={bookingDone}
         setBookingDone={setBookingDone}
         onReset={resetBooking}
+        successBooking={successBooking}
       />
       <About t={t} />
       <PracticalInfo t={t} />

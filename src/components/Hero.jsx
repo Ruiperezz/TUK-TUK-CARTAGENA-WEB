@@ -26,11 +26,15 @@ export default function Hero({ scrollTo, t }) {
           loop
           playsInline
           preload="auto"
+          poster="/images/hero-poster.jpg"
           onCanPlay={() => setVideoReady(true)}
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: videoReady ? 1 : 0,
-            transition: "opacity 1200ms cubic-bezier(0.22,0.61,0.36,1)",
+            transition: "opacity 800ms ease-in",
+            transform: "scale(1.04)",
+            filter: "blur(2.5px) brightness(0.95)",
+            willChange: "transform",
           }}
         >
           <source src="/video/hero.mp4" type="video/mp4" />

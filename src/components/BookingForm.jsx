@@ -13,6 +13,26 @@ function calcTuktuks(people) {
   return Math.ceil(people / 4);
 }
 
+const TOUR_NAMES = {
+  city: "Cartagena City",
+  bay: "Cartagena Bay",
+  myway: "Cartagena My Way",
+};
+
+function formatDate(dateStr, lang) {
+  if (!dateStr) return dateStr;
+  try {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString(
+      lang === "de" ? "de-DE" : lang === "fr" ? "fr-FR" : lang === "en" ? "en-GB" : "es-ES",
+      { weekday: "long", year: "numeric", month: "long", day: "numeric" }
+    );
+  } catch {
+    return dateStr;
+  }
+}
+
 export default function BookingForm({
   t,
   lang,
@@ -21,6 +41,7 @@ export default function BookingForm({
   bookingDone,
   setBookingDone,
   onReset,
+  successBooking,
 }) {
   const [availableDates, setAvailableDates] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
@@ -390,30 +411,91 @@ export default function BookingForm({
         </Reveal>
       ) : (
         <Reveal>
-          <div className="text-center py-20">
-            <div
-              className="w-20 h-20 border-2 mx-auto flex items-center justify-center mb-8"
-              style={{ borderColor: "#C9A961" }}
-            >
-              <Check
-                className="w-10 h-10"
-                strokeWidth={1.5}
-                style={{ color: "#C9A961" }}
-              />
+          <div className="py-16">
+            {/* Header */}
+            <div className="flex flex-col items-center text-center mb-14">
+              <div
+                className="w-16 h-16 border-2 flex items-center justify-center mb-6"
+                style={{ borderColor: "#C9A961" }}
+              >
+                <Check className="w-8 h-8" strokeWidth={1.5} style={{ color: "#C9A961" }} />
+              </div>
+              <div className="label-eyebrow mb-3" style={{ color: "#C9A961" }}>
+                {t.booking.successEyebrow || "Pago completado"}
+              </div>
+              <h3 className="serif text-4xl md:text-6xl font-medium">
+                {t.booking.success}
+              </h3>
             </div>
-            <h3 className="serif text-4xl md:text-5xl font-medium mb-4">
-              {t.booking.success}
-            </h3>
-            <p className="opacity-70 mb-10 max-w-md mx-auto">
-              {t.booking.successDesc}
-            </p>
-            <button
-              onClick={onReset}
-              className="text-[11px] tracking-[0.28em] uppercase border-b pb-1 transition-colors hover-gold"
-              style={{ borderColor: "#C9A961", color: "#C9A961" }}
-            >
-              {t.booking.reset}
-            </button>
+
+            {/* Booking detail card */}
+            {successBooking ? (
+              <div
+                className="max-w-lg mx-auto mb-12"
+                style={{ border: "1px solid rgba(201,169,97,0.25)", background: "rgba(201,169,97,0.04)" }}
+              >
+                <div className="p-8">
+                  {/* Tour name */}
+                  <div className="mb-8 pb-8" style={{ borderBottom: "1px solid rgba(248,246,241,0.1)" }}>
+                    <div className="text-[10px] tracking-[0.28em] uppercase opacity-50 mb-1">
+                      {t.booking.tour}
+                    </div>
+                    <div className="serif text-2xl font-medium">
+                      {TOUR_NAMES[successBooking.tour] || successBooking.tour}
+                    </div>
+                  </div>
+
+                  {/* Details grid */}
+                  <div className="grid grid-cols-2 gap-6 mb-8 pb-8" style={{ borderBottom: "1px solid rgba(248,246,241,0.1)" }}>
+                    <div>
+                      <div className="text-[10px] tracking-[0.28em] uppercase opacity-50 mb-1">
+                        {t.booking.date}
+                      </div>
+                      <div className="text-sm capitalize leading-snug">
+                        {formatDate(successBooking.date, lang)}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] tracking-[0.28em] uppercase opacity-50 mb-1">
+                        {t.booking.time}
+                      </div>
+                      <div className="serif text-xl">{successBooking.time_slot}</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] tracking-[0.28em] uppercase opacity-50 mb-1">
+                        {t.booking.people}
+                      </div>
+                      <div className="serif text-xl">{successBooking.adults}</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] tracking-[0.28em] uppercase opacity-50 mb-1">
+                        {t.booking.total}
+                      </div>
+                      <div className="serif text-2xl font-medium" style={{ color: "#C9A961" }}>
+                        {successBooking.total_price} €
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Confirmation note */}
+                  <p className="text-sm opacity-60 leading-relaxed">{t.booking.successDesc}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-center opacity-60 mb-12 max-w-md mx-auto">
+                {t.booking.successDesc}
+              </p>
+            )}
+
+            <div className="text-center">
+              <button
+                onClick={onReset}
+                className="text-[11px] tracking-[0.28em] uppercase border-b pb-1 transition-colors hover-gold"
+                style={{ borderColor: "#C9A961", color: "#C9A961" }}
+              >
+                {t.booking.reset}
+              </button>
+            </div>
           </div>
         </Reveal>
       )}
