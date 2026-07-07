@@ -1,8 +1,12 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 export default function Hero({ scrollTo, t }) {
+  const videoRef = useRef(null);
+  const [videoReady, setVideoReady] = useState(false);
+
   return (
     <section
       id="hero"
@@ -10,20 +14,33 @@ export default function Hero({ scrollTo, t }) {
     >
       {/* Video background */}
       <div className="absolute inset-0 z-0">
+        {/* Solid fallback mientras carga el vídeo */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "#0B0E12" }}
+        />
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
           className="absolute inset-0 w-full h-full object-cover"
-          src="/video/hero.mp4"
-        />
+          style={{
+            opacity: videoReady ? 1 : 0,
+            transition: "opacity 1200ms cubic-bezier(0.22,0.61,0.36,1)",
+          }}
+        >
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
         {/* Gradient overlay — ensures text legibility at any light level in the video */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(15,20,25,0.35) 0%, rgba(15,20,25,0.25) 40%, rgba(15,20,25,0.75) 75%, rgba(15,20,25,0.97) 100%)",
+              "linear-gradient(180deg, rgba(15,20,25,0.30) 0%, rgba(15,20,25,0.20) 35%, rgba(15,20,25,0.70) 72%, rgba(15,20,25,0.97) 100%)",
           }}
         />
         {/* Subtle lateral vignette */}
@@ -31,7 +48,7 @@ export default function Hero({ scrollTo, t }) {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(15,20,25,0.55) 100%)",
+              "radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(15,20,25,0.50) 100%)",
           }}
         />
         <div className="grain" />

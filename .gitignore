@@ -36,3 +36,11 @@ out
 
 # Misc
 *.tsbuildinfo
+.vercel
+
+# Assets de cliente en raíz (no van al repo)
+*.jpeg
+*.jpg
+*.png
+Video\ *.mp4
+Video\ de\ *.mp4
