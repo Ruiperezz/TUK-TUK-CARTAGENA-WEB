@@ -21,7 +21,7 @@ export async function GET(request) {
   const supabase = getSupabaseAdmin();
   let query = supabase
     .from("bookings")
-    .select("*")
+    .select("id, tour, date, time_slot, adults, kids, is_private, total_price, customer_name, customer_email, customer_lang, status, created_at")
     .order("created_at", { ascending: false });
 
   if (status) query = query.eq("status", status);

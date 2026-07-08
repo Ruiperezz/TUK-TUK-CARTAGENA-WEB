@@ -12,7 +12,7 @@ export async function GET(request) {
   const supabase = getSupabaseAdmin();
   const { data: booking, error } = await supabase
     .from("bookings")
-    .select("tour, date, time_slot, adults, total_price, customer_name, status")
+    .select("tour, date, time_slot, adults, total_price, status")
     .eq("stripe_session_id", sessionId)
     .single();
 

@@ -23,7 +23,7 @@ function checkRateLimit(ip, pathname) {
   const rule = getRateLimit(pathname);
   if (!rule) return true;
 
-  const key = `${ip}:${pathname.split("/").slice(0, 3).join("/")}`;
+  const key = `${ip}:${pathname}`;
   const now = Date.now();
   const entry = rateLimitMap.get(key);
 

@@ -20,6 +20,11 @@ export async function POST(request) {
   const stripe = getStripe();
   let event;
 
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error("STRIPE_WEBHOOK_SECRET not configured");
+    return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
+  }
+
   try {
     event = stripe.webhooks.constructEvent(
       body,
@@ -50,49 +55,64 @@ export async function POST(request) {
 
     const supabase = getSupabaseAdmin();
 
-    // Idempotency guard: skip if already confirmed (handles Stripe retries)
-    const { data: existing } = await supabase
-      .from("bookings")
-      .select("status")
-      .eq("id", bookingId)
-      .single();
-
-    if (existing?.status === "confirmed") {
-      return NextResponse.json({ received: true });
-    }
-
-    const { data: booking, error: fetchError } = await supabase
+    // Atomic idempotency: only update rows still in "pending" to avoid
+    // sending duplicate emails when Stripe delivers the same event twice.
+    const { data: booking, error: fetchError, count } = await supabase
       .from("bookings")
       .update({ status: "confirmed" })
       .eq("id", bookingId)
+      .eq("status", "pending")
       .select()
       .single();
 
-    if (fetchError || !booking) {
+    if (fetchError && fetchError.code !== "PGRST116") {
+      // PGRST116 = 0 rows matched (already confirmed) — not an error
       console.error("Error updating booking:", fetchError);
-      // Return 500 so Stripe retries instead of silently failing
       return NextResponse.json({ error: "DB error" }, { status: 500 });
     }
 
-    try {
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      const fromEmail = process.env.BUSINESS_EMAIL || "reservas@tuktukcartagena.com";
+    // If no row was updated, booking was already confirmed — skip emails
+    if (!booking) {
+      return NextResponse.json({ received: true });
+    }
 
-      await resend.emails.send({
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const fromEmail = process.env.BUSINESS_EMAIL || "reservas@tuktukcartagena.com";
+
+    const [customerResult, ownerResult] = await Promise.allSettled([
+      resend.emails.send({
         from: `TUK TUK Cartagena <noreply@tuktukcartagena.com>`,
         to: booking.customer_email,
         subject: getCustomerEmailSubject(booking.customer_lang),
         html: getCustomerEmailHtml(booking),
-      });
-
-      await resend.emails.send({
+      }),
+      resend.emails.send({
         from: `TUK TUK Cartagena <noreply@tuktukcartagena.com>`,
         to: fromEmail,
         subject: getOwnerEmailSubject(booking),
         html: getOwnerEmailHtml(booking),
-      });
-    } catch (emailErr) {
-      console.error("Error sending emails:", emailErr);
+      }),
+    ]);
+
+    if (customerResult.status === "rejected") {
+      console.error("Error sending customer email:", customerResult.reason);
+    }
+    if (ownerResult.status === "rejected") {
+      console.error("Error sending owner email:", ownerResult.reason);
+    }
+  }
+
+  // Clean up abandoned Stripe sessions so fleet capacity is not blocked
+  if (event.type === "checkout.session.expired") {
+    const session = event.data.object;
+    const bookingId = session.metadata?.booking_id;
+    if (bookingId) {
+      const supabase = getSupabaseAdmin();
+      await supabase
+        .from("bookings")
+        .update({ status: "abandoned" })
+        .eq("id", bookingId)
+        .eq("status", "pending");
     }
   }
 

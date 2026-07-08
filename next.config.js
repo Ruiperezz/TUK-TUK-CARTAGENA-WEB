@@ -30,7 +30,7 @@ const SECURITY_HEADERS = [
       // Imágenes: propio + data URIs + Google Maps
       "img-src 'self' data: blob: https://maps.gstatic.com https://maps.googleapis.com",
       // Iframes: Google Maps (soporta ambos formatos: /maps?q= y /maps/embed?...)
-      "frame-src 'self' https://www.google.com/maps https://www.google.com/maps/",
+      "frame-src 'self' https://www.google.com/maps https://www.google.com/maps/ https://maps.google.com",
       // Conexiones de red: propio + Supabase + Stripe
       "connect-src 'self' https://*.supabase.co https://api.stripe.com",
       // Multimedia
