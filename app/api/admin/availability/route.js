@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from "../../../../src/lib/supabase";
 import { checkAdminAuth } from "../../../../src/lib/auth";
 
 export async function GET(request) {
-  const authError = checkAdminAuth(request);
+  const authError = await checkAdminAuth(request);
   if (authError) return authError;
 
   const { searchParams } = new URL(request.url);
@@ -35,7 +35,7 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const authError = checkAdminAuth(request);
+  const authError = await checkAdminAuth(request);
   if (authError) return authError;
 
   const { date, is_available } = await request.json();

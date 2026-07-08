@@ -1,4 +1,5 @@
 import "../src/styles/globals.css";
+import { headers } from "next/headers";
 
 const SITE_URL = "https://tuktukcartagena.com";
 
@@ -335,6 +336,8 @@ const jsonLd = {
 };
 
 export default function RootLayout({ children }) {
+  const nonce = headers().get("x-nonce") ?? undefined;
+
   return (
     <html lang="es">
       <head>
@@ -358,6 +361,7 @@ export default function RootLayout({ children }) {
         {/* Datos estructurados JSON-LD */}
         <script
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>

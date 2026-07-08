@@ -10,8 +10,6 @@ const VALID_SLOTS = [
 const VALID_LANGS = ["es", "en", "de", "fr"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FLEET_SIZE = 3;
-const TOUR_DURATION_SLOTS = { city: 2, bay: 2, myway: 1 };
 const PRICE_PER_TUKTUK = 120;
 
 const TOUR_NAMES = {
@@ -76,71 +74,38 @@ export async function POST(request) {
       .eq("date", date)
       .single();
 
-    // No record = open by default. Only blocked if is_available === false.
     if (avail !== null && avail.is_available === false) {
       return NextResponse.json({ error: "Fecha no disponible" }, { status: 400 });
     }
 
-    // --- Fleet capacity check (duration-aware) ---
-    // A tuk-tuk booked at slot B for D slots occupies B, B+1, ..., B+D-1.
-    // The new booking must not exceed FLEET_SIZE at any of its occupied slots.
-    const { data: dayBookings, error: slotErr } = await supabase
-      .from("bookings")
-      .select("time_slot, tour, adults")
-      .eq("date", date)
-      .in("status", ["pending", "confirmed"]);
-
-    if (slotErr) {
-      return NextResponse.json({ error: "Error al verificar disponibilidad" }, { status: 500 });
-    }
-
-    const newStartIndex = VALID_SLOTS.indexOf(time);
-    const newDuration = TOUR_DURATION_SLOTS[tour] ?? 1;
-
-    for (let i = newStartIndex; i < newStartIndex + newDuration; i++) {
-      let busy = 0;
-      for (const b of dayBookings || []) {
-        const bIndex = VALID_SLOTS.indexOf(b.time_slot);
-        if (bIndex === -1) continue;
-        const dur = TOUR_DURATION_SLOTS[b.tour] ?? 1;
-        if (i >= bIndex && i < bIndex + dur) {
-          // Each existing booking occupies ceil(adults/4) tuk-tuks
-          busy += Math.ceil((b.adults || 1) / 4);
-        }
-      }
-      if (busy + tuktuks > FLEET_SIZE) {
-        return NextResponse.json(
-          { error: "No hay tuk tuks suficientes para este horario. Por favor elige otro." },
-          { status: 400 }
-        );
-      }
-    }
-
     const customerLang = VALID_LANGS.includes(lang) ? lang : "es";
 
-    // --- Create booking ---
-    const { data: booking, error: dbError } = await supabase
-      .from("bookings")
-      .insert({
-        tour,
-        date,
-        time_slot: time,
-        adults: peopleInt,
-        kids: 0,
-        is_private: true,
-        total_price: PRICE_PER_TUKTUK * tuktuks,
-        customer_name: name.trim(),
-        customer_email: email.toLowerCase().trim(),
-        customer_lang: customerLang,
-        status: "pending",
-      })
-      .select()
-      .single();
+    // --- Atomic check + insert via Supabase RPC (prevents race conditions) ---
+    const { data: rpcResult, error: rpcError } = await supabase.rpc(
+      "create_booking_atomic",
+      {
+        p_tour: tour,
+        p_date: date,
+        p_time_slot: time,
+        p_adults: peopleInt,
+        p_total_price: PRICE_PER_TUKTUK * tuktuks,
+        p_customer_name: name.trim(),
+        p_customer_email: email.toLowerCase().trim(),
+        p_customer_lang: customerLang,
+      }
+    );
 
-    if (dbError) {
-      console.error("DB insert error:", dbError.code, dbError.message);
+    if (rpcError) {
+      console.error("RPC error:", rpcError.code, rpcError.message);
       return NextResponse.json({ error: "Error al crear reserva" }, { status: 500 });
     }
+
+    // RPC returns { error: "..." } if capacity exceeded, or the full booking row
+    if (rpcResult?.error) {
+      return NextResponse.json({ error: rpcResult.error }, { status: 400 });
+    }
+
+    const booking = rpcResult;
 
     const stripe = getStripe();
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tuktukcartagena.com";
@@ -172,15 +137,23 @@ export async function POST(request) {
       });
     } catch (stripeErr) {
       // Clean up orphan booking if Stripe session creation fails
-      await supabase.from("bookings").delete().eq("id", booking.id);
+      await supabase.from("bookings").update({ status: "abandoned" }).eq("id", booking.id);
       console.error("Stripe error:", stripeErr);
       return NextResponse.json({ error: "Error al procesar el pago" }, { status: 500 });
     }
 
-    await supabase
+    const { error: updateErr } = await supabase
       .from("bookings")
       .update({ stripe_session_id: session.id })
       .eq("id", booking.id);
+
+    if (updateErr) {
+      // stripe_session_id not saved — orphan the booking and abort so the
+      // customer doesn't reach Stripe with an untrackable session
+      await supabase.from("bookings").update({ status: "abandoned" }).eq("id", booking.id);
+      console.error("stripe_session_id update failed:", updateErr);
+      return NextResponse.json({ error: "Error al procesar el pago" }, { status: 500 });
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
