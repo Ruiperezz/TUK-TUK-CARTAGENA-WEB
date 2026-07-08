@@ -28,6 +28,7 @@ export default function Hero({ scrollTo, t }) {
           preload="auto"
           poster="/images/hero-poster.jpg"
           onCanPlay={() => setVideoReady(true)}
+          aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: videoReady ? 1 : 0,
@@ -95,6 +96,7 @@ export default function Hero({ scrollTo, t }) {
           <ArrowRight
             className="w-4 h-4 group-hover:translate-x-1 transition-transform"
             strokeWidth={1.5}
+            aria-hidden="true"
           />
         </button>
       </div>

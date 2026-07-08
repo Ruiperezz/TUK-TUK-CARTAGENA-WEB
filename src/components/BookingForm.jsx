@@ -229,8 +229,8 @@ export default function BookingForm({
                   style={{ colorScheme: "dark" }}
                 />
                 {bookingForm.date && !dateIsAvailable && (
-                  <div className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
-                    <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
+                  <div role="alert" className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
+                    <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
                     <span>{t.booking.dateUnavailable}</span>
                   </div>
                 )}
@@ -264,8 +264,8 @@ export default function BookingForm({
                   })}
                 </select>
                 {noSlots && (
-                  <div className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
-                    <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} />
+                  <div role="alert" className="flex items-center gap-2 mt-2 text-xs" style={{ color: "#C9A961" }}>
+                    <AlertCircle className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
                     <span>{t.booking.noSlots}</span>
                   </div>
                 )}
@@ -293,7 +293,7 @@ export default function BookingForm({
                   >
                     −
                   </button>
-                  <span className="serif text-3xl w-10 text-center" aria-live="polite">
+                  <span className="serif text-3xl w-10 text-center" aria-live="polite" aria-atomic="true">
                     {bookingForm.people}
                   </span>
                   <button
@@ -361,7 +361,7 @@ export default function BookingForm({
 
             {error && (
               <div role="alert" className="flex items-center gap-3 p-4 border border-cream/15" style={{ color: "#C9A961" }}>
-                <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={1.5} />
+                <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                 <span className="text-sm">{error}</span>
               </div>
             )}
