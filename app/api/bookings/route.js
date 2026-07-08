@@ -20,6 +20,17 @@ const TOUR_NAMES = {
   myway: "Cartagena My Way (60 min)",
 };
 
+// Stripe locale codes (ISO 639-1) for the Checkout page language
+const STRIPE_LOCALE = { es: "es", en: "en", de: "de", fr: "fr" };
+
+// Line-item description per language
+const BOOKING_DESCRIPTION = {
+  es: (people, date, time) => `${people} persona${people > 1 ? "s" : ""} · ${date} · ${time}`,
+  en: (people, date, time) => `${people} person${people > 1 ? "s" : ""} · ${date} · ${time}`,
+  de: (people, date, time) => `${people} Person${people > 1 ? "en" : ""} · ${date} · ${time}`,
+  fr: (people, date, time) => `${people} personne${people > 1 ? "s" : ""} · ${date} · ${time}`,
+};
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -136,15 +147,17 @@ export async function POST(request) {
 
     let session;
     try {
+      const descFn = BOOKING_DESCRIPTION[customerLang] || BOOKING_DESCRIPTION.es;
       session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
+        locale: STRIPE_LOCALE[customerLang] || "es",
         line_items: [
           {
             price_data: {
               currency: "eur",
               product_data: {
                 name: TOUR_NAMES[tour],
-                description: `${peopleInt} persona${peopleInt > 1 ? "s" : ""} · ${date} · ${time}`,
+                description: descFn(peopleInt, date, time),
               },
               unit_amount: PRICE_PER_TUKTUK * tuktuks * 100,
             },
