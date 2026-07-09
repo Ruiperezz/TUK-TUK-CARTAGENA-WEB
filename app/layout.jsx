@@ -121,7 +121,12 @@ const jsonLd = {
       url: SITE_URL,
       email: "reservas@tuktukcartagena.com",
       image: `${SITE_URL}/images/gallery-1.jpg`,
-      logo: `${SITE_URL}/logo/tuktuk-logo-cartagena.png`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo/tuktuk-logo-original.jpeg`,
+        width: 893,
+        height: 1280,
+      },
       address: {
         "@type": "PostalAddress",
         streetAddress: "Paseo Alfonso XII, 8",
@@ -349,8 +354,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
 
-        {/* Preload del poster del vídeo hero — mejora LCP */}
+        {/* Preload del poster — visible al instante antes de que cargue el vídeo */}
         <link rel="preload" as="image" href="/images/hero-poster.jpg" fetchPriority="high" />
+        {/* Preload del vídeo hero — el navegador empieza a descargar antes de renderizar la página */}
+        <link rel="preload" as="video" href="/video/hero.mp4" type="video/mp4" />
 
         {/* Geo meta tags — refuerza la señal local para Google Maps y búsquedas locales */}
         <meta name="geo.region" content="ES-MC" />

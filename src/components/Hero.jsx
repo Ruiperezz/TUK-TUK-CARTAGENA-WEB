@@ -1,12 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 export default function Hero({ scrollTo, t }) {
-  const videoRef = useRef(null);
-  const [videoReady, setVideoReady] = useState(false);
-
   return (
     <section
       id="hero"
@@ -20,21 +16,15 @@ export default function Hero({ scrollTo, t }) {
           style={{ background: "#0B0E12" }}
         />
         <video
-          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
           poster="/images/hero-poster.jpg"
-          onCanPlay={() => setVideoReady(true)}
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            opacity: videoReady ? 1 : 0,
-            transition: "opacity 600ms ease-in",
-            willChange: "transform, opacity",
-          }}
+          style={{ willChange: "transform" }}
         >
           <source src="/video/hero.mp4" type="video/mp4" />
         </video>
