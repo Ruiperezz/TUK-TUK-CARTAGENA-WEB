@@ -17,7 +17,7 @@ export const metadata = {
     template: "%s | TUK TUK Cartagena",
   },
   description:
-    "Tours en tuk tuk por Cartagena, Murcia. Casco antiguo romano, bahía y rutas personalizadas. Ideal para cruceristas. 120 € por tuk tuk · Reserva online · Todos los días 08:00-19:00.",
+    "Tours en tuk tuk por Cartagena, Murcia. Casco antiguo romano, bahía y rutas personalizadas. Ideal para cruceristas. 100 € por tuk tuk · Reserva online · Todos los días 08:00-19:00.",
 
   keywords: [
     "tuk tuk cartagena",
@@ -68,7 +68,7 @@ export const metadata = {
     siteName: "TUK TUK Cartagena",
     title: "TUK TUK Cartagena — Tours en Tuk Tuk por Cartagena, Murcia",
     description:
-      "Tours turísticos en tuk tuk. Casco antiguo, bahía y rutas personalizadas. 120 € · Reserva online · Todos los días.",
+      "Tours turísticos en tuk tuk. Casco antiguo, bahía y rutas personalizadas. 100 € · Reserva online · Todos los días.",
     locale: "es_ES",
     alternateLocale: ["en_GB", "de_DE", "fr_FR"],
     images: [
@@ -85,7 +85,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "TUK TUK Cartagena — Tours en Tuk Tuk por Cartagena",
     description:
-      "Tours turísticos en tuk tuk. Casco antiguo, bahía y rutas personalizadas. 120 € · Todos los días.",
+      "Tours turísticos en tuk tuk. Casco antiguo, bahía y rutas personalizadas. 100 € · Todos los días.",
     images: [`${SITE_URL}/images/gallery-1.jpg`],
   },
 
@@ -172,7 +172,7 @@ const jsonLd = {
       name: "Cartagena City Tour en Tuk Tuk",
       alternateName: "Tour casco antiguo Cartagena",
       description:
-        "Tour de 90 minutos en tuk tuk por el casco histórico de Cartagena: ruinas romanas, arquitectura modernista, Paseo Alfonso XII, Calle Real, Plaza de España, Muralla del Mar y Parque Torres. Ideal para cruceristas.",
+        "Tour de 60 minutos en tuk tuk por el casco histórico de Cartagena: ruinas romanas, arquitectura modernista, Paseo Alfonso XII, Calle Real, Plaza de España, Muralla del Mar y Parque Torres. Ideal para cruceristas.",
       provider: { "@id": `${SITE_URL}/#business` },
       touristType: ["Cruise passengers", "Cultural tourists", "History enthusiasts"],
       availableLanguage: [
@@ -181,12 +181,12 @@ const jsonLd = {
         { "@type": "Language", name: "German" },
         { "@type": "Language", name: "French" },
       ],
-      duration: "PT90M",
+      duration: "PT60M",
       maximumAttendeeCapacity: 12,
       offers: {
         "@type": "Offer",
         name: "Tuk tuk privado 1-4 personas",
-        price: "120",
+        price: "100",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: SITE_URL,
@@ -202,7 +202,7 @@ const jsonLd = {
       name: "Cartagena Bay Tour en Tuk Tuk",
       alternateName: "Tour bahía Cartagena",
       description:
-        "Tour de 90 minutos en tuk tuk por la bahía de Cartagena: Puente Quitapellejos, Algameca Chica, Faro de Navidad, Faro Verde y Cala Cortina. Patrimonio militar y vistas únicas al puerto.",
+        "Tour de 60 minutos en tuk tuk por la bahía de Cartagena: Puente Quitapellejos, Faro de Navidad, Faro Verde y Cala Cortina. Patrimonio militar y vistas únicas al puerto.",
       provider: { "@id": `${SITE_URL}/#business` },
       touristType: ["Cruise passengers", "Nature tourists", "History enthusiasts"],
       availableLanguage: [
@@ -211,12 +211,12 @@ const jsonLd = {
         { "@type": "Language", name: "German" },
         { "@type": "Language", name: "French" },
       ],
-      duration: "PT90M",
+      duration: "PT60M",
       maximumAttendeeCapacity: 12,
       offers: {
         "@type": "Offer",
         name: "Tuk tuk privado 1-4 personas",
-        price: "120",
+        price: "100",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: SITE_URL,
@@ -246,7 +246,7 @@ const jsonLd = {
       offers: {
         "@type": "Offer",
         name: "Tuk tuk privado 1-4 personas",
-        price: "120",
+        price: "100",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
         url: SITE_URL,
@@ -264,7 +264,7 @@ const jsonLd = {
           name: "¿Cuánto cuesta un tour en tuk tuk por Cartagena?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "El precio es 120 € por tuk tuk completo (1-4 personas). Para grupos de 5-8 personas: 2 tuk tuks (240 €). Para 9-12 personas: 3 tuk tuks (360 €). El precio es el mismo para el City Tour (90 min), el Bay Tour (90 min) y el My Way Tour (60 min).",
+            text: "El precio es 100 € por tuk tuk completo (1-4 personas). Para grupos de 5-8 personas: 2 tuk tuks (200 €). Para 9-12 personas: 3 tuk tuks (300 €). El precio es el mismo para el City Tour (60 min), el Bay Tour (60 min) y el My Way Tour (60 min).",
           },
         },
         {
@@ -320,7 +320,7 @@ const jsonLd = {
           name: "¿Cuál es la diferencia entre el Cartagena City Tour y el Cartagena Bay Tour?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "El City Tour (90 min) recorre el casco antiguo: ruinas romanas, modernismo, Paseo Alfonso XII, Muralla del Mar. El Bay Tour (90 min) recorre la bahía: faros históricos, Algameca Chica y Cala Cortina. Ambos a 120 € con tuk tuk privado.",
+            text: "El City Tour (60 min) recorre el casco antiguo: ruinas romanas, modernismo, Paseo Alfonso XII, Muralla del Mar. El Bay Tour (60 min) recorre la bahía: Puente Quitapellejos, Faro de Navidad, Faro Verde y Cala Cortina. Ambos a 100 € con tuk tuk privado.",
           },
         },
       ],

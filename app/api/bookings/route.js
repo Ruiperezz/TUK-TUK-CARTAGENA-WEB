@@ -10,11 +10,11 @@ const VALID_SLOTS = [
 const VALID_LANGS = ["es", "en", "de", "fr"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PRICE_PER_TUKTUK = 120;
+const PRICE_PER_TUKTUK = 100;
 
 const TOUR_NAMES = {
-  city: "Cartagena City (90 min)",
-  bay: "Cartagena Bay (90 min)",
+  city: "Cartagena City (60 min)",
+  bay: "Cartagena Bay (60 min)",
   myway: "Cartagena My Way (60 min)",
 };
 

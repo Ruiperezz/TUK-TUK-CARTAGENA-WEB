@@ -1,6 +1,6 @@
 const TOUR_NAMES = {
-  city: "Cartagena City (90 min)",
-  bay: "Cartagena Bay (90 min)",
+  city: "Cartagena City (60 min)",
+  bay: "Cartagena Bay (60 min)",
   myway: "Cartagena My Way (60 min)",
 };
 

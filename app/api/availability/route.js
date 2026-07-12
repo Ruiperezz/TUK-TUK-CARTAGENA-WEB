@@ -10,7 +10,7 @@ const ALL_SLOTS = [
 
 // Fleet size and tour durations in hours (each slot = 1 hour)
 const FLEET_SIZE = 3;
-const TOUR_DURATION_SLOTS = { city: 2, bay: 2, myway: 1 };
+const TOUR_DURATION_SLOTS = { city: 1, bay: 1, myway: 1 };
 
 // How many tuk-tuks are physically out at a given slot index
 // A booking at slot B for a tour of D slots occupies slots B, B+1, ..., B+D-1

@@ -37,7 +37,7 @@ export const I18N = {
         {
           id: "city",
           name: "Cartagena City",
-          duration: "90",
+          duration: "60",
           tagline: "El alma de la ciudad",
           desc: "Desde las ruinas romanas hasta la arquitectura modernista y el legado militar. Una ruta por las calles más icónicas: Paseo Alfonso XII, Calle Real, Plaza de España, Muralla del Mar y Parque Torres.",
           highlights: ["Casco antiguo", "Historia romana", "Arquitectura modernista"]
@@ -45,9 +45,9 @@ export const I18N = {
         {
           id: "bay",
           name: "Cartagena Bay",
-          duration: "90",
+          duration: "60",
           tagline: "La bahía legendaria",
-          desc: "Un recorrido de punta a punta de la bahía. Entiende su importancia geográfica y estratégica. Incluye Puente Quitapellejos, Algameca Chica, Faro de Navidad, Faro Verde y Cala Cortina.",
+          desc: "Un recorrido de punta a punta de la bahía. Entiende su importancia geográfica y estratégica. Incluye Puente Quitapellejos, Faro de Navidad, Faro Verde y Cala Cortina.",
           highlights: ["Faros históricos", "Vistas al puerto", "Cala Cortina"]
         },
         {
@@ -69,10 +69,10 @@ export const I18N = {
       title: "Precios",
       perTuktukTitle: "Precio por tuk tuk",
       perTuktuk: "1 a 4 personas · tuk tuk privado",
-      perTuktukPrice: "120 €",
+      perTuktukPrice: "100 €",
       perTuktukNote: "El precio es por tuk tuk completo, no por persona. Máximo 4 personas.",
       private6: "Tuk tuk · 6 plazas (próximamente)",
-      private6Price: "180 €",
+      private6Price: "150 €",
       payment: "Efectivo y tarjeta en el momento · pago online al reservar",
       childNote: "No se permiten niños menores de 2 años o con menos de 9 kg de peso",
       comingSoon: "PRÓXIMAMENTE"
@@ -165,7 +165,7 @@ export const I18N = {
         {
           id: "city",
           name: "Cartagena City",
-          duration: "90",
+          duration: "60",
           tagline: "The soul of the city",
           desc: "From Roman ruins to Modernist architecture and military heritage. A route through the most iconic streets: Paseo Alfonso XII, Calle Real, Plaza de España, Muralla del Mar and Parque Torres.",
           highlights: ["Old town", "Roman history", "Modernist architecture"]
@@ -173,9 +173,9 @@ export const I18N = {
         {
           id: "bay",
           name: "Cartagena Bay",
-          duration: "90",
+          duration: "60",
           tagline: "The legendary harbour",
-          desc: "A journey from one end of the bay to the other. Understand its geographic and strategic importance. Includes Puente Quitapellejos, Algameca Chica, Faro de Navidad, Faro Verde and Cala Cortina.",
+          desc: "A journey from one end of the bay to the other. Understand its geographic and strategic importance. Includes Puente Quitapellejos, Faro de Navidad, Faro Verde and Cala Cortina.",
           highlights: ["Historic lighthouses", "Harbour views", "Cala Cortina"]
         },
         {
@@ -197,10 +197,10 @@ export const I18N = {
       title: "Prices",
       perTuktukTitle: "Price per tuk tuk",
       perTuktuk: "1 to 4 people · private tuk tuk",
-      perTuktukPrice: "€120",
+      perTuktukPrice: "€100",
       perTuktukNote: "The price is per complete tuk tuk, not per person. Maximum 4 people.",
       private6: "Tuk tuk · 6 seats (coming soon)",
-      private6Price: "€180",
+      private6Price: "€150",
       payment: "Cash and card on the day · online payment when booking",
       childNote: "Children under 2 years or weighing less than 9 kg are not permitted",
       comingSoon: "COMING SOON"
@@ -293,7 +293,7 @@ export const I18N = {
         {
           id: "city",
           name: "Cartagena City",
-          duration: "90",
+          duration: "60",
           tagline: "Die Seele der Stadt",
           desc: "Von römischen Ruinen über modernistische Architektur bis zum militärischen Erbe. Eine Route durch die berühmtesten Straßen: Paseo Alfonso XII, Calle Real, Plaza de España, Muralla del Mar und Parque Torres.",
           highlights: ["Altstadt", "Römische Geschichte", "Modernistische Architektur"]
@@ -301,9 +301,9 @@ export const I18N = {
         {
           id: "bay",
           name: "Cartagena Bay",
-          duration: "90",
+          duration: "60",
           tagline: "Der legendäre Hafen",
-          desc: "Eine Reise von einem Ende der Bucht zum anderen. Verstehen Sie ihre geografische und strategische Bedeutung. Inklusive Puente Quitapellejos, Algameca Chica, Faro de Navidad, Faro Verde und Cala Cortina.",
+          desc: "Eine Reise von einem Ende der Bucht zum anderen. Verstehen Sie ihre geografische und strategische Bedeutung. Inklusive Puente Quitapellejos, Faro de Navidad, Faro Verde und Cala Cortina.",
           highlights: ["Historische Leuchttürme", "Hafenblick", "Cala Cortina"]
         },
         {
@@ -325,10 +325,10 @@ export const I18N = {
       title: "Preise",
       perTuktukTitle: "Preis pro Tuk-Tuk",
       perTuktuk: "1 bis 4 Personen · privates Tuk-Tuk",
-      perTuktukPrice: "120 €",
+      perTuktukPrice: "100 €",
       perTuktukNote: "Der Preis gilt für das gesamte Tuk-Tuk, nicht pro Person. Maximal 4 Personen.",
       private6: "Tuk-Tuk · 6 Plätze (bald)",
-      private6Price: "180 €",
+      private6Price: "150 €",
       payment: "Bar und Karte vor Ort · Online-Zahlung bei Buchung",
       childNote: "Kinder unter 2 Jahren oder mit einem Gewicht unter 9 kg sind nicht erlaubt",
       comingSoon: "BALD"
@@ -421,7 +421,7 @@ export const I18N = {
         {
           id: "city",
           name: "Cartagena City",
-          duration: "90",
+          duration: "60",
           tagline: "L'âme de la ville",
           desc: "Des ruines romaines à l'architecture moderniste et l'héritage militaire. Un itinéraire à travers les rues les plus emblématiques : Paseo Alfonso XII, Calle Real, Plaza de España, Muralla del Mar et Parque Torres.",
           highlights: ["Vieille ville", "Histoire romaine", "Architecture moderniste"]
@@ -429,9 +429,9 @@ export const I18N = {
         {
           id: "bay",
           name: "Cartagena Bay",
-          duration: "90",
+          duration: "60",
           tagline: "La baie légendaire",
-          desc: "Un parcours d'un bout à l'autre de la baie. Comprenez son importance géographique et stratégique. Comprend Puente Quitapellejos, Algameca Chica, Faro de Navidad, Faro Verde et Cala Cortina.",
+          desc: "Un parcours d'un bout à l'autre de la baie. Comprenez son importance géographique et stratégique. Comprend Puente Quitapellejos, Faro de Navidad, Faro Verde et Cala Cortina.",
           highlights: ["Phares historiques", "Vues sur le port", "Cala Cortina"]
         },
         {
@@ -453,10 +453,10 @@ export const I18N = {
       title: "Tarifs",
       perTuktukTitle: "Prix par tuk tuk",
       perTuktuk: "1 à 4 personnes · tuk tuk privé",
-      perTuktukPrice: "120 €",
+      perTuktukPrice: "100 €",
       perTuktukNote: "Le prix est pour le tuk tuk complet, pas par personne. Maximum 4 personnes.",
       private6: "Tuk tuk · 6 places (bientôt)",
-      private6Price: "180 €",
+      private6Price: "150 €",
       payment: "Espèces et carte sur place · paiement en ligne lors de la réservation",
       childNote: "Les enfants de moins de 2 ans ou pesant moins de 9 kg ne sont pas admis",
       comingSoon: "BIENTÔT"
