@@ -19,6 +19,8 @@ const TOUR_NAMES = {
   myway: "Cartagena My Way",
 };
 
+const PRICE_PER_TUKTUK = 100;
+
 function formatDate(dateStr, lang) {
   if (!dateStr) return dateStr;
   try {
@@ -113,7 +115,7 @@ export default function BookingForm({
   };
 
   const tuktuks = calcTuktuks(bookingForm.people);
-  const totalPrice = tuktuks * 120;
+  const totalPrice = tuktuks * PRICE_PER_TUKTUK;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -375,7 +377,7 @@ export default function BookingForm({
                   </span>
                   {tuktuks > 1 && (
                     <div className="text-xs opacity-50 mt-1">
-                      {tuktuks} × 120 €
+                      {tuktuks} × {PRICE_PER_TUKTUK} €
                     </div>
                   )}
                 </div>

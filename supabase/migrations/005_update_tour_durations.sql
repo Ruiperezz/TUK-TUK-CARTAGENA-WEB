@@ -1,72 +1,78 @@
--- Migration 005: Update city and bay tour duration from 2 slots to 1 slot (60 min each)
--- All tours are now 60 minutes.
+-- Migration 005: Update all tour durations to 60 min (1 slot) in the atomic booking RPC
+-- Keeps the exact same parameter signature as migration 004 — only changes v_tour_duration to 1.
+
+DROP FUNCTION IF EXISTS create_booking_atomic CASCADE;
 
 CREATE OR REPLACE FUNCTION create_booking_atomic(
-  p_tour        TEXT,
-  p_date        DATE,
-  p_time_slot   TEXT,
-  p_adults      INT,
-  p_email       TEXT,
-  p_tuktuks     INT,
-  p_total_price NUMERIC
-)
-RETURNS JSONB
+  p_tour          TEXT,
+  p_date          DATE,
+  p_time_slot     TEXT,
+  p_adults        INT,
+  p_total_price   INT,
+  p_customer_name TEXT,
+  p_customer_email TEXT,
+  p_customer_lang TEXT
+) RETURNS JSON
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 DECLARE
-  v_fleet_size   INT := 3;
-  v_duration     INT;
-  v_all_slots    TEXT[] := ARRAY[
+  v_fleet_size    CONSTANT INT := 3;
+  v_all_slots     TEXT[] := ARRAY[
     '08:00','09:00','10:00','11:00','12:00','13:00',
     '14:00','15:00','16:00','17:00','18:00','19:00'
   ];
-  v_slot_index   INT;
-  v_busy         INT;
-  v_booking_id   UUID;
+  v_tour_duration INT;
+  v_tuktuks       INT;
+  v_slot_index    INT;
+  v_busy          INT;
+  v_i             INT;
+  v_new_booking   bookings;
 BEGIN
-  -- Advisory lock per date — prevents concurrent race conditions
   PERFORM pg_advisory_xact_lock(hashtext(p_date::text));
 
   -- All tours are now 60 min = 1 slot
-  v_duration := CASE p_tour
-    WHEN 'city'  THEN 1
-    WHEN 'bay'   THEN 1
-    WHEN 'myway' THEN 1
-    ELSE 1
-  END;
+  v_tour_duration := 1;
 
-  v_slot_index := array_position(v_all_slots, p_time_slot) - 1;
+  v_tuktuks    := CEIL(p_adults::FLOAT / 4);
+  v_slot_index := array_position(v_all_slots, p_time_slot);
 
-  IF v_slot_index < 0 THEN
-    RETURN jsonb_build_object('error', 'invalid_slot');
+  IF v_slot_index IS NULL THEN
+    RETURN json_build_object('error', 'Horario no válido');
   END IF;
 
-  -- Count tuk-tuks already busy at each slot this booking would occupy
-  FOR i IN 0..(v_duration - 1) LOOP
-    SELECT COALESCE(SUM(CEIL(adults::numeric / 4)), 0)
+  FOR v_i IN v_slot_index..(v_slot_index + v_tour_duration - 1) LOOP
+    SELECT COALESCE(
+      SUM(CEIL(COALESCE(b.adults, 1)::FLOAT / 4)::INT), 0
+    )
     INTO v_busy
-    FROM bookings
-    WHERE date = p_date
-      AND status IN ('pending', 'confirmed')
-      AND (
-        array_position(v_all_slots, time_slot) - 1
-        + CASE tour WHEN 'city' THEN 1 WHEN 'bay' THEN 1 ELSE 1 END
-      ) > (v_slot_index + i)
-      AND (array_position(v_all_slots, time_slot) - 1) <= (v_slot_index + i);
+    FROM bookings b
+    WHERE b.date = p_date
+      AND b.status IN ('pending', 'confirmed')
+      AND array_position(v_all_slots, b.time_slot) <= v_i
+      AND array_position(v_all_slots, b.time_slot) + 1 > v_i;
 
-    IF (v_busy + p_tuktuks) > v_fleet_size THEN
-      RETURN jsonb_build_object('error', 'no_availability');
+    IF v_busy + v_tuktuks > v_fleet_size THEN
+      RETURN json_build_object(
+        'error',
+        'No hay tuk tuks suficientes para este horario. Por favor elige otro.'
+      );
     END IF;
   END LOOP;
 
-  -- Insert the booking
-  INSERT INTO bookings (tour, date, time_slot, adults, email, tuktuks, total_price, status)
-  VALUES (p_tour, p_date, p_time_slot, p_adults, p_email, p_tuktuks, p_total_price, 'pending')
-  RETURNING id INTO v_booking_id;
+  INSERT INTO bookings (
+    tour, date, time_slot, adults, kids, is_private,
+    total_price, customer_name, customer_email, customer_lang, status
+  )
+  VALUES (
+    p_tour, p_date, p_time_slot, p_adults, 0, TRUE,
+    p_total_price, p_customer_name, p_customer_email, p_customer_lang, 'pending'
+  )
+  RETURNING * INTO v_new_booking;
 
-  RETURN jsonb_build_object('booking_id', v_booking_id);
+  RETURN row_to_json(v_new_booking);
 END;
 $$;
 
-GRANT EXECUTE ON FUNCTION create_booking_atomic TO anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION create_booking_atomic(TEXT,DATE,TEXT,INT,INT,TEXT,TEXT,TEXT)
+  TO anon, authenticated, service_role;
