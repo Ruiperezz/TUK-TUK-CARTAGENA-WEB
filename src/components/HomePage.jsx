@@ -14,6 +14,7 @@ import About from "./About";
 import PracticalInfo from "./PracticalInfo";
 import Contact from "./Contact";
 import Footer from "./Footer";
+import CookieBanner from "./CookieBanner";
 
 export default function HomePage() {
   const searchParams = useSearchParams();
@@ -123,6 +124,7 @@ export default function HomePage() {
       <PracticalInfo t={t} />
       <Contact t={t} />
       <Footer lang={lang} setLang={setLang} t={t} />
+      <CookieBanner />
     </div>
   );
 }

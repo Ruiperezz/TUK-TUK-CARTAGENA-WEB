@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Check, ArrowRight, AlertCircle } from "lucide-react";
 import Reveal from "./Reveal";
 
@@ -121,33 +122,48 @@ export default function Contact({ t }) {
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="group inline-flex items-center gap-4 px-8 py-4 border transition-all disabled:opacity-50"
-                style={{ borderColor: "#C9A961", color: "#C9A961" }}
-                onMouseEnter={(e) => {
-                  if (!loading) {
-                    e.currentTarget.style.background = "#C9A961";
-                    e.currentTarget.style.color = "#0F1419";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#C9A961";
-                }}
-              >
-                <span className="text-sm tracking-[0.22em] uppercase">
-                  {loading ? "…" : t.contact.submit}
-                </span>
-                {!loading && (
-                  <ArrowRight
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                    strokeWidth={1.5}
-                    aria-hidden="true"
-                  />
-                )}
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="group inline-flex items-center gap-4 px-8 py-4 border transition-all disabled:opacity-50"
+                  style={{ borderColor: "#C9A961", color: "#C9A961" }}
+                  onMouseEnter={(e) => {
+                    if (!loading) {
+                      e.currentTarget.style.background = "#C9A961";
+                      e.currentTarget.style.color = "#0F1419";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "#C9A961";
+                  }}
+                >
+                  <span className="text-sm tracking-[0.22em] uppercase">
+                    {loading ? "…" : t.contact.submit}
+                  </span>
+                  {!loading && (
+                    <ArrowRight
+                      className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                      strokeWidth={1.5}
+                      aria-hidden="true"
+                    />
+                  )}
+                </button>
+                <p className="mt-5 text-[11px] leading-relaxed opacity-40 max-w-lg">
+                  <strong className="opacity-80">Protección de datos:</strong> MELLADA DPAICO S.L. (NIF B24803082)
+                  tratará sus datos para gestionar su consulta, con base en el interés legítimo del responsable.
+                  Puede ejercer sus derechos de acceso, rectificación, supresión y oposición en{" "}
+                  <a href="mailto:reservas@tuktukcartagena.com" className="underline underline-offset-2">
+                    reservas@tuktukcartagena.com
+                  </a>
+                  . Más información en nuestra{" "}
+                  <Link href="/politica-privacidad" className="underline underline-offset-2" style={{ color: "#C9A961" }}>
+                    Política de Privacidad
+                  </Link>
+                  .
+                </p>
+              </div>
             </form>
           </Reveal>
         ) : (

@@ -100,3 +100,129 @@ h1, h2, h3 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─────────── Páginas legales ─────────── */
+.legal-content {
+  line-height: 1.8;
+  font-size: 0.95rem;
+  color: rgba(248, 246, 241, 0.82);
+}
+
+.legal-content p {
+  margin-bottom: 1.25rem;
+}
+
+.legal-intro {
+  font-size: 1rem;
+  opacity: 0.9;
+  border-left: 2px solid #C9A961;
+  padding-left: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.legal-content h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #F8F6F1;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(248, 246, 241, 0.12);
+}
+
+.legal-content h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #C9A961;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-content ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+
+.legal-content ul li {
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.legal-content ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #C9A961;
+  opacity: 0.6;
+}
+
+.legal-data-list {
+  background: rgba(248, 246, 241, 0.04);
+  border: 1px solid rgba(248, 246, 241, 0.1);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.legal-data-list li {
+  padding-left: 0 !important;
+}
+
+.legal-data-list li::before {
+  display: none;
+}
+
+.legal-content a {
+  color: #C9A961;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.legal-content a:hover {
+  opacity: 0.75;
+}
+
+.legal-date {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(248, 246, 241, 0.08);
+  font-size: 0.75rem;
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+}
+
+.legal-table-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.legal-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(248, 246, 241, 0.5);
+  border-bottom: 1px solid rgba(248, 246, 241, 0.12);
+}
+
+.legal-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(248, 246, 241, 0.06);
+  color: rgba(248, 246, 241, 0.75);
+}
+
+.legal-table tr:last-child td {
+  border-bottom: none;
+}

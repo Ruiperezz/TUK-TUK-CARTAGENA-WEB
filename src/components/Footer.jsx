@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { LANGS } from "../i18n/translations";
 import Logo from "./Logo";
 
@@ -13,24 +14,24 @@ export default function Footer({ lang, setLang, t }) {
         </div>
 
         <div className="flex flex-wrap gap-x-8 gap-y-2 text-xs">
-          <a
-            href="#contact"
+          <Link
+            href="/aviso-legal"
             className="opacity-60 hover:opacity-100 transition-opacity"
           >
             {t.footer.legal}
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            href="/politica-privacidad"
             className="opacity-60 hover:opacity-100 transition-opacity"
           >
             {t.footer.privacy}
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            href="/politica-cookies"
             className="opacity-60 hover:opacity-100 transition-opacity"
           >
             {t.footer.cookies}
-          </a>
+          </Link>
         </div>
 
         <nav aria-label={t.menu?.lang || "Language"}>
