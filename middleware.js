@@ -24,10 +24,11 @@ function getLimiters() {
     const lim = (n, w) => new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(n, w), analytics: false });
 
     _limiters = {
-      bookings:  lim(10, "1 m"),
-      contact:   lim(5,  "1 m"),
-      admin:     lim(30, "1 m"),
-      bySession: lim(30, "1 m"),
+      bookings:     lim(10, "1 m"),
+      contact:      lim(5,  "1 m"),
+      admin:        lim(30, "1 m"),
+      bySession:    lim(30, "1 m"),
+      availability: lim(30, "1 m"),
     };
     return _limiters;
   } catch (err) {
@@ -44,6 +45,7 @@ const MEM_RULES = {
   "/api/bookings/by-session":   { max: 30, windowMs: 60_000 },
   "/api/contact":               { max: 5,  windowMs: 60_000 },
   "/api/admin":                 { max: 30, windowMs: 60_000 },
+  "/api/availability":          { max: 30, windowMs: 60_000 },
 };
 
 function memLimit(ip, pathname) {
@@ -66,6 +68,7 @@ function pickLimiter(pathname, limiters) {
   if (pathname.startsWith("/api/bookings")) return limiters.bookings;
   if (pathname.startsWith("/api/contact")) return limiters.contact;
   if (pathname.startsWith("/api/admin")) return limiters.admin;
+  if (pathname.startsWith("/api/availability")) return limiters.availability;
   return null;
 }
 

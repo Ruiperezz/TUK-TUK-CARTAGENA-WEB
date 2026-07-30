@@ -267,7 +267,7 @@ export default function AdminPage() {
                           {STATUS_LABELS[b.status]}
                         </span>
                       </td>
-                      <td style={{ padding: "10px 8px" }}>{TOUR_NAMES[b.tour]}</td>
+                      <td style={{ padding: "10px 8px" }}>{TOUR_NAMES[b.tour] || b.tour}</td>
                       <td style={{ padding: "10px 8px" }}>{b.date}</td>
                       <td style={{ padding: "10px 8px" }}>{b.time_slot}</td>
                       <td style={{ padding: "10px 8px" }}>{b.adults} pax</td>
