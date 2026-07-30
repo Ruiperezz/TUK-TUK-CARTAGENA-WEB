@@ -49,9 +49,12 @@ function getLimiters() {
 
 // In-memory fallback (per-instance, for when Redis is not yet configured)
 const _mem = new Map();
+// Order matters: memLimit takes the first match, so more specific paths
+// (by-session) must be listed before the generic prefix (bookings) that
+// would otherwise swallow them via startsWith.
 const MEM_RULES = {
-  "/api/bookings":              { max: 40, windowMs: 60_000 },
   "/api/bookings/by-session":   { max: 60, windowMs: 60_000 },
+  "/api/bookings":              { max: 40, windowMs: 60_000 },
   "/api/contact":               { max: 15, windowMs: 60_000 },
   "/api/admin":                 { max: 30, windowMs: 60_000 },
   "/api/availability":          { max: 90, windowMs: 60_000 },
