@@ -23,13 +23,13 @@ export default function Contact({ t }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Error al enviar el mensaje");
+        setError(data.error || t.contact.errorGeneric);
         setLoading(false);
         return;
       }
       setContactDone(true);
     } catch {
-      setError("Error de conexión. Por favor inténtalo de nuevo.");
+      setError(t.contact.errorConnection);
       setLoading(false);
     }
   };

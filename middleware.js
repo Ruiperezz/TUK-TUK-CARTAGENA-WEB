@@ -6,22 +6,35 @@ import { Redis } from "@upstash/redis";
 // Lazily initialised so missing env vars don't crash cold starts
 let _limiters = null;
 
+// Set once Redis setup has failed so we don't retry a broken config on every request
+let _redisDisabled = false;
+
 function getLimiters() {
   if (_limiters) return _limiters;
+  if (_redisDisabled) return null;
+
   const url   = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) return null;
 
-  const redis = new Redis({ url, token });
-  const lim = (n, w) => new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(n, w), analytics: false });
+  // A malformed env var (stray whitespace/newline, invalid URL, etc.) must never
+  // take down every route on the site — fall back to the in-memory limiter instead.
+  try {
+    const redis = new Redis({ url: url.trim(), token: token.trim() });
+    const lim = (n, w) => new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(n, w), analytics: false });
 
-  _limiters = {
-    bookings:  lim(10, "1 m"),
-    contact:   lim(5,  "1 m"),
-    admin:     lim(30, "1 m"),
-    bySession: lim(30, "1 m"),
-  };
-  return _limiters;
+    _limiters = {
+      bookings:  lim(10, "1 m"),
+      contact:   lim(5,  "1 m"),
+      admin:     lim(30, "1 m"),
+      bySession: lim(30, "1 m"),
+    };
+    return _limiters;
+  } catch (err) {
+    console.error("Redis rate limiter init failed, falling back to in-memory limiter:", err?.message || err);
+    _redisDisabled = true;
+    return null;
+  }
 }
 
 // In-memory fallback (per-instance, for when Redis is not yet configured)
@@ -71,8 +84,15 @@ export async function middleware(request) {
 
     let allowed = true;
     if (limiter) {
-      const { success } = await limiter.limit(ip);
-      allowed = success;
+      try {
+        const { success } = await limiter.limit(ip);
+        allowed = success;
+      } catch (err) {
+        // Upstash unreachable/misconfigured at request time — fail open on the
+        // in-memory limiter rather than blocking real bookings.
+        console.error("Rate limiter request failed, falling back to in-memory limiter:", err?.message || err);
+        allowed = memLimit(ip, pathname);
+      }
     } else {
       allowed = memLimit(ip, pathname);
     }
