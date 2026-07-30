@@ -21,14 +21,23 @@ function getLimiters() {
   // take down every route on the site — fall back to the in-memory limiter instead.
   try {
     const redis = new Redis({ url: url.trim(), token: token.trim() });
-    const lim = (n, w) => new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(n, w), analytics: false });
+    // "tuktuk-v2" prefix: bumped so any counters accumulated under the old,
+    // too-strict limits (from testing) don't carry over and lock out real
+    // traffic — old keys are simply orphaned and expire on their own TTL.
+    const lim = (n, w) =>
+      new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(n, w), analytics: false, prefix: "tuktuk-v2" });
 
+    // Cruise-ship passengers overwhelmingly share one public IP via the
+    // ship's onboard WiFi NAT, so limits are per-IP but must accommodate many
+    // simultaneous, distinct real customers behind that single IP — not just
+    // one visitor. Sized generously; still blocks a scripted flood of
+    // hundreds/thousands of requests per minute.
     _limiters = {
-      bookings:     lim(10, "1 m"),
-      contact:      lim(5,  "1 m"),
+      bookings:     lim(40, "1 m"),
+      contact:      lim(15, "1 m"),
       admin:        lim(30, "1 m"),
-      bySession:    lim(30, "1 m"),
-      availability: lim(30, "1 m"),
+      bySession:    lim(60, "1 m"),
+      availability: lim(90, "1 m"),
     };
     return _limiters;
   } catch (err) {
@@ -40,12 +49,15 @@ function getLimiters() {
 
 // In-memory fallback (per-instance, for when Redis is not yet configured)
 const _mem = new Map();
+// Order matters: memLimit takes the first match, so more specific paths
+// (by-session) must be listed before the generic prefix (bookings) that
+// would otherwise swallow them via startsWith.
 const MEM_RULES = {
-  "/api/bookings":              { max: 10, windowMs: 60_000 },
-  "/api/bookings/by-session":   { max: 30, windowMs: 60_000 },
-  "/api/contact":               { max: 5,  windowMs: 60_000 },
+  "/api/bookings/by-session":   { max: 60, windowMs: 60_000 },
+  "/api/bookings":              { max: 40, windowMs: 60_000 },
+  "/api/contact":               { max: 15, windowMs: 60_000 },
   "/api/admin":                 { max: 30, windowMs: 60_000 },
-  "/api/availability":          { max: 30, windowMs: 60_000 },
+  "/api/availability":          { max: 90, windowMs: 60_000 },
 };
 
 function memLimit(ip, pathname) {
