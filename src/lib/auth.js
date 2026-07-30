@@ -23,12 +23,17 @@ export async function checkAdminAuth(request) {
 
   // Check lockout before validating password
   if (redis) {
-    const locked = await redis.get(lockoutKey(ip));
-    if (locked) {
-      return NextResponse.json(
-        { error: "Demasiados intentos fallidos. Inténtalo en 15 minutos." },
-        { status: 429 }
-      );
+    try {
+      const locked = await redis.get(lockoutKey(ip));
+      if (locked) {
+        return NextResponse.json(
+          { error: "Demasiados intentos fallidos. Inténtalo en 15 minutos." },
+          { status: 429 }
+        );
+      }
+    } catch (err) {
+      // Redis unreachable — don't block admin login over an infra hiccup
+      console.error("Redis lockout check failed:", err?.message || err);
     }
   }
 
@@ -48,13 +53,17 @@ export async function checkAdminAuth(request) {
   if (!timingSafeEqual(tokenHash, expectedHash)) {
     // Increment failure counter; lock out after MAX_ATTEMPTS
     if (redis) {
-      const attempts = await redis.incr(attemptsKey(ip));
-      if (attempts === 1) {
-        await redis.expire(attemptsKey(ip), LOCKOUT_SECONDS);
-      }
-      if (attempts >= MAX_ATTEMPTS) {
-        await redis.set(lockoutKey(ip), "1", { ex: LOCKOUT_SECONDS });
-        await redis.del(attemptsKey(ip));
+      try {
+        const attempts = await redis.incr(attemptsKey(ip));
+        if (attempts === 1) {
+          await redis.expire(attemptsKey(ip), LOCKOUT_SECONDS);
+        }
+        if (attempts >= MAX_ATTEMPTS) {
+          await redis.set(lockoutKey(ip), "1", { ex: LOCKOUT_SECONDS });
+          await redis.del(attemptsKey(ip));
+        }
+      } catch (err) {
+        console.error("Redis failure-counter update failed:", err?.message || err);
       }
     }
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
@@ -62,7 +71,11 @@ export async function checkAdminAuth(request) {
 
   // Successful login — reset failure counter
   if (redis) {
-    await redis.del(attemptsKey(ip));
+    try {
+      await redis.del(attemptsKey(ip));
+    } catch (err) {
+      console.error("Redis failure-counter reset failed:", err?.message || err);
+    }
   }
 
   return null;

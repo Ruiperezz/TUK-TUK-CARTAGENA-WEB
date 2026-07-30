@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "../../../src/lib/supabase";
 import { getStripe } from "../../../src/lib/stripe";
 
-const VALID_TOURS = ["city", "bay", "myway"];
+const VALID_TOURS = ["city", "bay"];
 const VALID_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
   "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
@@ -15,7 +15,6 @@ const PRICE_PER_TUKTUK = 100;
 const TOUR_NAMES = {
   city: "Cartagena City (60 min)",
   bay: "Cartagena Bay (60 min)",
-  myway: "Cartagena My Way (60 min)",
 };
 
 // Stripe locale codes (ISO 639-1) for the Checkout page language

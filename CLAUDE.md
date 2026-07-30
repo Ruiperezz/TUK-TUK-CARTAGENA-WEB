@@ -81,7 +81,7 @@ Si el usuario pide funcionalidad real, recuérdale que requiere:
 Datos reales recopilados vía briefing. Ver `BRIEFING.md` para todo el detalle.
 
 **Resumen rápido:**
-- 3 tours: Cartagena City (90min), Cartagena Bay (90min), Cartagena My Way (60min)
+- 2 tours: Cartagena City (60min), Cartagena Bay (60min)
 - Precios: 30€ adulto, 15€ niño (2-12), tuk tuk privado 4pax 120€
 - Tuk tuk 6 plazas: próximamente, 180€ privado
 - Idiomas: ES + EN + DE + FR (detección automática)
