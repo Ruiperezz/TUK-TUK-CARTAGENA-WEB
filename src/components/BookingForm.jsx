@@ -256,12 +256,12 @@ export default function BookingForm({
                     setBookingForm((f) => ({ ...f, time: e.target.value }))
                   }
                   className="input-base"
-                  disabled={!bookingForm.date || slotsLoading}
+                  disabled={!bookingForm.date}
                 >
                   <option value="">
                     {slotsLoading ? "..." : t.booking.timePlaceholder}
                   </option>
-                  {bookingForm.date && !slotsLoading && ALL_SLOTS.map((slot) => {
+                  {bookingForm.date && ALL_SLOTS.map((slot) => {
                     const available = isSlotAvailable(slot);
                     return (
                       <option key={slot} value={slot} disabled={!available}>
