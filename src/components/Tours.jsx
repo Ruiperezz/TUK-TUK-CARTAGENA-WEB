@@ -7,7 +7,6 @@ import RouteMap from "./RouteMap";
 const MAP_QUERIES = {
   city: "Casco antiguo de Cartagena, España",
   bay: "Bahía de Cartagena, España",
-  myway: "Cartagena, España",
 };
 
 export default function Tours({ t, onSelectTour }) {
@@ -21,7 +20,7 @@ export default function Tours({ t, onSelectTour }) {
       </Reveal>
 
       <div
-        className="grid md:grid-cols-3 gap-px"
+        className="grid md:grid-cols-2 gap-px"
         style={{ background: "rgba(248,246,241,0.1)" }}
       >
         {t.tours.list.map((tour, idx) => (
@@ -57,18 +56,14 @@ export default function Tours({ t, onSelectTour }) {
               <p className="text-sm leading-relaxed text-cream/70 mb-8 flex-1">
                 {tour.desc}
               </p>
-              {tour.id !== "myway" && (
-                <>
-                  <RouteMap
-                    query={MAP_QUERIES[tour.id]}
-                    label={tour.name}
-                    caption={t.tours.mapCaption}
-                  />
-                  <p className="text-[11px] italic opacity-40 mb-6 leading-relaxed">
-                    {t.tours.routeDisclaimer}
-                  </p>
-                </>
-              )}
+              <RouteMap
+                query={MAP_QUERIES[tour.id]}
+                label={tour.name}
+                caption={t.tours.mapCaption}
+              />
+              <p className="text-[11px] italic opacity-40 mb-6 leading-relaxed">
+                {t.tours.routeDisclaimer}
+              </p>
               <div className="flex flex-wrap gap-2 mb-8">
                 {tour.highlights.map((h) => (
                   <span

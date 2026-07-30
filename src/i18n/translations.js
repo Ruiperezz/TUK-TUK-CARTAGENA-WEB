@@ -27,7 +27,7 @@ export const I18N = {
       scroll: "Desliza"
     },
     tours: {
-      eyebrow: "Tres formas de conocer la ciudad",
+      eyebrow: "Dos formas de conocer la ciudad",
       title: "Nuestros tours",
       book: "Reservar este tour",
       duration: "min",
@@ -49,14 +49,6 @@ export const I18N = {
           tagline: "La bahía legendaria",
           desc: "Un recorrido de punta a punta de la bahía. Entiende su importancia geográfica y estratégica. Incluye Puente Quitapellejos, Faro de Navidad, Faro Verde y Cala Cortina.",
           highlights: ["Faros históricos", "Vistas al puerto", "Cala Cortina"]
-        },
-        {
-          id: "myway",
-          name: "Cartagena My Way",
-          duration: "60",
-          tagline: "Tú decides",
-          desc: "60 minutos para explorar Cartagena exactamente como quieres. Si ya conoces la ciudad o tienes un lugar concreto en mente, este es tu tour personalizado.",
-          highlights: ["Ruta libre", "Personalizado", "60 minutos"]
         }
       ]
     },
@@ -155,7 +147,7 @@ export const I18N = {
       scroll: "Scroll"
     },
     tours: {
-      eyebrow: "Three ways to know the city",
+      eyebrow: "Two ways to know the city",
       title: "Our tours",
       book: "Book this tour",
       duration: "min",
@@ -177,14 +169,6 @@ export const I18N = {
           tagline: "The legendary harbour",
           desc: "A journey from one end of the bay to the other. Understand its geographic and strategic importance. Includes Puente Quitapellejos, Faro de Navidad, Faro Verde and Cala Cortina.",
           highlights: ["Historic lighthouses", "Harbour views", "Cala Cortina"]
-        },
-        {
-          id: "myway",
-          name: "Cartagena My Way",
-          duration: "60",
-          tagline: "You decide",
-          desc: "60 minutes to explore Cartagena exactly the way you want. Already know the city or have a place in mind? This is your custom tour.",
-          highlights: ["Free route", "Personalised", "60 minutes"]
         }
       ]
     },
@@ -283,7 +267,7 @@ export const I18N = {
       scroll: "Scrollen"
     },
     tours: {
-      eyebrow: "Drei Wege, die Stadt kennenzulernen",
+      eyebrow: "Zwei Wege, die Stadt kennenzulernen",
       title: "Unsere Touren",
       book: "Diese Tour buchen",
       duration: "Min",
@@ -305,14 +289,6 @@ export const I18N = {
           tagline: "Der legendäre Hafen",
           desc: "Eine Reise von einem Ende der Bucht zum anderen. Verstehen Sie ihre geografische und strategische Bedeutung. Inklusive Puente Quitapellejos, Faro de Navidad, Faro Verde und Cala Cortina.",
           highlights: ["Historische Leuchttürme", "Hafenblick", "Cala Cortina"]
-        },
-        {
-          id: "myway",
-          name: "Cartagena My Way",
-          duration: "60",
-          tagline: "Sie entscheiden",
-          desc: "60 Minuten, um Cartagena ganz nach Ihren Wünschen zu erkunden. Kennen Sie die Stadt schon oder haben Sie einen bestimmten Ort im Sinn? Das ist Ihre individuelle Tour.",
-          highlights: ["Freie Route", "Personalisiert", "60 Minuten"]
         }
       ]
     },
@@ -411,7 +387,7 @@ export const I18N = {
       scroll: "Défiler"
     },
     tours: {
-      eyebrow: "Trois façons de connaître la ville",
+      eyebrow: "Deux façons de connaître la ville",
       title: "Nos tours",
       book: "Réserver ce tour",
       duration: "min",
@@ -433,14 +409,6 @@ export const I18N = {
           tagline: "La baie légendaire",
           desc: "Un parcours d'un bout à l'autre de la baie. Comprenez son importance géographique et stratégique. Comprend Puente Quitapellejos, Faro de Navidad, Faro Verde et Cala Cortina.",
           highlights: ["Phares historiques", "Vues sur le port", "Cala Cortina"]
-        },
-        {
-          id: "myway",
-          name: "Cartagena My Way",
-          duration: "60",
-          tagline: "Vous décidez",
-          desc: "60 minutes pour explorer Cartagène exactement comme vous le souhaitez. Vous connaissez déjà la ville ou avez un endroit en tête ? C'est votre tour personnalisé.",
-          highlights: ["Itinéraire libre", "Personnalisé", "60 minutes"]
         }
       ]
     },

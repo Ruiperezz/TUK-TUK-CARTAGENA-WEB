@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback } from "react";
 const TOUR_NAMES = {
   city: "Cartagena City",
   bay: "Cartagena Bay",
-  myway: "Cartagena My Way",
 };
 
 const STATUS_LABELS = {

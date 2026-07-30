@@ -16,7 +16,6 @@ function calcTuktuks(people) {
 const TOUR_NAMES = {
   city: "Cartagena City",
   bay: "Cartagena Bay",
-  myway: "Cartagena My Way",
 };
 
 const PRICE_PER_TUKTUK = 100;

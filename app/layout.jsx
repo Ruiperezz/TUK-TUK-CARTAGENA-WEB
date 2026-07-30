@@ -225,35 +225,6 @@ const jsonLd = {
       url: SITE_URL,
     },
 
-    // ── Tour 3: My Way ────────────────────────────────────────────────────
-    {
-      "@type": "TouristTrip",
-      "@id": `${SITE_URL}/#tour-myway`,
-      name: "Cartagena My Way — Tour Personalizado en Tuk Tuk",
-      alternateName: "Tour personalizado Cartagena",
-      description:
-        "Tour de 60 minutos en tuk tuk completamente personalizado. Tú decides la ruta y los lugares a visitar en Cartagena. Perfecto para repetidores o quien tiene un lugar concreto en mente.",
-      provider: { "@id": `${SITE_URL}/#business` },
-      touristType: ["Tourists", "Independent travelers"],
-      availableLanguage: [
-        { "@type": "Language", name: "Spanish" },
-        { "@type": "Language", name: "English" },
-        { "@type": "Language", name: "German" },
-        { "@type": "Language", name: "French" },
-      ],
-      duration: "PT60M",
-      maximumAttendeeCapacity: 12,
-      offers: {
-        "@type": "Offer",
-        name: "Tuk tuk privado 1-4 personas",
-        price: "100",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-        url: SITE_URL,
-      },
-      url: SITE_URL,
-    },
-
     // ── FAQPage ───────────────────────────────────────────────────────────
     {
       "@type": "FAQPage",
@@ -264,7 +235,7 @@ const jsonLd = {
           name: "¿Cuánto cuesta un tour en tuk tuk por Cartagena?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "El precio es 100 € por tuk tuk completo (1-4 personas). Para grupos de 5-8 personas: 2 tuk tuks (200 €). Para 9-12 personas: 3 tuk tuks (300 €). El precio es el mismo para el City Tour (60 min), el Bay Tour (60 min) y el My Way Tour (60 min).",
+            text: "El precio es 100 € por tuk tuk completo (1-4 personas). Para grupos de 5-8 personas: 2 tuk tuks (200 €). Para 9-12 personas: 3 tuk tuks (300 €). El precio es el mismo para el City Tour (60 min) y el Bay Tour (60 min).",
           },
         },
         {

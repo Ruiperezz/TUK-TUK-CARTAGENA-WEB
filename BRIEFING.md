@@ -53,10 +53,6 @@ Recorrido de punta a punta de la bahía de Cartagena. Permite entender su import
 - Cala Cortina
 - Vuelta al inicio
 
-### 3. Cartagena My Way — 60 min
-
-Tour personalizado. El cliente decide qué visitar en 60 minutos. Pensado para visitantes que ya conocen Cartagena, han investigado por su cuenta, o tienen un sitio concreto en mente.
-
 ---
 
 ## Vehículos y capacidad
