@@ -61,8 +61,14 @@ export default function BookingForm({
       if (res.ok) {
         const data = await res.json();
         setAvailableDates(data.dates || []);
+      } else {
+        // Fail open: don't leave stale dates from a previously-loaded month
+        // blocking every date in the newly-selected month.
+        setAvailableDates([]);
       }
-    } catch {}
+    } catch {
+      setAvailableDates([]);
+    }
   }, []);
 
   const fetchDaySlots = useCallback(async (date) => {
