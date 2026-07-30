@@ -28,6 +28,27 @@ const BOOKING_DESCRIPTION = {
   fr: (people, date, time) => `${people} personne${people > 1 ? "s" : ""} · ${date} · ${time}`,
 };
 
+// Vercel's Node runtime occasionally throws a bare "TypeError: fetch failed"
+// (no Postgrest error code) for an otherwise-valid request — a transient
+// connection-level hiccup, not a real validation/capacity error from the DB.
+// Retry a couple of times before giving up, since a genuine DB/validation
+// error always comes back with a proper Postgrest `code` and should fail fast.
+async function callBookingRpc(supabase, params, attempts = 3) {
+  let lastError;
+  for (let i = 0; i < attempts; i++) {
+    const { data, error } = await supabase.rpc("create_booking_atomic", params);
+    if (!error) return { data, error: null };
+    lastError = error;
+    const isTransient = !error.code && /fetch failed/i.test(error.message || "");
+    if (!isTransient) return { data: null, error };
+    if (i < attempts - 1) {
+      console.error(`RPC transient error, retrying (${i + 1}/${attempts - 1}):`, error.message);
+      await new Promise((resolve) => setTimeout(resolve, 300 * (i + 1)));
+    }
+  }
+  return { data: null, error: lastError };
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -80,19 +101,16 @@ export async function POST(request) {
     const customerLang = VALID_LANGS.includes(lang) ? lang : "es";
 
     // --- Atomic check + insert via Supabase RPC (prevents race conditions) ---
-    const { data: rpcResult, error: rpcError } = await supabase.rpc(
-      "create_booking_atomic",
-      {
-        p_tour: tour,
-        p_date: date,
-        p_time_slot: time,
-        p_adults: peopleInt,
-        p_total_price: PRICE_PER_TUKTUK * tuktuks,
-        p_customer_name: name.trim(),
-        p_customer_email: email.toLowerCase().trim(),
-        p_customer_lang: customerLang,
-      }
-    );
+    const { data: rpcResult, error: rpcError } = await callBookingRpc(supabase, {
+      p_tour: tour,
+      p_date: date,
+      p_time_slot: time,
+      p_adults: peopleInt,
+      p_total_price: PRICE_PER_TUKTUK * tuktuks,
+      p_customer_name: name.trim(),
+      p_customer_email: email.toLowerCase().trim(),
+      p_customer_lang: customerLang,
+    });
 
     if (rpcError) {
       console.error("RPC error:", rpcError.code, rpcError.message);
