@@ -12,6 +12,19 @@ const ALL_SLOTS = [
 const FLEET_SIZE = 3;
 const TOUR_DURATION_SLOTS = { city: 1, bay: 1 };
 
+// A "pending" booking (checkout started but not yet paid) holds its slot for
+// this long, then stops counting against capacity. Without this, a customer
+// who abandons checkout — or a test booking that's never paid — would block
+// that slot forever, since nothing else time-limits a "pending" row. Mirrors
+// the same window enforced in create_booking_atomic() at the DB level.
+const PENDING_HOLD_MINUTES = 30;
+
+function isActiveBooking(b) {
+  if (b.status === "confirmed") return true;
+  const ageMs = Date.now() - new Date(b.created_at).getTime();
+  return ageMs < PENDING_HOLD_MINUTES * 60_000;
+}
+
 // How many tuk-tuks are physically out at a given slot index
 // A booking at slot B for a tour of D slots occupies slots B, B+1, ..., B+D-1
 function countBusyAtIndex(bookings, slotIndex) {
@@ -58,12 +71,14 @@ export async function GET(request) {
 
       const { data: bookings } = await supabase
         .from("bookings")
-        .select("time_slot, tour, adults")
+        .select("time_slot, tour, adults, status, created_at")
         .eq("date", date)
         .in("status", ["pending", "confirmed"]);
 
+      const activeBookings = (bookings || []).filter(isActiveBooking);
+
       // A slot is available if at least one tuk-tuk is free at that start time
-      const slots = ALL_SLOTS.filter((s, i) => countBusyAtIndex(bookings || [], i) < FLEET_SIZE);
+      const slots = ALL_SLOTS.filter((s, i) => countBusyAtIndex(activeBookings, i) < FLEET_SIZE);
       return NextResponse.json({ slots });
     }
 
@@ -100,13 +115,13 @@ export async function GET(request) {
       // Fetch all bookings for enabled dates in bulk
       const { data: bookings } = await supabase
         .from("bookings")
-        .select("date, time_slot, tour, adults")
+        .select("date, time_slot, tour, adults, status, created_at")
         .in("date", enabledDates)
         .in("status", ["pending", "confirmed"]);
 
       // Group bookings by date
       const byDate = {};
-      for (const b of bookings || []) {
+      for (const b of (bookings || []).filter(isActiveBooking)) {
         if (!byDate[b.date]) byDate[b.date] = [];
         byDate[b.date].push(b);
       }
