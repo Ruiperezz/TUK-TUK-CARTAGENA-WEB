@@ -26,6 +26,15 @@ const ALL_SLOTS = [
   "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 ];
 
+function todayStr() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+}
+
+function isPast(dateStr) {
+  return dateStr < todayStr();
+}
+
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
@@ -101,6 +110,7 @@ export default function AdminPage() {
   };
 
   const toggleDay = async (dateStr) => {
+    if (isPast(dateStr)) return;
     const existing = availability.find((a) => a.date === dateStr);
     const currentlyBlocked = existing?.is_available === false;
     const newValue = currentlyBlocked;
@@ -113,6 +123,7 @@ export default function AdminPage() {
   };
 
   const openDaySlots = (dateStr) => {
+    if (isPast(dateStr)) return;
     setSelectedDay(dateStr);
     fetchBlockedSlots(dateStr);
   };
@@ -148,7 +159,8 @@ export default function AdminPage() {
       const dateStr = `${calMonth}-${String(d).padStart(2, "0")}`;
       const avail = availability.find((a) => a.date === dateStr);
       const available = !(avail?.is_available === false);
-      days.push({ day: d, date: dateStr, available });
+      const past = isPast(dateStr);
+      days.push({ day: d, date: dateStr, available, past });
     }
     return days;
   };
@@ -359,27 +371,34 @@ export default function AdminPage() {
                       key={cell.date}
                       onClick={() => openDaySlots(cell.date)}
                       onContextMenu={(e) => { e.preventDefault(); toggleDay(cell.date); }}
-                      title="Clic: horarios · Clic derecho: bloquear día"
+                      disabled={cell.past}
+                      title={cell.past ? "Día pasado" : "Clic: horarios · Clic derecho: bloquear día"}
                       style={{
                         padding: "10px 4px",
                         textAlign: "center",
                         fontSize: "13px",
-                        background: selectedDay === cell.date
-                          ? "rgba(201,169,97,0.25)"
-                          : cell.available
-                            ? "rgba(107,203,119,0.10)"
-                            : "rgba(231,76,60,0.15)",
-                        border: selectedDay === cell.date
-                          ? "1px solid #C9A961"
-                          : cell.available
-                            ? "1px solid rgba(107,203,119,0.3)"
-                            : "1px solid rgba(231,76,60,0.4)",
-                        color: selectedDay === cell.date
-                          ? "#C9A961"
-                          : cell.available
-                            ? "#6BCB77"
-                            : "#E74C3C",
-                        cursor: "pointer",
+                        background: cell.past
+                          ? "transparent"
+                          : selectedDay === cell.date
+                            ? "rgba(201,169,97,0.25)"
+                            : cell.available
+                              ? "rgba(107,203,119,0.10)"
+                              : "rgba(231,76,60,0.15)",
+                        border: cell.past
+                          ? "1px solid rgba(248,246,241,0.06)"
+                          : selectedDay === cell.date
+                            ? "1px solid #C9A961"
+                            : cell.available
+                              ? "1px solid rgba(107,203,119,0.3)"
+                              : "1px solid rgba(231,76,60,0.4)",
+                        color: cell.past
+                          ? "rgba(248,246,241,0.2)"
+                          : selectedDay === cell.date
+                            ? "#C9A961"
+                            : cell.available
+                              ? "#6BCB77"
+                              : "#E74C3C",
+                        cursor: cell.past ? "default" : "pointer",
                       }}
                     >
                       {cell.day}
