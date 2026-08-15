@@ -52,6 +52,14 @@ async function isDateBlocked(supabase, date) {
   return data !== null && data.is_available === false;
 }
 
+async function getBlockedSlotsForDate(supabase, date) {
+  const { data } = await supabase
+    .from("blocked_slots")
+    .select("time_slot")
+    .eq("date", date);
+  return new Set((data || []).map((r) => r.time_slot));
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -69,16 +77,21 @@ export async function GET(request) {
       const blocked = await isDateBlocked(supabase, date);
       if (blocked) return NextResponse.json({ slots: [] });
 
-      const { data: bookings } = await supabase
-        .from("bookings")
-        .select("time_slot, tour, adults, status, created_at")
-        .eq("date", date)
-        .in("status", ["pending", "confirmed"]);
+      const [{ data: bookings }, blockedSlots] = await Promise.all([
+        supabase
+          .from("bookings")
+          .select("time_slot, tour, adults, status, created_at")
+          .eq("date", date)
+          .in("status", ["pending", "confirmed"]),
+        getBlockedSlotsForDate(supabase, date),
+      ]);
 
       const activeBookings = (bookings || []).filter(isActiveBooking);
 
-      // A slot is available if at least one tuk-tuk is free at that start time
-      const slots = ALL_SLOTS.filter((s, i) => countBusyAtIndex(activeBookings, i) < FLEET_SIZE);
+      // A slot is available if at least one tuk-tuk is free AND it's not manually blocked
+      const slots = ALL_SLOTS.filter(
+        (s, i) => !blockedSlots.has(s) && countBusyAtIndex(activeBookings, i) < FLEET_SIZE
+      );
       return NextResponse.json({ slots });
     }
 
