@@ -117,7 +117,7 @@ const jsonLd = {
       name: "TUK TUK Cartagena",
       alternateName: ["Tuk Tuk Cartagena", "TukTuk Cartagena Tours"],
       description:
-        "Tours turísticos en tuk tuk por Cartagena, Murcia. Descubre el casco antiguo romano, la bahía y el patrimonio militar en excursiones de 60-90 minutos. Ideal para cruceristas y turistas.",
+        "Tours turísticos en tuk tuk por Cartagena, Murcia. Descubre el casco antiguo romano, la bahía y el patrimonio militar en excursiones de 60 minutos. Ideal para cruceristas y turistas.",
       url: SITE_URL,
       email: "reservas@tuktukcartagena.com",
       image: `${SITE_URL}/images/gallery-1.jpg`,
@@ -259,7 +259,7 @@ const jsonLd = {
           name: "¿Puedo reservar un tour en tuk tuk siendo pasajero de un crucero en Cartagena?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Sí, los tours están especialmente diseñados para cruceristas. El punto de salida es el muelle de cruceros. Los tours duran 60 o 90 minutos y permiten conocer Cartagena y volver a tiempo al barco.",
+            text: "Sí, los tours están especialmente diseñados para cruceristas. El punto de salida es el muelle de cruceros. Los tours duran 60 minutos y permiten conocer Cartagena y volver a tiempo al barco.",
           },
         },
         {

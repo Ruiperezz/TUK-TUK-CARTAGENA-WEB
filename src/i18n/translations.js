@@ -54,7 +54,20 @@ export const I18N = {
     },
     gallery: {
       eyebrow: "La experiencia en imágenes",
-      title: "Así es viajar en tuk tuk"
+      title: "Así es viajar en tuk tuk",
+      photos: [
+        "Tuk tuk Cartagena — vista frontal",
+        "Tuk tuk Cartagena — pasajeras entre palmeras",
+        "Tuk tuk Cartagena — familias con niños",
+        "Tuk tuk Cartagena — pareja dentro del tuk tuk",
+        "Tuk tuk Cartagena — familia en el casco antiguo",
+        "Tuk tuk Cartagena — palmeras al atardecer"
+      ]
+    },
+    cookie: {
+      text: "Este portal web únicamente utiliza cookies propias con finalidad técnica. No recaba ni cede datos de carácter personal sin su conocimiento.",
+      link: "Más información",
+      accept: "Aceptar"
     },
     prices: {
       eyebrow: "Tarifas claras, sin sorpresas",
@@ -174,7 +187,20 @@ export const I18N = {
     },
     gallery: {
       eyebrow: "The experience in pictures",
-      title: "This is what it's like to ride a tuk tuk"
+      title: "This is what it's like to ride a tuk tuk",
+      photos: [
+        "Tuk tuk Cartagena — front view",
+        "Tuk tuk Cartagena — passengers among palm trees",
+        "Tuk tuk Cartagena — families with children",
+        "Tuk tuk Cartagena — couple inside the tuk tuk",
+        "Tuk tuk Cartagena — family in the old town",
+        "Tuk tuk Cartagena — palm trees at sunset"
+      ]
+    },
+    cookie: {
+      text: "This website only uses its own technical cookies. No personal data is collected or shared without your knowledge.",
+      link: "More information",
+      accept: "Accept"
     },
     prices: {
       eyebrow: "Clear pricing, no surprises",
@@ -294,7 +320,20 @@ export const I18N = {
     },
     gallery: {
       eyebrow: "Das Erlebnis in Bildern",
-      title: "So fühlt sich eine Tuk-Tuk-Fahrt an"
+      title: "So fühlt sich eine Tuk-Tuk-Fahrt an",
+      photos: [
+        "Tuk Tuk Cartagena — Vorderansicht",
+        "Tuk Tuk Cartagena — Fahrgäste zwischen Palmen",
+        "Tuk Tuk Cartagena — Familien mit Kindern",
+        "Tuk Tuk Cartagena — Paar im Tuk Tuk",
+        "Tuk Tuk Cartagena — Familie in der Altstadt",
+        "Tuk Tuk Cartagena — Palmen bei Sonnenuntergang"
+      ]
+    },
+    cookie: {
+      text: "Diese Website verwendet ausschließlich eigene technische Cookies. Es werden ohne Ihr Wissen keine personenbezogenen Daten erhoben oder weitergegeben.",
+      link: "Mehr erfahren",
+      accept: "Akzeptieren"
     },
     prices: {
       eyebrow: "Klare Preise, keine Überraschungen",
@@ -414,7 +453,20 @@ export const I18N = {
     },
     gallery: {
       eyebrow: "L'expérience en images",
-      title: "Voilà ce que c'est de voyager en tuk tuk"
+      title: "Voilà ce que c'est de voyager en tuk tuk",
+      photos: [
+        "Tuk tuk Cartagena — vue de face",
+        "Tuk tuk Cartagena — passagères parmi les palmiers",
+        "Tuk tuk Cartagena — familles avec enfants",
+        "Tuk tuk Cartagena — couple à bord du tuk tuk",
+        "Tuk tuk Cartagena — famille dans la vieille ville",
+        "Tuk tuk Cartagena — palmiers au coucher du soleil"
+      ]
+    },
+    cookie: {
+      text: "Ce site web utilise uniquement des cookies techniques propres. Aucune donnée personnelle n'est collectée ni cédée sans votre connaissance.",
+      link: "Plus d'informations",
+      accept: "Accepter"
     },
     prices: {
       eyebrow: "Tarifs clairs, sans surprises",

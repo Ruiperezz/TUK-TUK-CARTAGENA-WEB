@@ -16,7 +16,7 @@ function setConsent() {
   document.cookie = `${COOKIE_KEY}=accepted; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
 }
 
-export default function CookieBanner() {
+export default function CookieBanner({ t }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -30,10 +30,14 @@ export default function CookieBanner() {
 
   if (!visible) return null;
 
+  const text = t?.cookie?.text ?? "Este portal web únicamente utiliza cookies propias con finalidad técnica. No recaba ni cede datos de carácter personal sin su conocimiento.";
+  const linkLabel = t?.cookie?.link ?? "Más información";
+  const acceptLabel = t?.cookie?.accept ?? "Aceptar";
+
   return (
     <div
       role="dialog"
-      aria-label="Aviso de cookies"
+      aria-label={acceptLabel}
       aria-live="polite"
       className="fixed bottom-0 left-0 right-0 z-50 px-6 py-5 md:py-4"
       style={{
@@ -43,14 +47,13 @@ export default function CookieBanner() {
     >
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <p className="text-xs leading-relaxed opacity-70 max-w-2xl">
-          Este portal web únicamente utiliza cookies propias con finalidad técnica. No recaba ni cede datos
-          de carácter personal sin su conocimiento.{" "}
+          {text}{" "}
           <Link
             href="/politica-cookies"
             className="underline underline-offset-2 transition-opacity hover:opacity-100"
             style={{ color: "#C9A961", opacity: 0.9 }}
           >
-            Más información
+            {linkLabel}
           </Link>
           .
         </p>
@@ -61,7 +64,7 @@ export default function CookieBanner() {
           onMouseEnter={(e) => (e.currentTarget.style.background = "#D9B971")}
           onMouseLeave={(e) => (e.currentTarget.style.background = "#C9A961")}
         >
-          Aceptar
+          {acceptLabel}
         </button>
       </div>
     </div>

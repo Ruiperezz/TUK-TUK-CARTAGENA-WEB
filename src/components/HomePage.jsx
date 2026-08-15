@@ -124,7 +124,7 @@ export default function HomePage() {
       <PracticalInfo t={t} />
       <Contact t={t} />
       <Footer lang={lang} setLang={setLang} t={t} />
-      <CookieBanner />
+      <CookieBanner t={t} />
     </div>
   );
 }

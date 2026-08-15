@@ -10,7 +10,7 @@ export async function GET(request) {
   const status = searchParams.get("status");
   const date = searchParams.get("date");
 
-  const VALID_STATUSES = ["pending", "confirmed", "cancelled"];
+  const VALID_STATUSES = ["pending", "confirmed", "cancelled", "abandoned"];
   if (status && !VALID_STATUSES.includes(status)) {
     return NextResponse.json({ error: "Estado no válido" }, { status: 400 });
   }

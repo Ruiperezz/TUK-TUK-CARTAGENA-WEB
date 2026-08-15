@@ -29,7 +29,7 @@ export default function Tours({ t, onSelectTour }) {
               className="p-8 md:p-10 h-full flex flex-col group cursor-pointer transition-colors duration-500"
               style={{ background: "#0F1419" }}
               onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#141A22")
+                (e.currentTarget.style.background = "#0B0E12")
               }
               onMouseLeave={(e) =>
                 (e.currentTarget.style.background = "#0F1419")

@@ -3,13 +3,13 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
 
-const PHOTOS = [
-  { src: "/images/gallery-1.jpg", alt: "Tuk tuk Cartagena — vista frontal" },
-  { src: "/images/gallery-2.jpg", alt: "Tuk tuk Cartagena — pasajeras en palmeras" },
-  { src: "/images/gallery-3.jpg", alt: "Tuk tuk Cartagena — familias con niños" },
-  { src: "/images/gallery-4.jpg", alt: "Tuk tuk Cartagena — pareja dentro del tuk tuk" },
-  { src: "/images/gallery-5.jpg", alt: "Tuk tuk Cartagena — familia casco antiguo" },
-  { src: "/images/gallery-6.jpg", alt: "Tuk tuk Cartagena — palmeras perfil" },
+const SRCS = [
+  "/images/gallery-1.jpg",
+  "/images/gallery-2.jpg",
+  "/images/gallery-3.jpg",
+  "/images/gallery-4.jpg",
+  "/images/gallery-5.jpg",
+  "/images/gallery-6.jpg",
 ];
 
 export default function Gallery({ t }) {
@@ -24,12 +24,12 @@ export default function Gallery({ t }) {
         </Reveal>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {PHOTOS.map((photo, i) => (
-            <Reveal key={photo.src} delay={i * 80}>
+          {SRCS.map((src, i) => (
+            <Reveal key={src} delay={i * 80}>
               <div className="relative overflow-hidden aspect-[3/4] group">
                 <Image
-                  src={photo.src}
-                  alt={photo.alt}
+                  src={src}
+                  alt={t.gallery.photos?.[i] ?? `Tuk tuk Cartagena ${i + 1}`}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 50vw, 33vw"
