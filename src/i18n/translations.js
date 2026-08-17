@@ -76,11 +76,8 @@ export const I18N = {
       perTuktuk: "1 a 4 personas · tuk tuk privado",
       perTuktukPrice: "100 €",
       perTuktukNote: "El precio es por tuk tuk completo, no por persona. Máximo 4 personas.",
-      private6: "Tuk tuk · 6 plazas (próximamente)",
-      private6Price: "150 €",
       payment: "Efectivo y tarjeta en el momento · pago online al reservar",
-      childNote: "No se permiten niños menores de 2 años o con menos de 9 kg de peso",
-      comingSoon: "PRÓXIMAMENTE"
+      childNote: "No se permiten niños menores de 2 años o con menos de 9 kg de peso"
     },
     booking: {
       eyebrow: "Reserva en menos de 60 segundos",
@@ -209,11 +206,8 @@ export const I18N = {
       perTuktuk: "1 to 4 people · private tuk tuk",
       perTuktukPrice: "€100",
       perTuktukNote: "The price is per complete tuk tuk, not per person. Maximum 4 people.",
-      private6: "Tuk tuk · 6 seats (coming soon)",
-      private6Price: "€150",
       payment: "Cash and card on the day · online payment when booking",
-      childNote: "Children under 2 years or weighing less than 9 kg are not permitted",
-      comingSoon: "COMING SOON"
+      childNote: "Children under 2 years or weighing less than 9 kg are not permitted"
     },
     booking: {
       eyebrow: "Book in under 60 seconds",
@@ -342,11 +336,8 @@ export const I18N = {
       perTuktuk: "1 bis 4 Personen · privates Tuk-Tuk",
       perTuktukPrice: "100 €",
       perTuktukNote: "Der Preis gilt für das gesamte Tuk-Tuk, nicht pro Person. Maximal 4 Personen.",
-      private6: "Tuk-Tuk · 6 Plätze (bald)",
-      private6Price: "150 €",
       payment: "Bar und Karte vor Ort · Online-Zahlung bei Buchung",
-      childNote: "Kinder unter 2 Jahren oder mit einem Gewicht unter 9 kg sind nicht erlaubt",
-      comingSoon: "BALD"
+      childNote: "Kinder unter 2 Jahren oder mit einem Gewicht unter 9 kg sind nicht erlaubt"
     },
     booking: {
       eyebrow: "In unter 60 Sekunden buchen",
@@ -475,11 +466,8 @@ export const I18N = {
       perTuktuk: "1 à 4 personnes · tuk tuk privé",
       perTuktukPrice: "100 €",
       perTuktukNote: "Le prix est pour le tuk tuk complet, pas par personne. Maximum 4 personnes.",
-      private6: "Tuk tuk · 6 places (bientôt)",
-      private6Price: "150 €",
       payment: "Espèces et carte sur place · paiement en ligne lors de la réservation",
-      childNote: "Les enfants de moins de 2 ans ou pesant moins de 9 kg ne sont pas admis",
-      comingSoon: "BIENTÔT"
+      childNote: "Les enfants de moins de 2 ans ou pesant moins de 9 kg ne sont pas admis"
     },
     booking: {
       eyebrow: "Réservez en moins de 60 secondes",
