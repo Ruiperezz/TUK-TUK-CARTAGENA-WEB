@@ -347,7 +347,9 @@ export default function AdminPage() {
                         style={{ padding: "8px 4px", textAlign: "center", fontSize: "13px", background: cs.bg, border: cs.border, color: cs.color, cursor: cs.cursor }}>
                         <div>{cell.day}</div>
                         {!cell.past && cell.blockedCount > 0 && (
-                          <div style={{ marginTop: "3px" }}><TukDots blocked={cell.blockedCount} size={5} /></div>
+                          <div style={{ marginTop: "2px", fontSize: "9px", opacity: 0.85 }}>
+                            {FLEET - cell.blockedCount}/{FLEET}
+                          </div>
                         )}
                       </button>
                     );
@@ -412,7 +414,7 @@ export default function AdminPage() {
                       return (
                         <div key={slot} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 12px", background: sc.bg, border: sc.border }}>
                           <span style={{ fontWeight: 600, fontSize: "14px", color: sc.color, minWidth: "46px" }}>{slot}</span>
-                          <TukDots blocked={totalBlocked} size={9} />
+                          <span style={{ fontSize: "13px", fontWeight: 700, minWidth: "32px" }}>{Math.max(0, FLEET - totalBlocked)}/{FLEET}</span>
                           <span style={{ fontSize: "11px", color: sc.color, minWidth: "90px" }}>
                             {available === 0 ? "Sin disponibilidad" : `${available} disponible${available !== 1 ? "s" : ""}`}
                           </span>
