@@ -46,6 +46,7 @@ export default function BookingForm({
 }) {
   const [availableDates, setAvailableDates] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [slotCapacity, setSlotCapacity] = useState({}); // { "08:00": 3, "09:00": 2, ... }
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [slotsLoaded, setSlotsLoaded] = useState(false);
   const [slotsApiError, setSlotsApiError] = useState(false);
@@ -80,12 +81,14 @@ export default function BookingForm({
     setSlotsLoaded(false);
     setSlotsApiError(false);
     setAvailableSlots([]);
+    setSlotCapacity({});
     setBookingForm((f) => ({ ...f, time: "" }));
     try {
       const res = await fetch(`/api/availability?date=${date}`, { signal: controller.signal });
       if (res.ok) {
         const data = await res.json();
         setAvailableSlots(data.slots || []);
+        setSlotCapacity(data.slot_capacity || {});
       } else {
         setSlotsApiError(true);
       }
@@ -119,12 +122,18 @@ export default function BookingForm({
     }
   };
 
+  // Max tuk tuks allowed at the selected time (from admin capacity; 3 if unknown)
+  const selectedCapacity = bookingForm.time && slotCapacity[bookingForm.time] != null
+    ? slotCapacity[bookingForm.time]
+    : 3;
+  const maxPeople = selectedCapacity * 4;
+
   const tuktuks = calcTuktuks(bookingForm.people);
   const totalPrice = tuktuks * PRICE_PER_TUKTUK;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (bookingForm.people < 1 || bookingForm.people > 12) return;
+    if (bookingForm.people < 1 || bookingForm.people > maxPeople) return;
 
     setLoading(true);
     setError("");
@@ -276,6 +285,11 @@ export default function BookingForm({
                     <span>{t.booking.noSlots}</span>
                   </div>
                 )}
+                {bookingForm.time && selectedCapacity < 3 && selectedCapacity > 0 && (
+                  <div className="mt-2 text-xs" style={{ color: "#C9A961" }} aria-live="polite">
+                    {selectedCapacity} tuk tuk{selectedCapacity !== 1 ? "s" : ""} {t.booking.availableTuktuks ?? "disponibles"}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -306,9 +320,9 @@ export default function BookingForm({
                   <button
                     type="button"
                     aria-label={t.booking.increasePeople}
-                    disabled={bookingForm.people >= 12}
+                    disabled={bookingForm.people >= maxPeople}
                     onClick={() =>
-                      setBookingForm((f) => ({ ...f, people: Math.min(12, f.people + 1) }))
+                      setBookingForm((f) => ({ ...f, people: Math.min(maxPeople, f.people + 1) }))
                     }
                     className="w-10 h-10 border border-cream/20 hover:border-amber-200/60 transition-colors disabled:opacity-30"
                   >

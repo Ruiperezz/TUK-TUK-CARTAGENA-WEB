@@ -11,30 +11,43 @@ export async function GET(request) {
   if (authError) return authError;
 
   const { searchParams } = new URL(request.url);
-  const month = searchParams.get("month");
   const date = searchParams.get("date");
-
+  const month = searchParams.get("month");
   const supabase = getSupabaseAdmin();
 
-  // Per-day: return blocked slots for a specific date
+  // Per-day: blocked slots with their tuk tuk count
   if (date) {
-    if (!DATE_RE.test(date)) {
+    if (!DATE_RE.test(date))
       return NextResponse.json({ error: "Formato: YYYY-MM-DD" }, { status: 400 });
-    }
+
     const { data, error } = await supabase
       .from("blocked_slots")
-      .select("time_slot")
+      .select("time_slot, blocked_tuktuks")
       .eq("date", date);
 
     if (error) return NextResponse.json({ error: "Error al consultar" }, { status: 500 });
-    return NextResponse.json({ blocked_slots: (data || []).map((r) => r.time_slot) });
+
+    // Also return day-level block for this date
+    const { data: dayBlock } = await supabase
+      .from("availability")
+      .select("is_available, blocked_tuktuks")
+      .eq("date", date)
+      .single();
+
+    return NextResponse.json({
+      blocked_slots: (data || []).map((r) => ({
+        time_slot: r.time_slot,
+        blocked_tuktuks: r.blocked_tuktuks ?? 3,
+      })),
+      day_blocked_tuktuks: dayBlock?.is_available === false ? (dayBlock.blocked_tuktuks ?? 3) : 0,
+    });
   }
 
-  // Per-month: return blocked days
+  // Per-month: blocked days with tuk tuk count
   if (month) {
-    if (!MONTH_RE.test(month)) {
+    if (!MONTH_RE.test(month))
       return NextResponse.json({ error: "Formato: YYYY-MM" }, { status: 400 });
-    }
+
     const [year, m] = month.split("-").map(Number);
     const startDate = `${month}-01`;
     const lastDay = new Date(year, m, 0).getDate();
@@ -42,7 +55,7 @@ export async function GET(request) {
 
     const { data, error } = await supabase
       .from("availability")
-      .select("*")
+      .select("date, is_available, blocked_tuktuks")
       .gte("date", startDate)
       .lte("date", endDate)
       .order("date");
@@ -61,42 +74,49 @@ export async function POST(request) {
   const body = await request.json();
   const supabase = getSupabaseAdmin();
 
-  // Toggle individual time slot
+  // ── Slot-level blocking ──────────────────────────────────────────────────
   if (body.time_slot !== undefined) {
-    const { date, time_slot, blocked } = body;
+    const { date, time_slot, blocked_tuktuks } = body;
 
-    if (!date || !DATE_RE.test(date) || isNaN(new Date(date).getTime())) {
+    if (!date || !DATE_RE.test(date) || isNaN(new Date(date).getTime()))
       return NextResponse.json({ error: "Fecha inválida (YYYY-MM-DD)" }, { status: 400 });
-    }
-    if (!time_slot || !SLOT_RE.test(time_slot)) {
+    if (!time_slot || !SLOT_RE.test(time_slot))
       return NextResponse.json({ error: "Horario inválido (HH:MM)" }, { status: 400 });
-    }
-    if (typeof blocked !== "boolean") {
-      return NextResponse.json({ error: "blocked debe ser boolean" }, { status: 400 });
-    }
 
-    if (blocked) {
-      await supabase.from("blocked_slots").upsert({ date, time_slot }, { onConflict: "date,time_slot" });
-    } else {
+    const count = Number(blocked_tuktuks);
+    if (!Number.isInteger(count) || count < 0 || count > 3)
+      return NextResponse.json({ error: "blocked_tuktuks debe ser 0-3" }, { status: 400 });
+
+    if (count === 0) {
+      // Unblock: delete the row
       await supabase.from("blocked_slots").delete().eq("date", date).eq("time_slot", time_slot);
+    } else {
+      await supabase
+        .from("blocked_slots")
+        .upsert({ date, time_slot, blocked_tuktuks: count }, { onConflict: "date,time_slot" });
     }
-
-    return NextResponse.json({ ok: true, date, time_slot, blocked });
+    return NextResponse.json({ ok: true, date, time_slot, blocked_tuktuks: count });
   }
 
-  // Toggle whole day
-  const { date, is_available } = body;
+  // ── Day-level blocking ───────────────────────────────────────────────────
+  const { date, blocked_tuktuks, is_available } = body;
 
-  if (!date || !DATE_RE.test(date) || isNaN(new Date(date).getTime())) {
+  if (!date || !DATE_RE.test(date) || isNaN(new Date(date).getTime()))
     return NextResponse.json({ error: "Fecha inválida (YYYY-MM-DD)" }, { status: 400 });
+
+  // is_available: true → unblock day entirely
+  if (is_available === true) {
+    await supabase.from("availability").delete().eq("date", date);
+    return NextResponse.json({ ok: true, date, day_blocked_tuktuks: 0 });
   }
-  if (is_available !== undefined && typeof is_available !== "boolean") {
-    return NextResponse.json({ error: "is_available debe ser boolean" }, { status: 400 });
-  }
+
+  const count = Number(blocked_tuktuks ?? 3);
+  if (!Number.isInteger(count) || count < 1 || count > 3)
+    return NextResponse.json({ error: "blocked_tuktuks debe ser 1-3" }, { status: 400 });
 
   const { data, error } = await supabase
     .from("availability")
-    .upsert({ date, is_available: is_available ?? true }, { onConflict: "date" })
+    .upsert({ date, is_available: false, blocked_tuktuks: count }, { onConflict: "date" })
     .select()
     .single();
 
