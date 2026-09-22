@@ -26,6 +26,7 @@ export default function Hero({ scrollTo, t }) {
           className="absolute inset-0 w-full h-full object-cover"
           style={{ willChange: "transform" }}
         >
+          <source src="/video/hero.webm" type="video/webm" />
           <source src="/video/hero.mp4" type="video/mp4" />
         </video>
         {/* Gradient overlay — ensures text legibility at any light level in the video */}
