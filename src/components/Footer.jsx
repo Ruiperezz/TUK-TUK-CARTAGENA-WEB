@@ -61,30 +61,10 @@ export default function Footer({ lang, setLang, t }) {
         <a
           href="https://ruiperezstudio.es/"
           target="_blank"
-          rel="noopener noreferrer"
-          className="group flex items-center gap-2 transition-opacity"
-          style={{ opacity: 0.55 }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.55")}
+          rel="noopener"
+          className="text-[10px] tracking-[0.22em] uppercase opacity-40"
         >
-          <span
-            className="text-[9px] tracking-[0.28em] uppercase"
-            style={{ color: "rgba(248,246,241,0.6)" }}
-          >
-            Diseñado por
-          </span>
-          <span
-            className="text-[11px] tracking-[0.22em] uppercase font-medium transition-colors"
-            style={{ color: "#C9A961" }}
-          >
-            Ruipérez Studio
-          </span>
-          <span
-            className="text-[9px] opacity-40 group-hover:opacity-70 transition-opacity"
-            style={{ color: "#C9A961" }}
-          >
-            ↗
-          </span>
+          Diseño web por Ruipérez Studio
         </a>
       </div>
     </footer>
