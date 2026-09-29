@@ -82,7 +82,7 @@ export const I18N = {
     booking: {
       eyebrow: "Reserva en menos de 60 segundos",
       title: "Reserva tu tour",
-      subtitle: "Disponible todos los días de lunes a domingo, de 08:00 a 19:00",
+      subtitle: "Disponible de lunes a sábado de 08:00 a 19:00 · Domingos de 08:00 a 15:00",
       tour: "Tour",
       tourPlaceholder: "Selecciona un tour",
       date: "Fecha",
@@ -90,7 +90,7 @@ export const I18N = {
       timePlaceholder: "Selecciona una hora",
       timeSlotFull: "Completo",
       people: "Personas",
-      peopleMax: "Máximo 12 personas (hasta 3 tuk tuks)",
+      peopleMax: "Máximo 28 personas (hasta 7 tuk tuks)",
       decreasePeople: "Quitar persona",
       increasePeople: "Añadir persona",
       tuktukLabel: "tuk tuk privado",
@@ -122,7 +122,7 @@ export const I18N = {
       openMapsShort: "Ver en Maps",
       items: [
         { label: "Punto de encuentro", value: "Paseo Alfonso XII 8, entrada Terminal Juan Sebastián El Cano (Muelle de Cruceros), 30201, Cartagena, Murcia", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
-        { label: "Horario", value: "Lunes a domingo · de 08:00 a 19:00" },
+        { label: "Horario", value: "Lun–Sáb · 08:00–19:00 · Dom · 08:00–15:00" },
         { label: "Qué llevar", value: "Ropa cómoda, protección solar y cámara" }
       ]
     },
@@ -213,7 +213,7 @@ export const I18N = {
     booking: {
       eyebrow: "Book in under 60 seconds",
       title: "Book your tour",
-      subtitle: "Available every day, Monday to Sunday, 08:00 to 19:00",
+      subtitle: "Monday to Saturday 08:00–19:00 · Sundays 08:00–15:00",
       tour: "Tour",
       tourPlaceholder: "Choose a tour",
       date: "Date",
@@ -221,7 +221,7 @@ export const I18N = {
       timePlaceholder: "Choose a time",
       timeSlotFull: "Full",
       people: "People",
-      peopleMax: "Maximum 12 people (up to 3 tuk tuks)",
+      peopleMax: "Maximum 28 people (up to 7 tuk tuks)",
       decreasePeople: "Remove person",
       increasePeople: "Add person",
       tuktukLabel: "private tuk tuk",
@@ -253,7 +253,7 @@ export const I18N = {
       openMapsShort: "View on Maps",
       items: [
         { label: "Meeting point", value: "Paseo Alfonso XII 8, Terminal Juan Sebastián El Cano entrance (Cruise Terminal), 30201, Cartagena, Murcia, Spain", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
-        { label: "Schedule", value: "Monday to Sunday · 08:00 to 19:00" },
+        { label: "Schedule", value: "Mon–Sat · 08:00–19:00 · Sun · 08:00–15:00" },
         { label: "What to bring", value: "Comfortable clothing, sunscreen and a camera" }
       ]
     },
@@ -344,7 +344,7 @@ export const I18N = {
     booking: {
       eyebrow: "In unter 60 Sekunden buchen",
       title: "Buchen Sie Ihre Tour",
-      subtitle: "Täglich von Montag bis Sonntag, 08:00 bis 19:00 Uhr verfügbar",
+      subtitle: "Mo–Sa 08:00–19:00 Uhr · Sonntags 08:00–15:00 Uhr",
       tour: "Tour",
       tourPlaceholder: "Tour wählen",
       date: "Datum",
@@ -352,7 +352,7 @@ export const I18N = {
       timePlaceholder: "Uhrzeit wählen",
       timeSlotFull: "Ausgebucht",
       people: "Personen",
-      peopleMax: "Maximal 12 Personen (bis zu 3 Tuk-Tuks)",
+      peopleMax: "Maximal 28 Personen (bis zu 7 Tuk-Tuks)",
       decreasePeople: "Person entfernen",
       increasePeople: "Person hinzufügen",
       tuktukLabel: "privates Tuk-Tuk",
@@ -384,7 +384,7 @@ export const I18N = {
       openMapsShort: "Auf Maps öffnen",
       items: [
         { label: "Treffpunkt", value: "Paseo Alfonso XII 8, Eingang Terminal Juan Sebastián El Cano (Kreuzfahrtterminal), 30201, Cartagena, Murcia, Spanien", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
-        { label: "Zeitplan", value: "Montag bis Sonntag · 08:00 bis 19:00 Uhr" },
+        { label: "Zeitplan", value: "Mo–Sa · 08:00–19:00 · So · 08:00–15:00 Uhr" },
         { label: "Was mitbringen", value: "Bequeme Kleidung, Sonnenschutz und Kamera" }
       ]
     },
@@ -475,7 +475,7 @@ export const I18N = {
     booking: {
       eyebrow: "Réservez en moins de 60 secondes",
       title: "Réservez votre tour",
-      subtitle: "Disponible tous les jours du lundi au dimanche, de 08h00 à 19h00",
+      subtitle: "Lundi au samedi 08h00–19h00 · Dimanche 08h00–15h00",
       tour: "Tour",
       tourPlaceholder: "Choisir un tour",
       date: "Date",
@@ -483,7 +483,7 @@ export const I18N = {
       timePlaceholder: "Choisir une heure",
       timeSlotFull: "Complet",
       people: "Personnes",
-      peopleMax: "Maximum 12 personnes (jusqu'à 3 tuk tuks)",
+      peopleMax: "Maximum 28 personnes (jusqu'à 7 tuk tuks)",
       decreasePeople: "Retirer une personne",
       increasePeople: "Ajouter une personne",
       tuktukLabel: "tuk tuk privé",
@@ -515,7 +515,7 @@ export const I18N = {
       openMapsShort: "Voir sur Maps",
       items: [
         { label: "Point de rencontre", value: "Paseo Alfonso XII 8, entrée Terminal Juan Sebastián El Cano (Terminal des Croisières), 30201, Cartagena, Murcia, Espagne", mapUrl: "https://maps.google.com/?q=Terminal+Juan+Sebastián+El+Cano,+Paseo+Alfonso+XII,+Cartagena,+España" },
-        { label: "Horaires", value: "Lundi au dimanche · 08h00 à 19h00" },
+        { label: "Horaires", value: "Lun–Sam · 08h00–19h00 · Dim · 08h00–15h00" },
         { label: "Quoi apporter", value: "Vêtements confortables, protection solaire et appareil photo" }
       ]
     },

@@ -8,9 +8,16 @@ const ALL_SLOTS = [
   "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 ];
 
-const FLEET_SIZE = 3;
+const FLEET_SIZE = 7;
 const TOUR_DURATION_SLOTS = { city: 1, bay: 1 };
 const PENDING_HOLD_MINUTES = 30;
+
+// Domingos: última hora disponible para reservar
+const SUNDAY_LAST_SLOT = "15:00";
+function getDateSlots(dateStr) {
+  const d = new Date(dateStr + "T12:00:00");
+  return d.getDay() === 0 ? ALL_SLOTS.filter(s => s <= SUNDAY_LAST_SLOT) : ALL_SLOTS;
+}
 
 function isActiveBooking(b) {
   if (b.status === "confirmed") return true;
@@ -54,7 +61,7 @@ export async function GET(request) {
         .eq("date", date)
         .single();
 
-      const dayBlockedCount = dayBlock?.is_available === false ? (dayBlock.blocked_tuktuks ?? 3) : 0;
+      const dayBlockedCount = dayBlock?.is_available === false ? (dayBlock.blocked_tuktuks ?? FLEET_SIZE) : 0;
 
       // If whole fleet is blocked for the day → nothing available
       if (dayBlockedCount >= FLEET_SIZE)
@@ -68,7 +75,7 @@ export async function GET(request) {
 
       const slotBlockMap = {};
       for (const r of (slotBlockRows || [])) {
-        slotBlockMap[r.time_slot] = r.blocked_tuktuks ?? 3;
+        slotBlockMap[r.time_slot] = r.blocked_tuktuks ?? FLEET_SIZE;
       }
 
       // Active bookings
@@ -82,9 +89,10 @@ export async function GET(request) {
 
       const slots = [];
       const slot_capacity = {};
+      const dateSlots = getDateSlots(date);
 
-      for (let i = 0; i < ALL_SLOTS.length; i++) {
-        const s = ALL_SLOTS[i];
+      for (const s of dateSlots) {
+        const i = ALL_SLOTS.indexOf(s);
         const slotBlocked = slotBlockMap[s] ?? 0;
         const effectiveCap = Math.max(0, FLEET_SIZE - dayBlockedCount - slotBlocked);
         const busy = countBusyAtIndex(activeBookings, i);
@@ -120,7 +128,7 @@ export async function GET(request) {
       const dayBlockMap = {};
       for (const r of (dayBlocks || [])) {
         if (r.is_available === false)
-          dayBlockMap[r.date] = r.blocked_tuktuks ?? 3;
+          dayBlockMap[r.date] = r.blocked_tuktuks ?? FLEET_SIZE;
       }
 
       // Dates where the full fleet is blocked → exclude
@@ -136,7 +144,7 @@ export async function GET(request) {
       const slotBlockByDate = {};
       for (const r of (slotBlockRows || [])) {
         if (!slotBlockByDate[r.date]) slotBlockByDate[r.date] = {};
-        slotBlockByDate[r.date][r.time_slot] = r.blocked_tuktuks ?? 3;
+        slotBlockByDate[r.date][r.time_slot] = r.blocked_tuktuks ?? FLEET_SIZE;
       }
 
       // Bookings for enabled dates
@@ -156,7 +164,9 @@ export async function GET(request) {
         const dayBlocked = dayBlockMap[d] ?? 0;
         const slotBlocks = slotBlockByDate[d] ?? {};
         const dayBookings = byDate[d] || [];
-        return ALL_SLOTS.some((s, i) => {
+        const daySlots = getDateSlots(d);
+        return daySlots.some((s) => {
+          const i = ALL_SLOTS.indexOf(s);
           const slotBlocked = slotBlocks[s] ?? 0;
           const effectiveCap = Math.max(0, FLEET_SIZE - dayBlocked - slotBlocked);
           return effectiveCap > 0 && countBusyAtIndex(dayBookings, i) < effectiveCap;

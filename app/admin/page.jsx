@@ -6,7 +6,7 @@ const TOUR_NAMES = { city: "Cartagena City", bay: "Cartagena Bay" };
 const STATUS_LABELS = { pending: "Pendiente", confirmed: "Confirmada", cancelled: "Cancelada", abandoned: "Abandonada" };
 const STATUS_COLORS = { pending: "#C9A961", confirmed: "#6BCB77", cancelled: "#E74C3C", abandoned: "rgba(248,246,241,0.3)" };
 const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
-const FLEET = 3;
+const FLEET = 7;
 
 const ALL_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
@@ -19,7 +19,7 @@ function todayStr() {
 }
 function isPast(dateStr) { return dateStr < todayStr(); }
 
-// Dots indicator: ●●○ = 2 of 3 blocked
+// Dots indicator: ●●○ = 2 of 7 blocked
 function TukDots({ blocked, total = FLEET, size = 8 }) {
   return (
     <span style={{ display: "inline-flex", gap: "2px", verticalAlign: "middle" }}>
@@ -79,7 +79,7 @@ export default function AdminPage() {
 
   // Selected day panel
   const [selectedDay, setSelectedDay] = useState(null);
-  const [dayBlockedCount, setDayBlockedCount] = useState(0); // 0-3, day-level
+  const [dayBlockedCount, setDayBlockedCount] = useState(0); // 0-7, day-level
   const [slotBlocked, setSlotBlocked] = useState({}); // { "08:00": 2, ... }
   const [slotsLoading, setSlotsLoading] = useState(false);
 
@@ -181,7 +181,7 @@ export default function AdminPage() {
     for (let d = 1; d <= lastDay; d++) {
       const dateStr = `${calMonth}-${String(d).padStart(2, "0")}`;
       const avail = availability.find((a) => a.date === dateStr);
-      const blockedCount = avail?.is_available === false ? (avail.blocked_tuktuks ?? 3) : 0;
+      const blockedCount = avail?.is_available === false ? (avail.blocked_tuktuks ?? FLEET) : 0;
       days.push({ day: d, date: dateStr, blockedCount, past: isPast(dateStr) });
     }
     return days;
@@ -399,7 +399,7 @@ export default function AdminPage() {
                   Bloqueo por horario
                 </div>
                 <div style={{ fontSize: "12px", opacity: 0.5, marginBottom: "16px", lineHeight: 1.5 }}>
-                  Indica cuántos tuk tuks bloqueas en cada horario. El total bloqueado es día + horario (máx. 3).
+                  Indica cuántos tuk tuks bloqueas en cada horario. El total bloqueado es día + horario (máx. 7).
                 </div>
 
                 {slotsLoading ? (

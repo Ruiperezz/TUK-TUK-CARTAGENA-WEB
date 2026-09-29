@@ -122,10 +122,10 @@ export default function BookingForm({
     }
   };
 
-  // Max tuk tuks allowed at the selected time (from admin capacity; 3 if unknown)
+  // Max tuk tuks allowed at the selected time (from admin capacity; 7 if unknown)
   const selectedCapacity = bookingForm.time && slotCapacity[bookingForm.time] != null
     ? slotCapacity[bookingForm.time]
-    : 3;
+    : 7;
   const maxPeople = selectedCapacity * 4;
 
   const tuktuks = calcTuktuks(bookingForm.people);
@@ -285,7 +285,7 @@ export default function BookingForm({
                     <span>{t.booking.noSlots}</span>
                   </div>
                 )}
-                {bookingForm.time && selectedCapacity < 3 && selectedCapacity > 0 && (
+                {bookingForm.time && selectedCapacity < 7 && selectedCapacity > 0 && (
                   <div className="mt-2 text-xs" style={{ color: "#C9A961" }} aria-live="polite">
                     {selectedCapacity} tuk tuk{selectedCapacity !== 1 ? "s" : ""} {t.booking.availableTuktuks ?? "disponibles"}
                   </div>

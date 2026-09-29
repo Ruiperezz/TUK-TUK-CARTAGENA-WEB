@@ -37,9 +37,9 @@ export async function GET(request) {
     return NextResponse.json({
       blocked_slots: (data || []).map((r) => ({
         time_slot: r.time_slot,
-        blocked_tuktuks: r.blocked_tuktuks ?? 3,
+        blocked_tuktuks: r.blocked_tuktuks ?? 7,
       })),
-      day_blocked_tuktuks: dayBlock?.is_available === false ? (dayBlock.blocked_tuktuks ?? 3) : 0,
+      day_blocked_tuktuks: dayBlock?.is_available === false ? (dayBlock.blocked_tuktuks ?? 7) : 0,
     });
   }
 
@@ -84,8 +84,8 @@ export async function POST(request) {
       return NextResponse.json({ error: "Horario inválido (HH:MM)" }, { status: 400 });
 
     const count = Number(blocked_tuktuks);
-    if (!Number.isInteger(count) || count < 0 || count > 3)
-      return NextResponse.json({ error: "blocked_tuktuks debe ser 0-3" }, { status: 400 });
+    if (!Number.isInteger(count) || count < 0 || count > 7)
+      return NextResponse.json({ error: "blocked_tuktuks debe ser 0-7" }, { status: 400 });
 
     if (count === 0) {
       // Unblock: delete the row
@@ -110,9 +110,9 @@ export async function POST(request) {
     return NextResponse.json({ ok: true, date, day_blocked_tuktuks: 0 });
   }
 
-  const count = Number(blocked_tuktuks ?? 3);
-  if (!Number.isInteger(count) || count < 1 || count > 3)
-    return NextResponse.json({ error: "blocked_tuktuks debe ser 1-3" }, { status: 400 });
+  const count = Number(blocked_tuktuks ?? 7);
+  if (!Number.isInteger(count) || count < 1 || count > 7)
+    return NextResponse.json({ error: "blocked_tuktuks debe ser 1-7" }, { status: 400 });
 
   const { data, error } = await supabase
     .from("availability")

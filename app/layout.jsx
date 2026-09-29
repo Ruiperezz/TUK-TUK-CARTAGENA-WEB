@@ -17,7 +17,7 @@ export const metadata = {
     template: "%s | TUK TUK Cartagena",
   },
   description:
-    "Tours en tuk tuk por Cartagena, Murcia. Casco antiguo romano, bahía y rutas personalizadas. Ideal para cruceristas. 100 € por tuk tuk · Reserva online · Todos los días 08:00-19:00.",
+    "Tours en tuk tuk por Cartagena, Murcia. Casco antiguo romano, bahía y rutas personalizadas. Ideal para cruceristas. 100 € por tuk tuk · Reserva online · Lun-Sáb 08:00-19:00 · Dom 08:00-15:00.",
 
   keywords: [
     "tuk tuk cartagena",
@@ -145,12 +145,15 @@ const jsonLd = {
       openingHoursSpecification: [
         {
           "@type": "OpeningHoursSpecification",
-          dayOfWeek: [
-            "Monday", "Tuesday", "Wednesday", "Thursday",
-            "Friday", "Saturday", "Sunday",
-          ],
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
           opens: "08:00",
           closes: "19:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Sunday"],
+          opens: "08:00",
+          closes: "15:00",
         },
       ],
       priceRange: "€€",
@@ -182,7 +185,7 @@ const jsonLd = {
         { "@type": "Language", name: "French" },
       ],
       duration: "PT60M",
-      maximumAttendeeCapacity: 12,
+      maximumAttendeeCapacity: 28,
       offers: {
         "@type": "Offer",
         name: "Tuk tuk privado 1-4 personas",
@@ -212,7 +215,7 @@ const jsonLd = {
         { "@type": "Language", name: "French" },
       ],
       duration: "PT60M",
-      maximumAttendeeCapacity: 12,
+      maximumAttendeeCapacity: 28,
       offers: {
         "@type": "Offer",
         name: "Tuk tuk privado 1-4 personas",
@@ -235,7 +238,7 @@ const jsonLd = {
           name: "¿Cuánto cuesta un tour en tuk tuk por Cartagena?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "El precio es 100 € por tuk tuk completo (1-4 personas). Para grupos de 5-8 personas: 2 tuk tuks (200 €). Para 9-12 personas: 3 tuk tuks (300 €). El precio es el mismo para el City Tour (60 min) y el Bay Tour (60 min).",
+            text: "El precio es 100 € por tuk tuk completo (1-4 personas). Para grupos de 5-8 personas: 2 tuk tuks (200 €). Para 9-12 personas: 3 tuk tuks (300 €). Para grupos más grandes de hasta 28 personas se reservan los tuk tuks necesarios. El precio es el mismo para el City Tour (60 min) y el Bay Tour (60 min).",
           },
         },
         {
@@ -267,7 +270,7 @@ const jsonLd = {
           name: "¿Cuántas personas caben en un tuk tuk en Cartagena?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Cada tuk tuk tiene capacidad para 4 personas. Para grupos más grandes se reservan varios tuk tuks: 2 para grupos de 5-8 personas y 3 para grupos de 9-12 personas. No se permiten niños menores de 2 años o con peso inferior a 9 kg.",
+            text: "Cada tuk tuk tiene capacidad para 4 personas. Para grupos más grandes se reservan varios tuk tuks: 2 para 5-8 personas, 3 para 9-12, y así hasta 7 tuk tuks para grupos de hasta 28 personas. No se permiten niños menores de 2 años o con peso inferior a 9 kg.",
           },
         },
         {
@@ -275,7 +278,7 @@ const jsonLd = {
           name: "¿Cuál es el horario de TUK TUK Cartagena?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Abierto todos los días de lunes a domingo, de 08:00 a 19:00 horas.",
+            text: "De lunes a sábado de 08:00 a 19:00. Los domingos de 08:00 a 15:00 (última reserva a las 15:00).",
           },
         },
         {

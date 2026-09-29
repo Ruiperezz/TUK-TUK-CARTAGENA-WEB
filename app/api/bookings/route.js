@@ -71,8 +71,8 @@ export async function POST(request) {
       return NextResponse.json({ error: "Horario no válido" }, { status: 400 });
     }
     const peopleInt = parseInt(people, 10);
-    if (!Number.isInteger(peopleInt) || peopleInt < 1 || peopleInt > 12) {
-      return NextResponse.json({ error: "Número de personas no válido (1-12)" }, { status: 400 });
+    if (!Number.isInteger(peopleInt) || peopleInt < 1 || peopleInt > 28) {
+      return NextResponse.json({ error: "Número de personas no válido (1-28)" }, { status: 400 });
     }
     const tuktuks = Math.ceil(peopleInt / 4);
     if (!name || typeof name !== "string" || name.trim().length < 2) {
