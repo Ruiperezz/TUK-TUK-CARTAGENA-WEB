@@ -1,9 +1,11 @@
+import LazyIframe from "./LazyIframe";
+
 export default function RouteMap({ query, label, caption }) {
   const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 
   return (
     <div className="mb-8">
-      <iframe
+      <LazyIframe
         src={src}
         title={label}
         loading="lazy"
